@@ -1,5 +1,7 @@
 package com.titomonito.vista;
 
+import com.titomonito.control.Recursos;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,7 +12,8 @@ public class PanelMenu extends JPanel {
     private final JButton btnLogros;
     private final JButton btnAyuda;
     private final JButton btnOpciones;
-    private final JButton btnSalir;
+
+    private final Dimension sizeBotones = new Dimension(200, 50);
 
     public PanelMenu() {
 
@@ -19,48 +22,48 @@ public class PanelMenu extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(50, 10, 10, 10));
         setPreferredSize(new Dimension(220, 1000));
 
-        Dimension tamanioBotones = new Dimension(200, 45);
-        int separacionVertical = 15;
+        btnInicio = crearBoton("INICIO", "menu_inicio.png");
+        btnEstadisticas = crearBoton("ESTADÍSTICAS", "menu_estadisticas.png");
+        btnLogros = crearBoton("LOGROS", "menu_logros.png");
+        btnAyuda = crearBoton("AYUDA", "menu_ayuda.png");
 
-        btnInicio = new JButton("Inicio");
-        btnInicio.setMaximumSize(tamanioBotones);
-        btnInicio.setAlignmentX(CENTER_ALIGNMENT);
-        add(btnInicio);
-        add(Box.createVerticalStrut(separacionVertical));
+        add(Box.createVerticalStrut(160));
 
-        btnEstadisticas = new JButton("Estadísticas");
-        btnEstadisticas.setMaximumSize(tamanioBotones);
-        btnEstadisticas.setAlignmentX(CENTER_ALIGNMENT);
+        btnOpciones = crearBoton("OPCIONES", "menu_config.png");
+        JButton btnSalir = crearBoton("SALIR", "menu_exit.png");
+        btnSalir.setBackground(new Color(242, 129, 109));
+        btnSalir.setForeground(Color.WHITE);
+        btnSalir.addActionListener(e -> {
+            System.exit(0);
+        });
+
+        //Botones deshabilitados temporalmente hasta que funcionen correctamente
         btnEstadisticas.setEnabled(false);
-        add(btnEstadisticas);
-        add(Box.createVerticalStrut(separacionVertical));
-
-        btnLogros = new JButton("Logros");
-        btnLogros.setMaximumSize(tamanioBotones);
-        btnLogros.setAlignmentX(CENTER_ALIGNMENT);
         btnLogros.setEnabled(false);
-        add(btnLogros);
-        add(Box.createVerticalStrut(separacionVertical));
-
-        btnAyuda = new JButton("Ayuda");
-        btnAyuda.setMaximumSize(tamanioBotones);
-        btnAyuda.setAlignmentX(CENTER_ALIGNMENT);
         btnAyuda.setEnabled(false);
-        add(btnAyuda);
-        add(Box.createVerticalStrut(180));
-
-        btnOpciones = new JButton("Opciones");
-        btnOpciones.setMaximumSize(tamanioBotones);
-        btnOpciones.setAlignmentX(CENTER_ALIGNMENT);
         btnOpciones.setEnabled(false);
-        add(btnOpciones);
+
+    }
+
+    private JButton crearBoton(String etiqueta, String icono) {
+        final int separacionVertical = 15;
+
+        JButton boton = new JButton(etiqueta);
+        boton.setPreferredSize(sizeBotones);
+        boton.setMaximumSize(sizeBotones);
+        boton.setMinimumSize(sizeBotones);
+        boton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        boton.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
+
+        boton.setMargin(new Insets(0, 10, 0, 10));
+        boton.setIcon(Recursos.cargarImagenUI(icono));
+        boton.setHorizontalTextPosition(SwingConstants.RIGHT);
+        boton.setHorizontalAlignment(SwingConstants.LEFT);
+        boton.setIconTextGap(15);
+
+        add(boton);
         add(Box.createVerticalStrut(separacionVertical));
 
-        btnSalir = new JButton("Salir");
-        btnSalir.setMaximumSize(tamanioBotones);
-        btnSalir.setAlignmentX(CENTER_ALIGNMENT);
-        btnSalir.addActionListener(e -> {System.exit(0);});
-        add(btnSalir);
-
+        return boton;
     }
 }
