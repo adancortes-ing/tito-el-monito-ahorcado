@@ -14,7 +14,7 @@ public class Main {
         UIManager.put( "Button.arc", 10 );
         UIManager.put( "Button.background", new Color(206, 244, 250));
 
-        Font fuenteGlobal = Recursos.cargarFuente("IndieFlower-Regular.ttf", 16.0f);
+        Font fuenteGlobal = Recursos.cargarFuente("IndieFlower-Regular.ttf", 24.0f);
         UIManager.put( "defaultFont", fuenteGlobal);
 
         VentanaBase ventanaPrincipal = new VentanaBase();

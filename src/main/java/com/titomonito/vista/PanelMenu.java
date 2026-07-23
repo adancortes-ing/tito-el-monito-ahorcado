@@ -55,11 +55,11 @@ public class PanelMenu extends JPanel {
         boton.setAlignmentX(Component.CENTER_ALIGNMENT);
         boton.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
 
-        boton.setMargin(new Insets(0, 10, 0, 10));
+        boton.setMargin(new Insets(0, 10, 0, 5));
         boton.setIcon(Recursos.cargarImagenUI(icono));
         boton.setHorizontalTextPosition(SwingConstants.RIGHT);
         boton.setHorizontalAlignment(SwingConstants.LEFT);
-        boton.setIconTextGap(15);
+        boton.setIconTextGap(10);
 
         add(boton);
         add(Box.createVerticalStrut(separacionVertical));

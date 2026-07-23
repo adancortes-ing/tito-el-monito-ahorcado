@@ -26,7 +26,7 @@ public class Recursos {
             return fuente.deriveFont(tamanio);
         } catch (Exception e) {
             e.printStackTrace();
-            return new Font("Comic Sans MS", Font.PLAIN, 13);
+            return new Font("Comic Sans MS", Font.PLAIN, 20);
         }
     }
 }
