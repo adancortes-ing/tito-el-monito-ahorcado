@@ -1,6 +1,7 @@
 package com.titomonito.vista;
 
 import com.titomonito.control.Recursos;
+import com.titomonito.modelo.GlobalConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,7 @@ public class PanelMenu extends JPanel {
 
     public PanelMenu() {
 
-        setBackground(new Color(108, 222, 242));
+        setBackground(GlobalConfig.COLOR_AZUL);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createEmptyBorder(50, 10, 10, 10));
         setPreferredSize(new Dimension(220, 1000));
@@ -30,9 +31,11 @@ public class PanelMenu extends JPanel {
         add(Box.createVerticalStrut(160));
 
         btnOpciones = crearBoton("OPCIONES", "menu_config.png");
+
         JButton btnSalir = crearBoton("SALIR", "menu_exit.png");
-        btnSalir.setBackground(new Color(242, 129, 109));
+        btnSalir.setBackground(GlobalConfig.COLOR_SALMON);
         btnSalir.setForeground(Color.WHITE);
+        btnSalir.setFocusable(false);
         btnSalir.addActionListener(e -> {
             System.exit(0);
         });
