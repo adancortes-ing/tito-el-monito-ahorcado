@@ -8,22 +8,25 @@ import java.awt.*;
 
 public class VistaInicio extends JPanel {
 
+    private JButton btnIniciarJuego;
+
     public VistaInicio() {
 
+        //Propiedades del panel
+        //==============================================================================================================
         setLayout(new FlowLayout(FlowLayout.LEFT, 60, 0));
+
+        initComponentes();
+
+    }
+
+    private void initComponentes() {
 
         JPanel contenedor = new JPanel();
         contenedor.setLayout(new BorderLayout());
         contenedor.setOpaque(false);
-        contenedor.setBorder(BorderFactory.createLineBorder(GlobalConfig.COLOR_VERDE)); //al rato la quitamos
         contenedor.setPreferredSize(new Dimension(780, 220));
         add(contenedor);
-
-        contenedor.add(crearCentro(), BorderLayout.CENTER);
-
-    }
-
-    private JPanel crearCentro() {
 
         JPanel center = new JPanel();
         center.setOpaque(false);
@@ -39,7 +42,8 @@ public class VistaInicio extends JPanel {
         lblValUltimapalabra.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         Dimension medidaBoton = new Dimension(250, 70);
-        JButton btnIniciarJuego = new JButton("Iniciar Juego");
+        btnIniciarJuego = new JButton("Iniciar Juego");
+        btnIniciarJuego.setName("play");
         btnIniciarJuego.setFont(Recursos.Fuentes.fuenteComic(Font.BOLD, 22));
         btnIniciarJuego.setMaximumSize(medidaBoton);
         btnIniciarJuego.setPreferredSize(medidaBoton);
@@ -53,7 +57,8 @@ public class VistaInicio extends JPanel {
         center.add(lblValUltimapalabra);
         center.add(Box.createVerticalGlue());
         center.add(btnIniciarJuego);
-        return center;
+
+        contenedor.add(center, BorderLayout.CENTER);
 
     }
 
@@ -68,6 +73,10 @@ public class VistaInicio extends JPanel {
 
         }
 
+    }
+
+    public JButton getBtnIniciarJuego() {
+        return btnIniciarJuego;
     }
 
 }

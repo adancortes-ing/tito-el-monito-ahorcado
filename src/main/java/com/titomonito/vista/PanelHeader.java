@@ -4,6 +4,8 @@ import com.titomonito.control.Recursos;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PanelHeader extends JPanel {
 
@@ -12,10 +14,18 @@ public class PanelHeader extends JPanel {
     public PanelHeader() {
 
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        setBorder(BorderFactory.createEmptyBorder(33, 290, 5, 15));
+        setBorder(BorderFactory.createEmptyBorder(33, 270, 5, 15));
         setPreferredSize(new Dimension(1080, 120));
 
         fondo = Recursos.cargarImagenUI("bg_header.png").getImage();
+
+
+        /*JPanel movimiento = new JPanel();
+        movimiento.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+        movimiento.setMaximumSize(new Dimension(220, 150));
+        movimiento.setPreferredSize(new Dimension(220, 150));
+        movimiento.setOpaque(false);
+        add(movimiento);*/
 
         JLabel lblIconoJugador = new JLabel("Jugador: ");
         lblIconoJugador.setFont(lblIconoJugador.getFont().deriveFont(Font.BOLD));

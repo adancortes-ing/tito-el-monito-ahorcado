@@ -1,6 +1,5 @@
 package com.titomonito.vista;
 
-import com.titomonito.control.Navegacion;
 import com.titomonito.control.Recursos;
 import com.titomonito.modelo.GlobalConfig;
 
@@ -9,51 +8,56 @@ import java.awt.*;
 
 public class PanelMenu extends JPanel {
 
-    private final JButton btnInicio;
-    private final JButton btnEstadisticas;
-    private final JButton btnLogros;
-    private final JButton btnAyuda;
-    private final JButton btnOpciones;
-
-    private final Dimension sizeBotones = new Dimension(200, 50);
+    private JButton btnInicio;
+    private JButton btnEstadisticas;
+    private JButton btnLogros;
+    private JButton btnAyuda;
+    private JButton btnOpciones;
+    private JButton btnAcerca;
+    private JButton btnSalir;
 
     public PanelMenu() {
 
-        Navegacion navegacion = new Navegacion();
-
+        //Propiedades del panel
+        //==============================================================================================================
         setBackground(GlobalConfig.COLOR_AZUL);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createEmptyBorder(50, 10, 10, 10));
         setPreferredSize(new Dimension(220, 1000));
 
-        btnInicio = crearBoton("INICIO", "menu_inicio.png");
-        btnInicio.addActionListener(navegacion);
-        btnEstadisticas = crearBoton("ESTADÍSTICAS", "menu_estadisticas.png");
-        btnEstadisticas.addActionListener(navegacion);
-        btnLogros = crearBoton("LOGROS", "menu_logros.png");
-        btnLogros.addActionListener(navegacion);
-        btnAyuda = crearBoton("AYUDA", "menu_ayuda.png");
-        btnAyuda.addActionListener(navegacion);
+        initComponentes();
 
-        add(Box.createVerticalGlue());
+    }
+
+    private void initComponentes() {
+
+        btnInicio = crearBoton("INICIO", "menu_inicio.png");
+
+        btnEstadisticas = crearBoton("ESTADÍSTICAS", "menu_estadisticas.png");
+        btnEstadisticas.setEnabled(false);
+
+        btnLogros = crearBoton("LOGROS", "menu_logros.png");
+        btnLogros.setEnabled(false);
+
+        btnAyuda = crearBoton("AYUDA", "menu_ayuda.png");
+        btnAyuda.setEnabled(false);
 
         btnOpciones = crearBoton("OPCIONES", "menu_config.png");
+        btnOpciones.setEnabled(false);
+        add(Box.createVerticalGlue());
 
-        JButton btnSalir = crearBoton("SALIR", "menu_exit.png");
+        btnAcerca = crearBoton("ACERCA DE", "menu_acerca.png");
+
+        btnSalir = crearBoton("SALIR", "menu_exit.png");
         btnSalir.setBackground(GlobalConfig.COLOR_SALMON);
         btnSalir.setForeground(Color.WHITE);
         btnSalir.setFocusable(false);
-        btnSalir.addActionListener(navegacion);
-
-        //Botones deshabilitados temporalmente hasta que funcionen correctamente
-        btnEstadisticas.setEnabled(false);
-        btnLogros.setEnabled(false);
-        btnAyuda.setEnabled(false);
-        btnOpciones.setEnabled(false);
 
     }
 
     private JButton crearBoton(String etiqueta, String icono) {
+
+        final Dimension sizeBotones = new Dimension(200, 50);
         final int separacionVertical = 15;
 
         JButton boton = new JButton(etiqueta);
@@ -73,6 +77,34 @@ public class PanelMenu extends JPanel {
         add(Box.createVerticalStrut(separacionVertical));
 
         return boton;
+    }
+
+    public JButton getBtnInicio() {
+        return btnInicio;
+    }
+
+    public JButton getBtnEstadisticas() {
+        return btnEstadisticas;
+    }
+
+    public JButton getBtnLogros() {
+        return btnLogros;
+    }
+
+    public JButton getBtnAyuda() {
+        return btnAyuda;
+    }
+
+    public JButton getBtnOpciones() {
+        return btnOpciones;
+    }
+
+    public JButton getBtnAcerca() {
+        return btnAcerca;
+    }
+
+    public JButton getBtnSalir() {
+        return btnSalir;
     }
 
 }

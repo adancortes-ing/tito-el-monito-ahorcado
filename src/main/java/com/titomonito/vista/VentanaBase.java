@@ -5,12 +5,16 @@ import com.titomonito.modelo.GlobalConfig;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.util.Objects;
 
 public class VentanaBase extends JFrame {
 
-    public static CardLayout vistas;
-    public static JPanel contenedor;
+    private CardLayout vistas;
+    private JPanel contenedor;
+    private PanelHeader pnlHeader;
+    private PanelMenu pnlMenu;
+    private VistaInicio vistaInicio;
 
     public VentanaBase() {
 
@@ -25,21 +29,46 @@ public class VentanaBase extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //Integración de paneles a las diferentes zonas
-        PanelHeader pnlHeader = new PanelHeader();
+        initComponentes();
+    }
+
+    private void initComponentes() {
+
+        pnlHeader = new PanelHeader();
         add(pnlHeader, BorderLayout.NORTH);
 
-        PanelMenu pnlMenu = new PanelMenu();
+        pnlMenu = new PanelMenu();
         add(pnlMenu, BorderLayout.WEST);
 
         vistas = new CardLayout();
         contenedor = new JPanel(vistas);
         add(contenedor, BorderLayout.CENTER);
 
-        contenedor.add(new VistaInicio(), "INICIO");
+        vistaInicio = new VistaInicio();
+        contenedor.add(vistaInicio, "INICIO");
 
         PanelInferior pnlFooter = new PanelInferior();
         add(pnlFooter, BorderLayout.SOUTH);
+    }
+
+    public CardLayout getVistas() {
+        return vistas;
+    }
+
+    public JPanel getContenedor() {
+        return contenedor;
+    }
+
+    public final PanelHeader getPnlHeader() {
+        return pnlHeader;
+    }
+
+    public final PanelMenu getPnlMenu() {
+        return pnlMenu;
+    }
+
+    public final VistaInicio getVistaInicio() {
+        return vistaInicio;
     }
 
 }

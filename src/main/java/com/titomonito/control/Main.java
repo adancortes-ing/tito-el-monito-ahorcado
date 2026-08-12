@@ -5,7 +5,6 @@ import com.titomonito.modelo.GlobalConfig;
 import com.titomonito.vista.VentanaBase;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,7 +15,9 @@ public class Main {
 
         SwingUtilities.invokeLater(() -> {
             VentanaBase ventanaPrincipal = new VentanaBase();
-            Navegacion.cambiarVista("INICIO");
+            ControlVentana control = new ControlVentana(ventanaPrincipal);
+            NavegacionInterna navegacion = new NavegacionInterna(ventanaPrincipal);
+            navegacion.cambiarVista("INICIO");
             ventanaPrincipal.setVisible(true);
         });
 
