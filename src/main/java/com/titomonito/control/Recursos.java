@@ -7,6 +7,18 @@ import java.net.URL;
 
 public class Recursos {
 
+    public static class Fuentes {
+
+        public static Font fuenteComic(int t) {
+            return new Font("Comic Sans MS", Font.BOLD, t);
+        }
+
+        public static Font fuenteComic(int estilo, int t) {
+            return new Font("Comic Sans MS", estilo, t);
+        }
+
+    }
+
     public static ImageIcon cargarImagenUI(String nombreArchivo) {
 
         //Ruta hacia la carpeta interna dentro del main

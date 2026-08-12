@@ -24,5 +24,7 @@ public class GlobalConfig {
         UIManager.put("Button.background", COLOR_AZUL_CLARO);
         Font fuenteGlobal = Recursos.cargarFuente("IndieFlower-Regular.ttf", 24.0f);
         UIManager.put("defaultFont", fuenteGlobal);
+
     }
+
 }

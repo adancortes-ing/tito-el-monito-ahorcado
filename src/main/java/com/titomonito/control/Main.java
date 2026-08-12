@@ -14,8 +14,12 @@ public class Main {
         FlatMTGitHubIJTheme.setup();
         GlobalConfig.CargarConfig();
 
-        VentanaBase ventanaPrincipal = new VentanaBase();
-        ventanaPrincipal.setVisible(true);
-    }
-}
+        SwingUtilities.invokeLater(() -> {
+            VentanaBase ventanaPrincipal = new VentanaBase();
+            Navegacion.cambiarVista("INICIO");
+            ventanaPrincipal.setVisible(true);
+        });
 
+    }
+
+}

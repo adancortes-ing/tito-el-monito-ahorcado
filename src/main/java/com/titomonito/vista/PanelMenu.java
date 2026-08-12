@@ -1,5 +1,6 @@
 package com.titomonito.vista;
 
+import com.titomonito.control.Navegacion;
 import com.titomonito.control.Recursos;
 import com.titomonito.modelo.GlobalConfig;
 
@@ -18,17 +19,23 @@ public class PanelMenu extends JPanel {
 
     public PanelMenu() {
 
+        Navegacion navegacion = new Navegacion();
+
         setBackground(GlobalConfig.COLOR_AZUL);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createEmptyBorder(50, 10, 10, 10));
         setPreferredSize(new Dimension(220, 1000));
 
         btnInicio = crearBoton("INICIO", "menu_inicio.png");
+        btnInicio.addActionListener(navegacion);
         btnEstadisticas = crearBoton("ESTADÍSTICAS", "menu_estadisticas.png");
+        btnEstadisticas.addActionListener(navegacion);
         btnLogros = crearBoton("LOGROS", "menu_logros.png");
+        btnLogros.addActionListener(navegacion);
         btnAyuda = crearBoton("AYUDA", "menu_ayuda.png");
+        btnAyuda.addActionListener(navegacion);
 
-        add(Box.createVerticalStrut(160));
+        add(Box.createVerticalGlue());
 
         btnOpciones = crearBoton("OPCIONES", "menu_config.png");
 
@@ -36,9 +43,7 @@ public class PanelMenu extends JPanel {
         btnSalir.setBackground(GlobalConfig.COLOR_SALMON);
         btnSalir.setForeground(Color.WHITE);
         btnSalir.setFocusable(false);
-        btnSalir.addActionListener(e -> {
-            System.exit(0);
-        });
+        btnSalir.addActionListener(navegacion);
 
         //Botones deshabilitados temporalmente hasta que funcionen correctamente
         btnEstadisticas.setEnabled(false);
@@ -56,7 +61,7 @@ public class PanelMenu extends JPanel {
         boton.setMaximumSize(sizeBotones);
         boton.setMinimumSize(sizeBotones);
         boton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        boton.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
+        boton.setFont(Recursos.Fuentes.fuenteComic(Font.BOLD, 13));
 
         boton.setMargin(new Insets(0, 10, 0, 5));
         boton.setIcon(Recursos.cargarImagenUI(icono));
@@ -69,4 +74,5 @@ public class PanelMenu extends JPanel {
 
         return boton;
     }
+
 }

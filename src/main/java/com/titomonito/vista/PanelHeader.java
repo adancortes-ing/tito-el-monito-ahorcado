@@ -11,36 +11,38 @@ public class PanelHeader extends JPanel {
 
     public PanelHeader() {
 
-        setLayout(null);
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        setBorder(BorderFactory.createEmptyBorder(33, 290, 5, 15));
         setPreferredSize(new Dimension(1080, 120));
 
         fondo = Recursos.cargarImagenUI("bg_header.png").getImage();
 
         JLabel lblIconoJugador = new JLabel("Jugador: ");
+        lblIconoJugador.setFont(lblIconoJugador.getFont().deriveFont(Font.BOLD));
+        lblIconoJugador.setAlignmentY(Component.TOP_ALIGNMENT);
         lblIconoJugador.setIcon(Recursos.cargarImagenUI("header_player.png"));
-        lblIconoJugador.setBounds(290, 33, 160, 60);
         lblIconoJugador.setVerticalTextPosition(SwingConstants.TOP);
         add(lblIconoJugador);
 
+        JLabel lblValJugador = new JLabel("[Nombre del Jugador]");
+        lblValJugador.setAlignmentY(Component.TOP_ALIGNMENT);
+        lblValJugador.setMaximumSize(new Dimension(250, 35));
+        lblValJugador.setPreferredSize(new Dimension(250, 35));
+        add(lblValJugador);
+
+        add(Box.createHorizontalStrut(50));
+
         JLabel lblIconoMonedas = new JLabel("Monedas: ");
+        lblIconoMonedas.setFont(lblIconoMonedas.getFont().deriveFont(Font.BOLD));
+        lblIconoMonedas.setAlignmentY(Component.TOP_ALIGNMENT);
         lblIconoMonedas.setIcon(Recursos.cargarImagenUI("header_monedas.png"));
-        lblIconoMonedas.setBounds(750, 33, 165, 60);
         lblIconoMonedas.setVerticalTextPosition(SwingConstants.TOP);
         add(lblIconoMonedas);
 
-        //<editor-fold defaultstate="collapsed" desc="Posiblemente, estas etiquetas deban ser declaradas en el ámbito de clase">
-        JLabel lblJugador = new JLabel("[ nombre ]");
-        lblJugador.setBounds(450, 33, 200, 35);
-        lblJugador.setVerticalTextPosition(SwingConstants.BOTTOM);
-        lblJugador.setFont(lblJugador.getFont().deriveFont(Font.BOLD));
-        add(lblJugador);
+        JLabel lblValMonedas = new JLabel("[$ 0000]");
+        lblValMonedas.setAlignmentY(Component.TOP_ALIGNMENT);
+        add(lblValMonedas);
 
-        JLabel lblMonedas = new JLabel("[ 9999 ]");
-        lblMonedas.setBounds(915, 33, 100, 35);
-        lblMonedas.setVerticalTextPosition(SwingConstants.BOTTOM);
-        lblMonedas.setFont(lblMonedas.getFont().deriveFont(Font.BOLD));
-        add(lblMonedas);
-        //</editor-fold>
     }
 
     @Override
