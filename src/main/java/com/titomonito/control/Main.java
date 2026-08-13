@@ -18,7 +18,6 @@ public class Main {
 
             new ControlVentana(ventanaPrincipal);
             NavegacionInterna.setVentanaPrincipal(ventanaPrincipal);
-            NavegacionInterna.cambiarVista("INICIO");
 
             ventanaPrincipal.setVisible(true);
         });

@@ -12,7 +12,7 @@ import java.util.Objects;
 public class VistaCategorias extends JPanel {
 
     private JPanel pnlDificultades, pnlCategorias;
-    private List<JButton> listaBotones = new ArrayList<>();
+    private final List<JButton> listaBotones = new ArrayList<>();
 
     public VistaCategorias() {
 

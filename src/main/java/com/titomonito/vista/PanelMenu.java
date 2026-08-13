@@ -32,18 +32,10 @@ public class PanelMenu extends JPanel {
     private void initComponentes() {
 
         btnInicio = crearBoton("INICIO", "menu_inicio.png");
-
         btnEstadisticas = crearBoton("ESTADÍSTICAS", "menu_estadisticas.png");
-        btnEstadisticas.setEnabled(false);
-
         btnLogros = crearBoton("LOGROS", "menu_logros.png");
-        btnLogros.setEnabled(false);
-
         btnAyuda = crearBoton("AYUDA", "menu_ayuda.png");
-        btnAyuda.setEnabled(false);
-
         btnOpciones = crearBoton("OPCIONES", "menu_config.png");
-        btnOpciones.setEnabled(false);
         add(Box.createVerticalGlue());
 
         btnAcerca = crearBoton("ACERCA DE", "menu_acerca.png");

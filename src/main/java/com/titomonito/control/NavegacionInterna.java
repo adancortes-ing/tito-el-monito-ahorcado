@@ -1,6 +1,6 @@
 package com.titomonito.control;
 
-import com.titomonito.vista.VentanaBase;
+import com.titomonito.vista.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -8,11 +8,11 @@ import java.awt.event.ActionListener;
 
 public class NavegacionInterna {
 
+    private static boolean estadisticasCargado = false;
+    private static boolean logrosCargado = false;
+    private static boolean ayudaCargado = false;
+    private static boolean opcionesCargado = false;
     private static VentanaBase ventanaPrincipal;
-
-    public static void setVentanaPrincipal(VentanaBase ventanaPrincipal) {
-        NavegacionInterna.ventanaPrincipal = ventanaPrincipal;
-    }
 
     public static class ManejarMenu implements ActionListener {
 
@@ -25,18 +25,59 @@ public class NavegacionInterna {
                 case "INICIO":
                     cambiarVista("INICIO");
                     break;
-                case "ACERCA DE":
-                    cambiarVista("ACERCA");
+
+                case "ESTADÍSTICAS":
+                    if (!estadisticasCargado) {
+                        ventanaPrincipal.getContenedor().add(new VistaEstadisticas(), "ESTADÍSTICAS");
+                        ventanaPrincipal.getContenedor().revalidate();
+                        estadisticasCargado = true;
+                    }
+                    cambiarVista("ESTADÍSTICAS");
                     break;
+
+                case "LOGROS":
+                    if (!logrosCargado) {
+                        ventanaPrincipal.getContenedor().add(new VistaLogros(), "LOGROS");
+                        ventanaPrincipal.getContenedor().revalidate();
+                        logrosCargado = true;
+                    }
+                    cambiarVista("LOGROS");
+                    break;
+
+                case "AYUDA":
+                    if (!ayudaCargado) {
+                        ventanaPrincipal.getContenedor().add(new VistaAyuda(), "AYUDA");
+                        ventanaPrincipal.getContenedor().revalidate();
+                        ayudaCargado = true;
+                    }
+                    cambiarVista("AYUDA");
+                    break;
+
+                case "OPCIONES":
+                    if (!opcionesCargado) {
+                        ventanaPrincipal.getContenedor().add(new VistaOpciones(), "OPCIONES");
+                        ventanaPrincipal.getContenedor().revalidate();
+                        opcionesCargado = true;
+                    }
+                    cambiarVista("OPCIONES");
+                    break;
+
+                case "ACERCA DE":
+                    VistaAcerca vistaAbout = new VistaAcerca(ventanaPrincipal);
+                    vistaAbout.setVisible(true);
+                    break;
+
                 case "SALIR":
-                    System.exit(0);
+                    if (confirmarSalida()) {
+                        System.exit(0);
+                    }
             }
         }
     }
 
     public static class ManejarVistas implements ActionListener {
 
-        public static final ManejarVistas INSTANCIA =  new ManejarVistas();
+        public static final ManejarVistas INSTANCIA = new ManejarVistas();
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -49,9 +90,27 @@ public class NavegacionInterna {
         }
     }
 
-    public static void cambiarVista(String vista) {
+    private static boolean confirmarSalida() {
+
+        Object[] respuestas = {"Sí, quiero salir", "Volver al juego"};
+
+        return JOptionPane.showOptionDialog(ventanaPrincipal,
+                "¿Seguro que quieres abandonar a Tito?",
+                "Confirmación de salida",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                respuestas,
+                respuestas[1]) == JOptionPane.YES_OPTION;
+    }
+
+    private static void cambiarVista(String vista) {
 
         ventanaPrincipal.getVistas().show(ventanaPrincipal.getContenedor(), vista);
+    }
+
+    public static void setVentanaPrincipal(VentanaBase ventanaPrincipal) {
+        NavegacionInterna.ventanaPrincipal = ventanaPrincipal;
     }
 
 }
