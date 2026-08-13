@@ -1,40 +1,123 @@
 package com.titomonito.vista;
 
-import com.titomonito.control.Recursos;
+import com.titomonito.control.NavegacionInterna;
+import com.titomonito.modelo.Recursos;
 import com.titomonito.modelo.GlobalConfig;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class VistaInicio extends JPanel {
 
     public VistaInicio() {
 
-        // Configuración del panel de inicio
-        setLayout(null);
-        setBounds(0, 0, 860, 600);
+        // Propiedades del panel =======================================================================================
+        setLayout(new FlowLayout(FlowLayout.LEFT, 75, 0));
 
-        JLabel lblBienvenida = new JLabel("¡Bienvenido a Tito el Monito Ahorcado!");
-        lblBienvenida.setBounds(230, 1, 500, 50);
-        lblBienvenida.setFont(lblBienvenida.getFont().deriveFont(24f));
-        add(lblBienvenida);
+        initComponentes();
+    }
 
+    private void initComponentes() {
+
+        JPanel contenedor = new JPanel();
+        contenedor.setLayout(new BorderLayout());
+        contenedor.setOpaque(false);
+        contenedor.setPreferredSize(new Dimension(750, 220));
+        contenedor.setMaximumSize(contenedor.getPreferredSize());
+
+        JLabel lblBienvenida = new JLabel("¡ Este es Tito, el monito ahorcado !");
+        lblBienvenida.setFont(lblBienvenida.getFont().deriveFont(Font.BOLD));
+        lblBienvenida.setHorizontalAlignment(SwingConstants.CENTER);
+        contenedor.add(lblBienvenida, BorderLayout.NORTH);
+
+        // Panel central ===============================================================================================
+        JPanel center = new JPanel();
+        center.setOpaque(false);
+        center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
+
+        JLabel lblUltimaPalabra = new JLabel("Última palabra descubierta");
+        lblUltimaPalabra.setFont(lblUltimaPalabra.getFont().deriveFont(20.0f));
+        lblUltimaPalabra.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel lblValUltimaPalabra = new JLabel("[ palabra ]");
+        lblValUltimaPalabra.setFont(lblValUltimaPalabra.getFont().deriveFont(Font.BOLD));
+        lblValUltimaPalabra.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JButton btnIniciarJuego = getBtnIniciarJuego();
+        btnIniciarJuego.addActionListener(NavegacionInterna.ManejarVistas.INSTANCIA);
+
+        center.add(Box.createVerticalStrut(20));
+        center.add(lblUltimaPalabra);
+        center.add(lblValUltimaPalabra);
+        center.add(Box.createVerticalGlue());
+        center.add(btnIniciarJuego);
+
+        // Panel lateral izquierdo =====================================================================================
+        JPanel west = new JPanel();
+        west.setLayout(new BoxLayout(west, BoxLayout.Y_AXIS));
+        west.setOpaque(false);
+
+        JLabel lblRacha = new JLabel("Racha de Victorias");
+        lblRacha.setFont(lblRacha.getFont().deriveFont(18.0f));
+        lblRacha.setIcon(Recursos.cargarImagenUI("flama.png"));
+        lblRacha.setHorizontalTextPosition(SwingConstants.CENTER);
+        lblRacha.setVerticalTextPosition(SwingConstants.BOTTOM);
+        lblRacha.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel lblValorRacha = new JLabel("[ 00 ]");
+        lblValorRacha.setFont(lblValorRacha.getFont().deriveFont(Font.BOLD, 30.0f));
+        lblValorRacha.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        west.add(lblRacha);
+        west.add(lblValorRacha);
+
+        // Panel lateral derecho =====================================================================================
+        JPanel east = new JPanel();
+        east.setLayout(new BoxLayout(east, BoxLayout.Y_AXIS));
+        east.setOpaque(false);
+
+        JLabel lblTopMonedas = new JLabel("Record de Monedas");
+        lblTopMonedas.setFont(lblTopMonedas.getFont().deriveFont(18.0f));
+        lblTopMonedas.setIcon(Recursos.cargarImagenUI("money.png"));
+        lblTopMonedas.setHorizontalTextPosition(SwingConstants.CENTER);
+        lblTopMonedas.setVerticalTextPosition(SwingConstants.BOTTOM);
+        lblTopMonedas.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel lblValorTopMonedas = new JLabel("[ 000 ]");
+        lblValorTopMonedas.setFont(lblValorRacha.getFont().deriveFont(Font.BOLD, 30.0f));
+        lblValorTopMonedas.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        east.add(lblTopMonedas);
+        east.add(lblValorTopMonedas);
+
+        contenedor.add(center, BorderLayout.CENTER);
+        contenedor.add(east, BorderLayout.EAST);
+        contenedor.add(west, BorderLayout.WEST);
+        add(contenedor);
+    }
+
+    private static JButton getBtnIniciarJuego() {
+
+        Dimension medidaBoton = new Dimension(250, 70);
         JButton btnIniciarJuego = new JButton("Iniciar Juego");
-        btnIniciarJuego.setBounds(350, 100, 200, 50);
-        btnIniciarJuego.setFont(new Font("Comic Sans MS", Font.BOLD, 18));
+        btnIniciarJuego.setName("PLAY");
+        btnIniciarJuego.setFont(Recursos.Fuentes.fuenteComic(Font.BOLD, 22));
+        btnIniciarJuego.setMaximumSize(medidaBoton);
+        btnIniciarJuego.setPreferredSize(medidaBoton);
         btnIniciarJuego.setBackground(GlobalConfig.COLOR_VERDE);
-        add(btnIniciarJuego);
-
+        btnIniciarJuego.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnIniciarJuego.setFocusable(false);
+        return btnIniciarJuego;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
+
         super.paintComponent(g);
 
-        Image fondo = Recursos.cargarImagenUI("bg_inicio.png").getImage();
-        if (fondo != null) {
-            g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
-        }
+        Image fondo = Objects.requireNonNull(Recursos.cargarImagenUI("bg_inicio.png")).getImage();
+
+        g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
     }
 
 }
