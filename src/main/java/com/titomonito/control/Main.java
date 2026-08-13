@@ -15,9 +15,11 @@ public class Main {
 
         SwingUtilities.invokeLater(() -> {
             VentanaBase ventanaPrincipal = new VentanaBase();
-            ControlVentana control = new ControlVentana(ventanaPrincipal);
-            NavegacionInterna navegacion = new NavegacionInterna(ventanaPrincipal);
-            navegacion.cambiarVista("INICIO");
+
+            new ControlVentana(ventanaPrincipal);
+            NavegacionInterna.setVentanaPrincipal(ventanaPrincipal);
+            NavegacionInterna.cambiarVista("INICIO");
+
             ventanaPrincipal.setVisible(true);
         });
 

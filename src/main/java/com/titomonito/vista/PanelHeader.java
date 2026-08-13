@@ -1,15 +1,12 @@
 package com.titomonito.vista;
 
-import com.titomonito.control.Recursos;
+import com.titomonito.modelo.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.util.Objects;
 
 public class PanelHeader extends JPanel {
-
-    private final Image fondo;
 
     public PanelHeader() {
 
@@ -17,15 +14,10 @@ public class PanelHeader extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(33, 270, 5, 15));
         setPreferredSize(new Dimension(1080, 120));
 
-        fondo = Recursos.cargarImagenUI("bg_header.png").getImage();
+        initComponentes();
+    }
 
-
-        /*JPanel movimiento = new JPanel();
-        movimiento.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-        movimiento.setMaximumSize(new Dimension(220, 150));
-        movimiento.setPreferredSize(new Dimension(220, 150));
-        movimiento.setOpaque(false);
-        add(movimiento);*/
+    private void initComponentes() {
 
         JLabel lblIconoJugador = new JLabel("Jugador: ");
         lblIconoJugador.setFont(lblIconoJugador.getFont().deriveFont(Font.BOLD));
@@ -52,14 +44,15 @@ public class PanelHeader extends JPanel {
         JLabel lblValMonedas = new JLabel("[$ 0000]");
         lblValMonedas.setAlignmentY(Component.TOP_ALIGNMENT);
         add(lblValMonedas);
-
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (fondo != null) {
-            g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
-        }
+
+        Image fondo = Objects.requireNonNull(Recursos.cargarImagenUI("bg_header.png")).getImage();
+
+        g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
+
     }
 }

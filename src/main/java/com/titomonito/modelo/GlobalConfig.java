@@ -1,7 +1,5 @@
 package com.titomonito.modelo;
 
-import com.titomonito.control.Recursos;
-
 import javax.swing.*;
 import java.awt.*;
 

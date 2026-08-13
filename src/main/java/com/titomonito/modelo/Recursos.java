@@ -1,4 +1,4 @@
-package com.titomonito.control;
+package com.titomonito.modelo;
 
 import javax.swing.*;
 import java.awt.*;

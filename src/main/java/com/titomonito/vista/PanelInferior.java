@@ -1,7 +1,6 @@
 package com.titomonito.vista;
 
-import com.titomonito.control.Recursos;
-import com.titomonito.modelo.GlobalConfig;
+import com.titomonito.modelo.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +11,6 @@ public class PanelInferior extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
         setBackground(GlobalConfig.COLOR_VERDE);
-        //setPreferredSize(new Dimension(1080, 30));
 
         Font footerFont = Recursos.cargarFuente("tahoma.ttf", 12.0f);
 
@@ -26,7 +24,7 @@ public class PanelInferior extends JPanel {
         JLabel lblDesarrollador = new JLabel();
         lblDesarrollador.setFont(footerFont);
         lblDesarrollador.setForeground(GlobalConfig.COLOR_GRIS_OSCURO);
-        lblDesarrollador.setText("Developed by: Corlogic - Copyright © 2026");
+        lblDesarrollador.setText("Developed by: CorLogic - Copyright © 2026");
         add(lblDesarrollador);
     }
 }

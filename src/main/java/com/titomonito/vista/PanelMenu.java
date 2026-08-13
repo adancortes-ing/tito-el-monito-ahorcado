@@ -1,7 +1,7 @@
 package com.titomonito.vista;
 
-import com.titomonito.control.Recursos;
-import com.titomonito.modelo.GlobalConfig;
+import com.titomonito.control.NavegacionInterna;
+import com.titomonito.modelo.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +26,7 @@ public class PanelMenu extends JPanel {
         setPreferredSize(new Dimension(220, 1000));
 
         initComponentes();
-
+        asignarControles();
     }
 
     private void initComponentes() {
@@ -52,7 +52,19 @@ public class PanelMenu extends JPanel {
         btnSalir.setBackground(GlobalConfig.COLOR_SALMON);
         btnSalir.setForeground(Color.WHITE);
         btnSalir.setFocusable(false);
+    }
 
+    private void asignarControles() {
+
+        NavegacionInterna.ManejarMenu manejarMenu = new NavegacionInterna.ManejarMenu();
+
+        btnInicio.addActionListener(manejarMenu);
+        btnAyuda.addActionListener(manejarMenu);
+        btnEstadisticas.addActionListener(manejarMenu);
+        btnAcerca.addActionListener(manejarMenu);
+        btnOpciones.addActionListener(manejarMenu);
+        btnLogros.addActionListener(manejarMenu);
+        btnSalir.addActionListener(manejarMenu);
     }
 
     private JButton crearBoton(String etiqueta, String icono) {
@@ -77,34 +89,6 @@ public class PanelMenu extends JPanel {
         add(Box.createVerticalStrut(separacionVertical));
 
         return boton;
-    }
-
-    public JButton getBtnInicio() {
-        return btnInicio;
-    }
-
-    public JButton getBtnEstadisticas() {
-        return btnEstadisticas;
-    }
-
-    public JButton getBtnLogros() {
-        return btnLogros;
-    }
-
-    public JButton getBtnAyuda() {
-        return btnAyuda;
-    }
-
-    public JButton getBtnOpciones() {
-        return btnOpciones;
-    }
-
-    public JButton getBtnAcerca() {
-        return btnAcerca;
-    }
-
-    public JButton getBtnSalir() {
-        return btnSalir;
     }
 
 }

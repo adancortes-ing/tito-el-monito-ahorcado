@@ -1,11 +1,10 @@
 package com.titomonito.vista;
 
-import com.titomonito.control.*;
 import com.titomonito.modelo.GlobalConfig;
+import com.titomonito.modelo.Recursos;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.Objects;
 
 public class VentanaBase extends JFrame {
@@ -13,8 +12,6 @@ public class VentanaBase extends JFrame {
     private CardLayout vistas;
     private JPanel contenedor;
     private PanelHeader pnlHeader;
-    private PanelMenu pnlMenu;
-    private VistaInicio vistaInicio;
 
     public VentanaBase() {
 
@@ -37,15 +34,16 @@ public class VentanaBase extends JFrame {
         pnlHeader = new PanelHeader();
         add(pnlHeader, BorderLayout.NORTH);
 
-        pnlMenu = new PanelMenu();
+        PanelMenu pnlMenu = new PanelMenu();
         add(pnlMenu, BorderLayout.WEST);
 
         vistas = new CardLayout();
         contenedor = new JPanel(vistas);
         add(contenedor, BorderLayout.CENTER);
 
-        vistaInicio = new VistaInicio();
+        VistaInicio vistaInicio = new VistaInicio();
         contenedor.add(vistaInicio, "INICIO");
+        contenedor.add(new VistaCategorias(), "PLAY");
 
         PanelInferior pnlFooter = new PanelInferior();
         add(pnlFooter, BorderLayout.SOUTH);
@@ -61,14 +59,6 @@ public class VentanaBase extends JFrame {
 
     public final PanelHeader getPnlHeader() {
         return pnlHeader;
-    }
-
-    public final PanelMenu getPnlMenu() {
-        return pnlMenu;
-    }
-
-    public final VistaInicio getVistaInicio() {
-        return vistaInicio;
     }
 
 }
