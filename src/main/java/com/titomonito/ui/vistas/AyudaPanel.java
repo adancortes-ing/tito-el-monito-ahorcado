@@ -1,4 +1,4 @@
-package com.titomonito.vista;
+package com.titomonito.ui.vistas;
 
 import com.titomonito.modelo.Recursos;
 
@@ -6,9 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
-public class VistaAyuda extends JPanel{
+public class AyudaPanel extends JPanel{
 
-    public VistaAyuda() {
+    public AyudaPanel() {
 
         add(new JLabel("AYUDA"));
     }

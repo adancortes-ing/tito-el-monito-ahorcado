@@ -1,10 +1,12 @@
-package com.titomonito.vista;
+package com.titomonito.ui.vistas;
+
+import com.titomonito.ui.VentanaBase;
 
 import javax.swing.*;
 
-public class VistaAcerca extends JDialog {
+public class AcercaPanel extends JDialog {
 
-    public VistaAcerca(VentanaBase ventanaBase) {
+    public AcercaPanel(VentanaBase ventanaBase) {
 
         super(ventanaBase, true);
 

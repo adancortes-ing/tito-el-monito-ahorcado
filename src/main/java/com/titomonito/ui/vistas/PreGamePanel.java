@@ -1,4 +1,4 @@
-package com.titomonito.vista;
+package com.titomonito.ui.vistas;
 
 import com.titomonito.modelo.Categorias;
 import com.titomonito.modelo.Recursos;
@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class VistaCategorias extends JPanel {
+public class PreGamePanel extends JPanel {
 
     private JPanel pnlDificultades, pnlCategorias;
     private final List<JButton> listaBotones = new ArrayList<>();
 
-    public VistaCategorias() {
+    public PreGamePanel() {
 
         // Propiedades del panel =======================================================================================
         setLayout(new BorderLayout());

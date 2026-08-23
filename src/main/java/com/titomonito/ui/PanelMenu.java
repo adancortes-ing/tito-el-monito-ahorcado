@@ -1,4 +1,4 @@
-package com.titomonito.vista;
+package com.titomonito.ui;
 
 import com.titomonito.control.NavegacionInterna;
 import com.titomonito.modelo.*;

@@ -2,7 +2,7 @@ package com.titomonito.control;
 
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTGitHubIJTheme;
 import com.titomonito.modelo.GlobalConfig;
-import com.titomonito.vista.VentanaBase;
+import com.titomonito.ui.VentanaBase;
 
 import javax.swing.*;
 

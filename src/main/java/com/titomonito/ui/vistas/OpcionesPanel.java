@@ -1,4 +1,4 @@
-package com.titomonito.vista;
+package com.titomonito.ui.vistas;
 
 import com.titomonito.modelo.Recursos;
 
@@ -6,11 +6,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
-public class VistaLogros extends JPanel {
+public class OpcionesPanel extends JPanel {
 
-    public VistaLogros() {
+    public OpcionesPanel() {
 
-        add(new JLabel("LOGROS"));
+        add(new JLabel("OPCIONES"));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.titomonito.control;
 
-import com.titomonito.vista.*;
+import com.titomonito.ui.*;
+import com.titomonito.ui.vistas.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -28,7 +29,7 @@ public class NavegacionInterna {
 
                 case "ESTADÍSTICAS":
                     if (!estadisticasCargado) {
-                        ventanaPrincipal.getContenedor().add(new VistaEstadisticas(), "ESTADÍSTICAS");
+                        ventanaPrincipal.getContenedor().add(new EstadisticasPanel(), "ESTADÍSTICAS");
                         ventanaPrincipal.getContenedor().revalidate();
                         estadisticasCargado = true;
                     }
@@ -37,7 +38,7 @@ public class NavegacionInterna {
 
                 case "LOGROS":
                     if (!logrosCargado) {
-                        ventanaPrincipal.getContenedor().add(new VistaLogros(), "LOGROS");
+                        ventanaPrincipal.getContenedor().add(new LogrosPanel(), "LOGROS");
                         ventanaPrincipal.getContenedor().revalidate();
                         logrosCargado = true;
                     }
@@ -46,7 +47,7 @@ public class NavegacionInterna {
 
                 case "AYUDA":
                     if (!ayudaCargado) {
-                        ventanaPrincipal.getContenedor().add(new VistaAyuda(), "AYUDA");
+                        ventanaPrincipal.getContenedor().add(new AyudaPanel(), "AYUDA");
                         ventanaPrincipal.getContenedor().revalidate();
                         ayudaCargado = true;
                     }
@@ -55,7 +56,7 @@ public class NavegacionInterna {
 
                 case "OPCIONES":
                     if (!opcionesCargado) {
-                        ventanaPrincipal.getContenedor().add(new VistaOpciones(), "OPCIONES");
+                        ventanaPrincipal.getContenedor().add(new OpcionesPanel(), "OPCIONES");
                         ventanaPrincipal.getContenedor().revalidate();
                         opcionesCargado = true;
                     }
@@ -63,7 +64,7 @@ public class NavegacionInterna {
                     break;
 
                 case "ACERCA DE":
-                    VistaAcerca vistaAbout = new VistaAcerca(ventanaPrincipal);
+                    AcercaPanel vistaAbout = new AcercaPanel(ventanaPrincipal);
                     vistaAbout.setVisible(true);
                     break;
 

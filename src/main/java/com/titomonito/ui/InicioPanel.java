@@ -1,4 +1,4 @@
-package com.titomonito.vista;
+package com.titomonito.ui;
 
 import com.titomonito.control.NavegacionInterna;
 import com.titomonito.modelo.Recursos;
@@ -8,9 +8,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
-public class VistaInicio extends JPanel {
+public class InicioPanel extends JPanel {
 
-    public VistaInicio() {
+    public InicioPanel() {
 
         // Propiedades del panel =======================================================================================
         setLayout(new FlowLayout(FlowLayout.LEFT, 75, 0));
