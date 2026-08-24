@@ -1,17 +1,19 @@
-package com.titomonito.vista;
+package com.titomonito.ui.vistas;
+
+import com.titomonito.ui.VentanaBase;
 
 import javax.swing.*;
 
-public class VistaAcerca extends JDialog {
+public class AcercaPanel extends JDialog {
 
-    public VistaAcerca(VentanaBase ventanaBase) {
+    public AcercaPanel(VentanaBase owner) {
 
-        super(ventanaBase, true);
+        super(owner, true);
 
         setTitle("Acerca de Tito el Monito Ahorcado");
         setSize(500, 600);
         setResizable(false);
-        setLocationRelativeTo(ventanaBase);
+        setLocationRelativeTo(owner);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         add(new JLabel("[ PLACE HOLDER ]"));

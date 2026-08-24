@@ -1,20 +1,20 @@
-package com.titomonito.vista;
+package com.titomonito.ui;
 
-import com.titomonito.control.NavegacionInterna;
-import com.titomonito.modelo.Recursos;
-import com.titomonito.modelo.GlobalConfig;
+import com.titomonito.config.Constantes;
+import com.titomonito.utils.Recursos;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.Objects;
 
-public class VistaInicio extends JPanel {
+public class InicioPanel extends JPanel {
 
-    public VistaInicio() {
+    private JButton btnIniciarJuego;
 
-        // Propiedades del panel =======================================================================================
+    public InicioPanel() {
+
         setLayout(new FlowLayout(FlowLayout.LEFT, 75, 0));
-
         initComponentes();
     }
 
@@ -43,8 +43,7 @@ public class VistaInicio extends JPanel {
         lblValUltimaPalabra.setFont(lblValUltimaPalabra.getFont().deriveFont(Font.BOLD));
         lblValUltimaPalabra.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JButton btnIniciarJuego = getBtnIniciarJuego();
-        btnIniciarJuego.addActionListener(NavegacionInterna.ManejarVistas.INSTANCIA);
+        btnIniciarJuego = crearBtnIniciarJuego();
 
         center.add(Box.createVerticalStrut(20));
         center.add(lblUltimaPalabra);
@@ -96,15 +95,18 @@ public class VistaInicio extends JPanel {
         add(contenedor);
     }
 
-    private static JButton getBtnIniciarJuego() {
+    public void addIniciarListener(ActionListener l) {
+        btnIniciarJuego.addActionListener(l);
+    }
+
+    private static JButton crearBtnIniciarJuego() {
 
         Dimension medidaBoton = new Dimension(250, 70);
-        JButton btnIniciarJuego = new JButton("Iniciar Juego");
-        btnIniciarJuego.setName("PLAY");
+        JButton btnIniciarJuego = new JButton(Constantes.PREGAME);
         btnIniciarJuego.setFont(Recursos.Fuentes.fuenteComic(Font.BOLD, 22));
         btnIniciarJuego.setMaximumSize(medidaBoton);
         btnIniciarJuego.setPreferredSize(medidaBoton);
-        btnIniciarJuego.setBackground(GlobalConfig.COLOR_VERDE);
+        btnIniciarJuego.setBackground(Constantes.COLOR_VERDE);
         btnIniciarJuego.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnIniciarJuego.setFocusable(false);
         return btnIniciarJuego;

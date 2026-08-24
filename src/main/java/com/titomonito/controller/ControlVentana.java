@@ -1,6 +1,6 @@
-package com.titomonito.control;
+package com.titomonito.controller;
 
-import com.titomonito.vista.VentanaBase;
+import com.titomonito.ui.VentanaBase;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
