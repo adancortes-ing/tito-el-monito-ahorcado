@@ -1,10 +1,11 @@
 package com.titomonito.ui;
 
-import com.titomonito.control.NavegacionInterna;
-import com.titomonito.modelo.*;
+import com.titomonito.config.Constantes;
+import com.titomonito.utils.Recursos;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class PanelMenu extends JPanel {
 
@@ -20,43 +21,56 @@ public class PanelMenu extends JPanel {
 
         //Propiedades del panel
         //==============================================================================================================
-        setBackground(GlobalConfig.COLOR_AZUL);
+        setBackground(Constantes.COLOR_AZUL);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createEmptyBorder(50, 10, 10, 10));
         setPreferredSize(new Dimension(220, 1000));
 
         initComponentes();
-        asignarControles();
+    }
+
+    public void addInicioListener(ActionListener l) {
+        btnInicio.addActionListener(l);
+    }
+
+    public void addEstadisticasListener(ActionListener l) {
+        btnEstadisticas.addActionListener(l);
+    }
+
+    public void addLogrosListener(ActionListener l) {
+        btnLogros.addActionListener(l);
+    }
+
+    public void addAyudaListener(ActionListener l) {
+        btnAyuda.addActionListener(l);
+    }
+
+    public void addOpcionesListener(ActionListener l) {
+        btnOpciones.addActionListener(l);
+    }
+
+    public void addSalirListener(ActionListener l) {
+        btnSalir.addActionListener(l);
+    }
+
+    public void addAcercaListener(ActionListener l) {
+        btnAcerca.addActionListener(l);
     }
 
     private void initComponentes() {
 
-        btnInicio = crearBoton("INICIO", "menu_inicio.png");
-        btnEstadisticas = crearBoton("ESTADÍSTICAS", "menu_estadisticas.png");
-        btnLogros = crearBoton("LOGROS", "menu_logros.png");
-        btnAyuda = crearBoton("AYUDA", "menu_ayuda.png");
-        btnOpciones = crearBoton("OPCIONES", "menu_config.png");
+        btnInicio = crearBoton(Constantes.INICIO, "menu_inicio.png");
+        btnEstadisticas = crearBoton(Constantes.ESTADISTICAS, "menu_estadisticas.png");
+        btnLogros = crearBoton(Constantes.LOGROS, "menu_logros.png");
+        btnAyuda = crearBoton(Constantes.AYUDA, "menu_ayuda.png");
+        btnOpciones = crearBoton(Constantes.OPCIONES, "menu_config.png");
         add(Box.createVerticalGlue());
 
-        btnAcerca = crearBoton("ACERCA DE", "menu_acerca.png");
-
-        btnSalir = crearBoton("SALIR", "menu_exit.png");
-        btnSalir.setBackground(GlobalConfig.COLOR_SALMON);
+        btnAcerca = crearBoton(Constantes.ACERCA_DE, "menu_acerca.png");
+        btnSalir = crearBoton(Constantes.SALIR, "menu_exit.png");
+        btnSalir.setBackground(Constantes.COLOR_SALMON);
         btnSalir.setForeground(Color.WHITE);
         btnSalir.setFocusable(false);
-    }
-
-    private void asignarControles() {
-
-        NavegacionInterna.ManejarMenu manejarMenu = new NavegacionInterna.ManejarMenu();
-
-        btnInicio.addActionListener(manejarMenu);
-        btnAyuda.addActionListener(manejarMenu);
-        btnEstadisticas.addActionListener(manejarMenu);
-        btnAcerca.addActionListener(manejarMenu);
-        btnOpciones.addActionListener(manejarMenu);
-        btnLogros.addActionListener(manejarMenu);
-        btnSalir.addActionListener(manejarMenu);
     }
 
     private JButton crearBoton(String etiqueta, String icono) {

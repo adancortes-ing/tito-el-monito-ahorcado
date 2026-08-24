@@ -1,4 +1,4 @@
-package com.titomonito.control;
+package com.titomonito.controller;
 
 import com.titomonito.ui.VentanaBase;
 

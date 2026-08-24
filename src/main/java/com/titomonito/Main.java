@@ -1,7 +1,8 @@
-package com.titomonito.control;
+package com.titomonito;
 
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTGitHubIJTheme;
-import com.titomonito.modelo.GlobalConfig;
+import com.titomonito.controller.ControlVentana;
+import com.titomonito.config.GlobalConfig;
 import com.titomonito.ui.VentanaBase;
 
 import javax.swing.*;
@@ -17,8 +18,6 @@ public class Main {
             VentanaBase ventanaPrincipal = new VentanaBase();
 
             new ControlVentana(ventanaPrincipal);
-            NavegacionInterna.setVentanaPrincipal(ventanaPrincipal);
-
             ventanaPrincipal.setVisible(true);
         });
 

@@ -1,8 +1,7 @@
 package com.titomonito.ui;
 
-import com.titomonito.control.NavegacionInterna;
-import com.titomonito.modelo.Recursos;
-import com.titomonito.modelo.GlobalConfig;
+import com.titomonito.config.Constantes;
+import com.titomonito.utils.Recursos;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,9 +11,7 @@ public class InicioPanel extends JPanel {
 
     public InicioPanel() {
 
-        // Propiedades del panel =======================================================================================
         setLayout(new FlowLayout(FlowLayout.LEFT, 75, 0));
-
         initComponentes();
     }
 
@@ -44,7 +41,6 @@ public class InicioPanel extends JPanel {
         lblValUltimaPalabra.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JButton btnIniciarJuego = getBtnIniciarJuego();
-        btnIniciarJuego.addActionListener(NavegacionInterna.ManejarVistas.INSTANCIA);
 
         center.add(Box.createVerticalStrut(20));
         center.add(lblUltimaPalabra);
@@ -104,7 +100,7 @@ public class InicioPanel extends JPanel {
         btnIniciarJuego.setFont(Recursos.Fuentes.fuenteComic(Font.BOLD, 22));
         btnIniciarJuego.setMaximumSize(medidaBoton);
         btnIniciarJuego.setPreferredSize(medidaBoton);
-        btnIniciarJuego.setBackground(GlobalConfig.COLOR_VERDE);
+        btnIniciarJuego.setBackground(Constantes.COLOR_VERDE);
         btnIniciarJuego.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnIniciarJuego.setFocusable(false);
         return btnIniciarJuego;

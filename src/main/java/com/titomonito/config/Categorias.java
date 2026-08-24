@@ -1,4 +1,4 @@
-package com.titomonito.modelo;
+package com.titomonito.config;
 
 public class Categorias {
 

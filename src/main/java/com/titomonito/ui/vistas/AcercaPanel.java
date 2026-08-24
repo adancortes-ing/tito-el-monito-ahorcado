@@ -6,14 +6,14 @@ import javax.swing.*;
 
 public class AcercaPanel extends JDialog {
 
-    public AcercaPanel(VentanaBase ventanaBase) {
+    public AcercaPanel(VentanaBase owner) {
 
-        super(ventanaBase, true);
+        super(owner, true);
 
         setTitle("Acerca de Tito el Monito Ahorcado");
         setSize(500, 600);
         setResizable(false);
-        setLocationRelativeTo(ventanaBase);
+        setLocationRelativeTo(owner);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         add(new JLabel("[ PLACE HOLDER ]"));

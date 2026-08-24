@@ -1,6 +1,6 @@
 package com.titomonito.ui.vistas;
 
-import com.titomonito.modelo.Recursos;
+import com.titomonito.utils.Recursos;
 
 import javax.swing.*;
 import java.awt.*;
