@@ -1,8 +1,7 @@
 package com.titomonito.controller;
 
 import com.titomonito.config.Constantes;
-import com.titomonito.ui.PanelMenu;
-import com.titomonito.ui.VentanaBase;
+import com.titomonito.ui.*;
 import com.titomonito.ui.vistas.AcercaPanel;
 
 import javax.swing.*;
@@ -11,11 +10,13 @@ import java.awt.event.ActionEvent;
 public class Navegacion {
 
     private final PanelMenu view;
+    private final InicioPanel inicio;
     private final VentanaBase principal;
 
-    public Navegacion(PanelMenu view, VentanaBase owner) {
+    public Navegacion(PanelMenu view, InicioPanel inicio, VentanaBase owner) {
 
         this.view = view;
+        this.inicio = inicio;
         this.principal = owner;
         initListeners();
     }
@@ -29,6 +30,8 @@ public class Navegacion {
         view.addEstadisticasListener(this::controlMenu);
         view.addLogrosListener(this::controlMenu);
         view.addOpcionesListener(this::controlMenu);
+
+        inicio.addIniciarListener(this::controlMenu);
     }
 
     private void controlMenu(ActionEvent e) {
@@ -39,6 +42,9 @@ public class Navegacion {
 
             case Constantes.INICIO:
                 principal.cambiarVista(Constantes.INICIO);
+                break;
+            case Constantes.PREGAME:
+                principal.cambiarVista(Constantes.PREGAME);
                 break;
             case Constantes.ESTADISTICAS:
                 principal.cambiarVista(Constantes.ESTADISTICAS);

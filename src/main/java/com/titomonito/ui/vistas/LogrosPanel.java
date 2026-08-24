@@ -10,7 +10,14 @@ public class LogrosPanel extends JPanel {
 
     public LogrosPanel() {
 
-        add(new JLabel("LOGROS"));
+        setLayout(new BorderLayout());
+        JLabel titulo = new JLabel("LOGROS");
+        titulo.setHorizontalAlignment(SwingConstants.CENTER);
+        add(titulo, BorderLayout.NORTH);
+        JLabel etiqueta = new JLabel("[ PLACE HOLDER ]");
+        etiqueta.setHorizontalAlignment(SwingConstants.CENTER);
+        etiqueta.setFont(etiqueta.getFont().deriveFont(Font.BOLD, 28.0f));
+        add(etiqueta, BorderLayout.CENTER);
     }
 
     @Override

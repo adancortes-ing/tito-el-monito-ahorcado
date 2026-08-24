@@ -5,9 +5,12 @@ import com.titomonito.utils.Recursos;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class InicioPanel extends JPanel {
+
+    private JButton btnIniciarJuego;
 
     public InicioPanel() {
 
@@ -40,7 +43,7 @@ public class InicioPanel extends JPanel {
         lblValUltimaPalabra.setFont(lblValUltimaPalabra.getFont().deriveFont(Font.BOLD));
         lblValUltimaPalabra.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JButton btnIniciarJuego = getBtnIniciarJuego();
+        btnIniciarJuego = crearBtnIniciarJuego();
 
         center.add(Box.createVerticalStrut(20));
         center.add(lblUltimaPalabra);
@@ -92,11 +95,14 @@ public class InicioPanel extends JPanel {
         add(contenedor);
     }
 
-    private static JButton getBtnIniciarJuego() {
+    public void addIniciarListener(ActionListener l) {
+        btnIniciarJuego.addActionListener(l);
+    }
+
+    private static JButton crearBtnIniciarJuego() {
 
         Dimension medidaBoton = new Dimension(250, 70);
-        JButton btnIniciarJuego = new JButton("Iniciar Juego");
-        btnIniciarJuego.setName("PLAY");
+        JButton btnIniciarJuego = new JButton(Constantes.PREGAME);
         btnIniciarJuego.setFont(Recursos.Fuentes.fuenteComic(Font.BOLD, 22));
         btnIniciarJuego.setMaximumSize(medidaBoton);
         btnIniciarJuego.setPreferredSize(medidaBoton);

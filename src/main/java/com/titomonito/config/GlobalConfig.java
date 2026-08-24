@@ -1,7 +1,5 @@
 package com.titomonito.config;
 
-import com.titomonito.utils.Recursos;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,7 +10,7 @@ public class GlobalConfig {
 
     public static void CargarConfig() {
 
-        Font fuenteGlobal = Recursos.cargarFuente("IndieFlower-Regular.ttf", 24.0f);
+        Font fuenteGlobal = com.titomonito.utils.Recursos.cargarFuente("IndieFlower-Regular.ttf", 24.0f);
         Font fuenteComic = new Font("Comic Sans MS", Font.PLAIN, 16);
 
         // 1. Configuración de la UI nativa de FlatLaf

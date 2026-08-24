@@ -10,7 +10,14 @@ public class OpcionesPanel extends JPanel {
 
     public OpcionesPanel() {
 
-        add(new JLabel("OPCIONES"));
+        setLayout(new BorderLayout());
+        JLabel titulo = new JLabel("OPCIONES");
+        titulo.setHorizontalAlignment(SwingConstants.CENTER);
+        add(titulo, BorderLayout.NORTH);
+        JLabel etiqueta = new JLabel("[ PLACE HOLDER ]");
+        etiqueta.setHorizontalAlignment(SwingConstants.CENTER);
+        etiqueta.setFont(etiqueta.getFont().deriveFont(Font.BOLD, 28.0f));
+        add(etiqueta, BorderLayout.CENTER);
     }
 
     @Override

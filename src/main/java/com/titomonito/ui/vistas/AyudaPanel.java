@@ -10,7 +10,14 @@ public class AyudaPanel extends JPanel{
 
     public AyudaPanel() {
 
-        add(new JLabel("AYUDA"));
+        setLayout(new BorderLayout());
+        JLabel titulo = new JLabel("AYUDA");
+        titulo.setHorizontalAlignment(SwingConstants.CENTER);
+        add(titulo, BorderLayout.NORTH);
+        JLabel etiqueta = new JLabel("[ PLACE HOLDER ]");
+        etiqueta.setHorizontalAlignment(SwingConstants.CENTER);
+        etiqueta.setFont(etiqueta.getFont().deriveFont(Font.BOLD, 28.0f));
+        add(etiqueta, BorderLayout.CENTER);
     }
 
     @Override

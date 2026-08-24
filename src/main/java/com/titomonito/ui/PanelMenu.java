@@ -45,9 +45,7 @@ public class PanelMenu extends JPanel {
         btnAyuda.addActionListener(l);
     }
 
-    public void addOpcionesListener(ActionListener l) {
-        btnOpciones.addActionListener(l);
-    }
+    public void addOpcionesListener(ActionListener l) { btnOpciones.addActionListener(l); }
 
     public void addSalirListener(ActionListener l) {
         btnSalir.addActionListener(l);
