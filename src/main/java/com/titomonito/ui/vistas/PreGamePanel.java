@@ -87,12 +87,12 @@ public class PreGamePanel extends JPanel {
 
     private void crearBotonesCategorias(){
 
-        for (String[] cat : Categorias.categorias){
+        for (String[] cat : Categorias.getCategorias()){
 
             JButton botonCat = new JButton(cat[0]);
 
             botonCat.setFont(Recursos.Fuentes.fuenteComic(12));
-            botonCat.setIcon(Recursos.cargarImagenUI(cat[1]));
+            botonCat.setIcon(Recursos.cargarImagen(cat[1]));
             botonCat.setMargin(new Insets(0, 3, 0, 3));
             botonCat.setHorizontalTextPosition(SwingConstants.RIGHT);
             botonCat.setHorizontalAlignment(SwingConstants.LEFT);
@@ -108,7 +108,7 @@ public class PreGamePanel extends JPanel {
 
         super.paintComponent(g);
 
-        Image fondo = Objects.requireNonNull(Recursos.cargarImagenUI("bg_center.png")).getImage();
+        Image fondo = Objects.requireNonNull(Recursos.cargarImagen("bg_center.png")).getImage();
 
         g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
     }

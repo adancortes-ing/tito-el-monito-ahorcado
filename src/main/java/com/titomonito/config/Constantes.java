@@ -12,6 +12,7 @@ public class Constantes {
     public static final String ACERCA_DE = "ACERCA DE";
     public static final String SALIR = "SALIR";
     public static final String PREGAME = "Iniciar Juego";
+    public static final String JUEGO = "JUEGO";
 
     //Paleta de colores de la aplicación
     public static final Color COLOR_AZUL = new Color(108, 222, 242);

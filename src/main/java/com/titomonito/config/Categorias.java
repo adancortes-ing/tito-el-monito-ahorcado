@@ -2,7 +2,7 @@ package com.titomonito.config;
 
 public class Categorias {
 
-    public static String[][] categorias = {
+    private static final String[][] categorias = {
             {"ALIMENTOS", "cat_alimentos.png"},
             {"ANIMALES", "cat_animals.png"},
             {"APELLIDOS", "cat_apellido.png"},
@@ -21,4 +21,8 @@ public class Categorias {
             {"PROFESIONES", "cat_profesiones.png"},
             {"SUPERHEROES", "cat_super.png"}
     };
+
+    public static String[][] getCategorias() {
+        return categorias;
+    }
 }

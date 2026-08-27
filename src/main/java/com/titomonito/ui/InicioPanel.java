@@ -58,7 +58,7 @@ public class InicioPanel extends JPanel {
 
         JLabel lblRacha = new JLabel("Racha de Victorias");
         lblRacha.setFont(lblRacha.getFont().deriveFont(18.0f));
-        lblRacha.setIcon(Recursos.cargarImagenUI("flama.png"));
+        lblRacha.setIcon(Recursos.cargarImagen("flama.png"));
         lblRacha.setHorizontalTextPosition(SwingConstants.CENTER);
         lblRacha.setVerticalTextPosition(SwingConstants.BOTTOM);
         lblRacha.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -77,7 +77,7 @@ public class InicioPanel extends JPanel {
 
         JLabel lblTopMonedas = new JLabel("Record de Monedas");
         lblTopMonedas.setFont(lblTopMonedas.getFont().deriveFont(18.0f));
-        lblTopMonedas.setIcon(Recursos.cargarImagenUI("money.png"));
+        lblTopMonedas.setIcon(Recursos.cargarImagen("money.png"));
         lblTopMonedas.setHorizontalTextPosition(SwingConstants.CENTER);
         lblTopMonedas.setVerticalTextPosition(SwingConstants.BOTTOM);
         lblTopMonedas.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -117,7 +117,7 @@ public class InicioPanel extends JPanel {
 
         super.paintComponent(g);
 
-        Image fondo = Objects.requireNonNull(Recursos.cargarImagenUI("bg_inicio.png")).getImage();
+        Image fondo = Objects.requireNonNull(Recursos.cargarImagen("bg_inicio.png")).getImage();
 
         g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
     }
