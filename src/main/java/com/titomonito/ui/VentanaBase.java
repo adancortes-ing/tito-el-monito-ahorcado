@@ -33,7 +33,7 @@ public class VentanaBase extends JFrame {
 
         initUI();
         //Iniciar listeners y services
-        com.titomonito.controller.Navegacion navegacion = new com.titomonito.controller.Navegacion(panelMenu, inicio, this);
+        new com.titomonito.controller.Navegacion(panelMenu, inicio, this);
     }
 
     public void cambiarVista(String vista) {
