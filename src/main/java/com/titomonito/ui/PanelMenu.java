@@ -88,6 +88,7 @@ public class PanelMenu extends JPanel {
         boton.setHorizontalTextPosition(SwingConstants.RIGHT);
         boton.setHorizontalAlignment(SwingConstants.LEFT);
         boton.setIconTextGap(10);
+        boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         add(boton);
         add(Box.createVerticalStrut(separacionVertical));

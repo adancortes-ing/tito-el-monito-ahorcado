@@ -30,6 +30,7 @@ public class GlobalConfig {
         // 3. Fuentes específicas de JOptionPane
         UIManager.put("OptionPane.messageFont", fuenteComic.deriveFont(18.0f));
         UIManager.put("OptionPane.buttonFont", fuenteComic);
+        UIManager.put("ToolTip.font", fuenteComic.deriveFont(14.0f));
 
         // 4. CLAVES DE FLATLAF PARA LA BARRA DE TÍTULO (Esto cambia el título del diálogo/ventana)
         UIManager.put("TitlePane.font", fuenteComic);

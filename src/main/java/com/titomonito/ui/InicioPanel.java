@@ -109,6 +109,7 @@ public class InicioPanel extends JPanel {
         btnIniciarJuego.setBackground(Constantes.COLOR_VERDE);
         btnIniciarJuego.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnIniciarJuego.setFocusable(false);
+        btnIniciarJuego.setCursor(new Cursor(Cursor.HAND_CURSOR));
         return btnIniciarJuego;
     }
 
