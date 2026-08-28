@@ -2,7 +2,6 @@ BEGIN TRANSACTION;
 INSERT OR IGNORE INTO categorias (nombre, url_icono) VALUES
 ('ALIMENTOS','cat_alimentos.png'),
 ('ANIMALES','cat_animals.png'),
-('AUTOMÓVILES','cat_autos.png'),
 ('APELLIDOS','cat_apellido.png'),
 ('COLORES','cat_color.png'),
 ('DEPORTES','cat_deportes.png'),
@@ -16,7 +15,8 @@ INSERT OR IGNORE INTO categorias (nombre, url_icono) VALUES
 ('PELICULAS','cat_peliculas.png'),
 ('ROPA','cat_prendas.png'),
 ('PROFESIONES','cat_profesiones.png'),
-('HEROES','cat_super.png');
+('HEROES','cat_super.png'),
+('AUTOMÓVILES','cat_autos.png');
 
 INSERT OR IGNORE INTO palabras (id_categoria, palabra, pista) VALUES (1,'MANZANA','Fruta común de color rojo o verde'),
  (1,'PLATANO','Fruta amarilla y alargada'),

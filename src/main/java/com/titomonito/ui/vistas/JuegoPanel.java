@@ -1,5 +1,7 @@
 package com.titomonito.ui.vistas;
 
+import com.titomonito.controller.ControlJuego;
+import com.titomonito.services.LogicaJuego;
 import com.titomonito.utils.Recursos;
 
 import javax.swing.*;
@@ -28,6 +30,7 @@ public class JuegoPanel extends JPanel {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(0, 60, 10, 20));
         initUI();
+        LogicaJuego.getInstance().setVistaJuego(this);
     }
 
     private void initUI() {
@@ -80,7 +83,7 @@ public class JuegoPanel extends JPanel {
         lblValCategoria.setFont(lblValCategoria.getFont().deriveFont(20.0f));
         lblValCategoria.setAlignmentX(Component.CENTER_ALIGNMENT);
         lblPalabra = new JLabel("[ PALABRA OCULTA ]");
-        lblPalabra.setFont(lblPalabra.getFont().deriveFont(Font.BOLD, 22.0f));
+        lblPalabra.setFont(lblPalabra.getFont().deriveFont(Font.BOLD, 28.0f));
         lblPalabra.setAlignmentX(Component.CENTER_ALIGNMENT);
         lblValPista = new JLabel("Compra un marcatextos para resaltar y revelar la pista.");
         lblValPista.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -180,16 +183,33 @@ public class JuegoPanel extends JPanel {
         this.lblValCategoria.setText(lblValCategoria);
     }
 
-    public void restablecerTeclado() {
+    public void setLblPalabra(String p) {
+        this.lblPalabra.setText(p);
+    }
+
+    public void setLblValVidas(String corazones) {
+        this.lblValVidas.setText(corazones);
+    }
+
+    public void setTeclado(boolean estado) {
         for (JButton btn : teclas) {
-            btn.setEnabled(true);
+            btn.setEnabled(estado);
         }
+    }
+
+    public void reiniciarPista() {
+        lblValPista.setText("Compra un marcatextos para resaltar y revelar la pista.");
     }
 
     public void setTeclasActionListener(ActionListener al) {
         for (JButton btn : teclas) {
             btn.addActionListener(al);
         }
+    }
+
+    public void dibujarTito(String imagen) {
+
+        lblIgmTito.setIcon(Recursos.cargarImagen(imagen));
     }
 
     public void setTeclaHabilitada(String letra, boolean habilitada) {
@@ -200,7 +220,6 @@ public class JuegoPanel extends JPanel {
             }
         }
     }
-
 
 
     public List<JButton> getTeclas() {

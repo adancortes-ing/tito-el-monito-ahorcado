@@ -29,5 +29,5 @@ public class Constantes {
     public static final Color COLOR_GRIS_OSCURO = new Color(80, 80, 80);
     public static final Color COLOR_AZUL_CLARO = new Color(206, 244, 250);
 
-    public static final String ALFABETO =   "SBCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+    public static final String ALFABETO =   "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
 }

@@ -39,7 +39,7 @@ public class VentanaBase extends JFrame {
         new com.titomonito.controller.Navegacion(panelMenu, inicio, this);
         new com.titomonito.controller.ControlVentana(this);
         new com.titomonito.controller.ControlPreGame(preGamePanel, this);
-        LogicaJuego.getInstance().setVistaJuego(juego);
+        new com.titomonito.controller.ControlJuego(juego, this);
     }
 
     public void cambiarVista(String vista) {

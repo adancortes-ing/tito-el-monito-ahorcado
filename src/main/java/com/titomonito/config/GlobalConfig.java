@@ -28,7 +28,7 @@ public class GlobalConfig {
         UIManager.put("defaultFont", fuenteGlobal);
 
         // 3. Fuentes específicas de JOptionPane
-        UIManager.put("OptionPane.messageFont", fuenteComic.deriveFont(18.0f));
+        UIManager.put("OptionPane.messageFont", fuenteComic.deriveFont(16.0f));
         UIManager.put("OptionPane.buttonFont", fuenteComic);
         UIManager.put("ToolTip.font", fuenteComic.deriveFont(14.0f));
 

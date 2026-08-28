@@ -70,7 +70,7 @@ public class PreGamePanel extends JPanel {
         pnlCategorias.add(lblCategoria);
 
         crearBotonesCategorias();
-        listaBotones.get(3).setEnabled(false);
+        listaBotones.get(3).setEnabled(false);// TEMPORAL DESACTIVADO HASTA QUE AÑADA PALABRAS A LA CATEGORIA AUTOS
 
         // =============================================================================================================
         contenedorCentro.add(pnlDificultades);

@@ -17,7 +17,7 @@ public class generalDAO {
     public static void obtenerCategorias(){
 
         Categorias.getListaCategorias().clear();
-        String sql = "SELECT * FROM categorias";
+        String sql = "SELECT * FROM categorias ORDER BY nombre";
 
         try (
             Connection conn = ConfigDB.getConnection();
