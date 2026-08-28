@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS categorias (
 id_categoria INTEGER PRIMARY KEY AUTOINCREMENT,
-nombre TEXT NOT NULL UNIQUE
+nombre TEXT NOT NULL UNIQUE,
+url_icono TEXT
 );
 
 -- Tabla de palabras

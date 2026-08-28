@@ -2,6 +2,7 @@ package com.titomonito.ui;
 
 import com.titomonito.config.Constantes;
 import com.titomonito.config.GlobalConfig;
+import com.titomonito.services.LogicaJuego;
 import com.titomonito.ui.vistas.*;
 import com.titomonito.utils.Recursos;
 
@@ -17,6 +18,8 @@ public class VentanaBase extends JFrame {
 
     private PanelMenu panelMenu;
     private InicioPanel inicio;
+    private PreGamePanel preGamePanel;
+    private JuegoPanel juego;
 
     public VentanaBase() {
 
@@ -34,6 +37,9 @@ public class VentanaBase extends JFrame {
         initUI();
         //Iniciar listeners y services
         new com.titomonito.controller.Navegacion(panelMenu, inicio, this);
+        new com.titomonito.controller.ControlVentana(this);
+        new com.titomonito.controller.ControlPreGame(preGamePanel, this);
+        LogicaJuego.getInstance().setVistaJuego(juego);
     }
 
     public void cambiarVista(String vista) {
@@ -58,8 +64,8 @@ public class VentanaBase extends JFrame {
         LogrosPanel logros = new LogrosPanel();
         AyudaPanel ayuda = new AyudaPanel();
         OpcionesPanel opciones = new OpcionesPanel();
-        PreGamePanel preGamePanel = new PreGamePanel();
-        JuegoPanel juego = new JuegoPanel();
+        preGamePanel = new PreGamePanel();
+        juego = new JuegoPanel();
 
         contenedor.add(inicio, Constantes.INICIO);
         contenedor.add(estadisticas, Constantes.ESTADISTICAS);

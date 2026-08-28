@@ -176,6 +176,16 @@ public class JuegoPanel extends JPanel {
         return boton;
     }
 
+    public void setLblValCategoria(String lblValCategoria) {
+        this.lblValCategoria.setText(lblValCategoria);
+    }
+
+    public void restablecerTeclado() {
+        for (JButton btn : teclas) {
+            btn.setEnabled(true);
+        }
+    }
+
     public void setTeclasActionListener(ActionListener al) {
         for (JButton btn : teclas) {
             btn.addActionListener(al);
@@ -191,11 +201,7 @@ public class JuegoPanel extends JPanel {
         }
     }
 
-    public void restablecerTeclado() {
-        for (JButton btn : teclas) {
-            btn.setEnabled(true);
-        }
-    }
+
 
     public List<JButton> getTeclas() {
         return teclas;
