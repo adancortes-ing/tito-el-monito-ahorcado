@@ -2,6 +2,7 @@ package com.titomonito.ui;
 
 import com.titomonito.config.Constantes;
 import com.titomonito.config.GlobalConfig;
+import com.titomonito.services.LogicaJuego;
 import com.titomonito.ui.vistas.*;
 import com.titomonito.utils.Recursos;
 
@@ -17,13 +18,15 @@ public class VentanaBase extends JFrame {
 
     private PanelMenu panelMenu;
     private InicioPanel inicio;
+    private PreGamePanel preGamePanel;
+    private JuegoPanel juego;
 
     public VentanaBase() {
 
         //Propiedades de la ventana principal
         //==============================================================================================================
         setTitle("Tito el Monito Ahorcado");
-        setIconImage(Objects.requireNonNull(Recursos.cargarImagenUI("icono.png")).getImage());
+        setIconImage(Objects.requireNonNull(Recursos.cargarImagen("icono.png")).getImage());
         setSize(GlobalConfig.MEDIDA_VENTANA);
         setLayout(new BorderLayout());
         setResizable(false);
@@ -33,7 +36,10 @@ public class VentanaBase extends JFrame {
 
         initUI();
         //Iniciar listeners y services
-        com.titomonito.controller.Navegacion navegacion = new com.titomonito.controller.Navegacion(panelMenu, inicio, this);
+        new com.titomonito.controller.Navegacion(panelMenu, inicio, this);
+        new com.titomonito.controller.ControlVentana(this);
+        new com.titomonito.controller.ControlPreGame(preGamePanel, this);
+        new com.titomonito.controller.ControlJuego(juego, this);
     }
 
     public void cambiarVista(String vista) {
@@ -58,7 +64,8 @@ public class VentanaBase extends JFrame {
         LogrosPanel logros = new LogrosPanel();
         AyudaPanel ayuda = new AyudaPanel();
         OpcionesPanel opciones = new OpcionesPanel();
-        PreGamePanel preGamePanel = new PreGamePanel();
+        preGamePanel = new PreGamePanel();
+        juego = new JuegoPanel();
 
         contenedor.add(inicio, Constantes.INICIO);
         contenedor.add(estadisticas, Constantes.ESTADISTICAS);
@@ -66,6 +73,7 @@ public class VentanaBase extends JFrame {
         contenedor.add(ayuda, Constantes.AYUDA);
         contenedor.add(opciones, Constantes.OPCIONES);
         contenedor.add(preGamePanel, Constantes.PREGAME);
+        contenedor.add(juego, Constantes.JUEGO);
 
         setPanelInferior();
     }
@@ -115,7 +123,7 @@ public class VentanaBase extends JFrame {
             JLabel lblIconoJugador = new JLabel("Jugador: ");
             lblIconoJugador.setFont(lblIconoJugador.getFont().deriveFont(Font.BOLD));
             lblIconoJugador.setAlignmentY(Component.TOP_ALIGNMENT);
-            lblIconoJugador.setIcon(Recursos.cargarImagenUI("header_player.png"));
+            lblIconoJugador.setIcon(Recursos.cargarImagen("header_player.png"));
             lblIconoJugador.setVerticalTextPosition(SwingConstants.TOP);
             add(lblIconoJugador);
 
@@ -130,7 +138,7 @@ public class VentanaBase extends JFrame {
             JLabel lblIconoMonedas = new JLabel("Monedas: ");
             lblIconoMonedas.setFont(lblIconoMonedas.getFont().deriveFont(Font.BOLD));
             lblIconoMonedas.setAlignmentY(Component.TOP_ALIGNMENT);
-            lblIconoMonedas.setIcon(Recursos.cargarImagenUI("header_monedas.png"));
+            lblIconoMonedas.setIcon(Recursos.cargarImagen("header_monedas.png"));
             lblIconoMonedas.setVerticalTextPosition(SwingConstants.TOP);
             add(lblIconoMonedas);
 
@@ -143,7 +151,7 @@ public class VentanaBase extends JFrame {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
 
-            Image fondo = Objects.requireNonNull(Recursos.cargarImagenUI("bg_header.png")).getImage();
+            Image fondo = Objects.requireNonNull(Recursos.cargarImagen("bg_header.png")).getImage();
 
             g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
 

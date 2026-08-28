@@ -44,7 +44,7 @@ public class Navegacion {
                 principal.cambiarVista(Constantes.INICIO);
                 break;
             case Constantes.PREGAME:
-                principal.cambiarVista(Constantes.PREGAME);
+                principal.cambiarVista(Constantes.PREGAME); //TEMPORAL (CAMBIAR A PREGAME), SOLO PARA PODER ACCEDER RÁPIDAMENTE A PANEL DEL JUEGO
                 break;
             case Constantes.ESTADISTICAS:
                 principal.cambiarVista(Constantes.ESTADISTICAS);

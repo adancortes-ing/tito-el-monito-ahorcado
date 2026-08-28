@@ -64,7 +64,7 @@ public class PanelMenu extends JPanel {
         btnOpciones = crearBoton(Constantes.OPCIONES, "menu_config.png");
         add(Box.createVerticalGlue());
 
-        btnAcerca = crearBoton(Constantes.ACERCA_DE, "menu_acerca.png");
+        btnAcerca = crearBoton(Constantes.ACERCA_DE, "menu_about.png");
         btnSalir = crearBoton(Constantes.SALIR, "menu_exit.png");
         btnSalir.setBackground(Constantes.COLOR_SALMON);
         btnSalir.setForeground(Color.WHITE);
@@ -84,10 +84,11 @@ public class PanelMenu extends JPanel {
         boton.setFont(Recursos.Fuentes.fuenteComic(Font.BOLD, 13));
 
         boton.setMargin(new Insets(0, 10, 0, 5));
-        boton.setIcon(Recursos.cargarImagenUI(icono));
+        boton.setIcon(Recursos.cargarImagen(icono));
         boton.setHorizontalTextPosition(SwingConstants.RIGHT);
         boton.setHorizontalAlignment(SwingConstants.LEFT);
         boton.setIconTextGap(10);
+        boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         add(boton);
         add(Box.createVerticalStrut(separacionVertical));

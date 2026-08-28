@@ -2,10 +2,17 @@ package com.titomonito.config;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class GlobalConfig {
 
-    public static final String VERSION_JUEGO = "version 0.1.0";
+    private static final Logger LOGGER = Logger.getLogger("com.titomonito");
+
+    public static final String VERSION_JUEGO = "version 0.2.0-SNAPSHOT";
     public static final Dimension MEDIDA_VENTANA = new Dimension(1080, 750);
 
     public static void CargarConfig() {
@@ -21,12 +28,33 @@ public class GlobalConfig {
         UIManager.put("defaultFont", fuenteGlobal);
 
         // 3. Fuentes específicas de JOptionPane
-        UIManager.put("OptionPane.messageFont", fuenteComic.deriveFont(18.0f));
+        UIManager.put("OptionPane.messageFont", fuenteComic.deriveFont(16.0f));
         UIManager.put("OptionPane.buttonFont", fuenteComic);
+        UIManager.put("ToolTip.font", fuenteComic.deriveFont(14.0f));
 
         // 4. CLAVES DE FLATLAF PARA LA BARRA DE TÍTULO (Esto cambia el título del diálogo/ventana)
         UIManager.put("TitlePane.font", fuenteComic);
         UIManager.put("TitlePane.titleFont", fuenteComic);
     }
 
+    public static void configurarLoggers() {
+        File directorioApp = ConfigDB.getDirectorio();
+
+        try {
+            File logDir = new File(directorioApp, "logs");
+            if (!logDir.exists()) {
+                boolean creado = logDir.mkdirs();
+                if (!creado) {
+                    JOptionPane.showMessageDialog(null, "No se pudo crear el directorio de logs.");
+                }
+            }
+
+            FileHandler fileHandler = new FileHandler(logDir.getAbsolutePath() + File.separator + "error.log", true);
+            fileHandler.setFormatter(new SimpleFormatter());
+            LOGGER.addHandler(fileHandler);
+            LOGGER.setUseParentHandlers(false); // Evitar duplicar logs en la consola si ya tienes handlers por defecto
+        } catch (IOException e) {
+            System.err.println("No se pudo inicializar el sistema de logs: " + e.getMessage());
+        }
+    }
 }

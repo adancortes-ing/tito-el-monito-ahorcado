@@ -1,10 +1,11 @@
 package com.titomonito.ui.vistas;
 
-import com.titomonito.config.Categorias;
+import com.titomonito.models.Categorias;
 import com.titomonito.utils.Recursos;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +21,13 @@ public class PreGamePanel extends JPanel {
         setLayout(new BorderLayout());
 
         initComponentes();
+    }
+
+    public void addBotonesListeners(ActionListener al) {
+
+        for (JButton btn : listaBotones) {
+            btn.addActionListener(al);
+        }
     }
 
     private void initComponentes() {
@@ -62,7 +70,7 @@ public class PreGamePanel extends JPanel {
         pnlCategorias.add(lblCategoria);
 
         crearBotonesCategorias();
-        listaBotones.get(3).setEnabled(false);
+        listaBotones.get(3).setEnabled(false);// TEMPORAL DESACTIVADO HASTA QUE AÑADA PALABRAS A LA CATEGORIA AUTOS
 
         // =============================================================================================================
         contenedorCentro.add(pnlDificultades);
@@ -71,7 +79,7 @@ public class PreGamePanel extends JPanel {
         add(contenedorCentro, BorderLayout.CENTER);
     }
 
-    private JButton crearBoton(String etiqueta){
+    private JButton crearBoton(String etiqueta) {
 
         JButton boton = new JButton(etiqueta);
         boton.setFont(Recursos.Fuentes.fuenteComic(14));
@@ -85,14 +93,15 @@ public class PreGamePanel extends JPanel {
     }
 
 
-    private void crearBotonesCategorias(){
+    private void crearBotonesCategorias() {
 
-        for (String[] cat : Categorias.categorias){
+        for (Categorias cat : Categorias.getListaCategorias()) {
 
-            JButton botonCat = new JButton(cat[0]);
-
+            JButton botonCat = new JButton(cat.getNombre_categoria());
+            botonCat.setName(cat.getNombre_categoria());
+            botonCat.putClientProperty("id_categoria", cat.getId_categoria());
             botonCat.setFont(Recursos.Fuentes.fuenteComic(12));
-            botonCat.setIcon(Recursos.cargarImagenUI(cat[1]));
+            botonCat.setIcon(Recursos.cargarImagen(cat.getUrl_icono()));
             botonCat.setMargin(new Insets(0, 3, 0, 3));
             botonCat.setHorizontalTextPosition(SwingConstants.RIGHT);
             botonCat.setHorizontalAlignment(SwingConstants.LEFT);
@@ -108,7 +117,7 @@ public class PreGamePanel extends JPanel {
 
         super.paintComponent(g);
 
-        Image fondo = Objects.requireNonNull(Recursos.cargarImagenUI("bg_center.png")).getImage();
+        Image fondo = Objects.requireNonNull(Recursos.cargarImagen("bg_center.png")).getImage();
 
         g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
     }
