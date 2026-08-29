@@ -50,6 +50,10 @@ public class JuegoPanel extends JPanel {
         lblValTiempo = new JLabel("00");
         lblValTiempo.setFont(lblValTiempo.getFont().deriveFont(36.0f));
         lblValTiempo.setAlignmentY(Component.CENTER_ALIGNMENT);
+        Dimension sizeTiempo = new Dimension(60, 40);
+        lblValTiempo.setPreferredSize(sizeTiempo);
+        lblValTiempo.setMaximumSize(sizeTiempo);
+        lblValTiempo.setMinimumSize(sizeTiempo);
 
         JLabel lblVidasRestantes = new JLabel("Salud de Tito: ");
         lblVidasRestantes.setAlignmentY(Component.CENTER_ALIGNMENT);
@@ -59,9 +63,9 @@ public class JuegoPanel extends JPanel {
         lblValVidas.setFont(new Font("Segoe UI", Font.PLAIN, 24));
 
         pnlSuperior.add(lblTiempoRestante);
-        pnlSuperior.add(Box.createHorizontalStrut(5));
+        pnlSuperior.add(Box.createHorizontalStrut(15));
         pnlSuperior.add(lblValTiempo);
-        pnlSuperior.add(Box.createHorizontalStrut(180));
+        pnlSuperior.add(Box.createHorizontalStrut(155));
         pnlSuperior.add(lblVidasRestantes);
         pnlSuperior.add(Box.createHorizontalStrut(10));
         pnlSuperior.add(lblValVidas);
@@ -84,11 +88,13 @@ public class JuegoPanel extends JPanel {
 
         JLabel lblPotencial = new JLabel("Premio Potencial:  $ ");
         lblPotencial.setFont(lblPotencial.getFont().deriveFont(Font.PLAIN, 20.0F));
+        lblPotencial.setToolTipText("Monedas que ganas si descubres la palabra.");
         lblValPotencial = new JLabel("");
         lblValPotencial.setFont(lblPotencial.getFont().deriveFont(Font.BOLD, 20.0F));
 
         JLabel lblTotalAcumulado = new JLabel("Total Asegurado:   $ ");
         lblTotalAcumulado.setFont(lblPotencial.getFont());
+        lblTotalAcumulado.setToolTipText("Monedas que ganas si no descubres la palabra.");
         lblValAsegurado = new JLabel("0");
         lblValAsegurado.setFont(lblValPotencial.getFont());
 
@@ -202,6 +208,18 @@ public class JuegoPanel extends JPanel {
         boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         teclas.add(boton);
+    }
+
+    public void setLblValTiempo(int tiempo) {
+        lblValTiempo.setText(String.valueOf(tiempo));
+
+        if (tiempo <= 5) {
+            lblValTiempo.setForeground(Color.RED);
+        } else if (tiempo <= 10) {
+            lblValTiempo.setForeground(new Color(255, 85, 0));
+        } else {
+            lblValTiempo.setForeground(Color.BLACK);
+        }
     }
 
     public void setLblValCategoria(String lblValCategoria) {

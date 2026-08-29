@@ -5,6 +5,7 @@ import com.titomonito.dao.JuegoDAO;
 import com.titomonito.models.Palabra;
 import com.titomonito.ui.vistas.JuegoPanel;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -29,6 +30,9 @@ public class LogicaJuego {
     private int vidas;
     private ArrayList<String> corazones;
     private int letrasDescubiertas;
+    private int tiempoBase;
+    private int tiempoRestante;
+    private Timer timer;
 
     //Variables para el sistema de economía
     private int monedasGanadas;
@@ -49,6 +53,8 @@ public class LogicaJuego {
         this.categoria = nombreCategoria;
         this.dificultad = dificultad;
 
+        //Parámetros de la nueva partida
+        this.tiempoBase = UtilsJuego.getTiempoBase(this.dificultad);
         vidas = VIDAS_MAX;
         corazones = new ArrayList<>();
         monedasGanadas = 0;
@@ -72,6 +78,12 @@ public class LogicaJuego {
         vistaJuego.setTeclado(true);
         vistaJuego.dibujarTito("game_horca.png");
         vistaJuego.reiniciarPista();
+
+        tiempoRestante = tiempoBase;
+        if (vistaJuego != null) {
+            vistaJuego.setLblValTiempo(tiempoRestante);
+        }
+        iniciarTiempo();
     }
 
     public void probarLetra(char letra) {
@@ -105,6 +117,13 @@ public class LogicaJuego {
 
         vistaJuego.setTeclaHabilitada(String.valueOf(letra), false);
         comprobarEstadoPartida();
+
+        if (juegoActivo) {
+            this.tiempoRestante = this.tiempoBase;
+            if (vistaJuego != null) {
+                vistaJuego.setLblValTiempo(this.tiempoRestante);
+            }
+        }
     }
 
     private void comprobarEstadoPartida() {
@@ -114,6 +133,7 @@ public class LogicaJuego {
             juegoActivo = false;
             vistaJuego.setTeclado(false);
             calcularResultado(true);
+            return;
         }
 
         // Comprobar si la partida se ha perdido
@@ -130,18 +150,41 @@ public class LogicaJuego {
         String mensaje;
 
         if (juegoGanado) {
-            mensaje = "¡Ganaste! has descubierto la palabra: " + palabraSecreta +
-                    "\n\nResultados de la partida:";
-        } else {
+            mensaje = "<html>¡Ganaste! has descubierto la palabra: " + palabraSecreta +
+                    "<br><b>Resultados de la partida:</b>" +
+                    "<br>Premio base: ----------------- $10" +
+                    "<br>Monedas por cada letra: ----- $" + totalAsegurado +
+                    "<br>Bono por dificultad (x" + UtilsJuego.MULTIPLICADORES.get(dificultad) + "): -- $"  +
+                    UtilsJuego.calcularBonoDificultad(this.dificultad) +
+                    "<br>Bono por vidas restantes: ---- $" + vidas +
+                    "<br><b>Total del premio:</b> ----------- $" +
+                    (UtilsJuego.calcularPremioPotencial(vidas, palabraSecreta.length(), this.dificultad)) + "</html>";
+        } else { // Lo que ocurre después de perder la partida
             int letrasDescubiertas = palabraSecreta.length() - letrasIncognitas;
             double porcentajeDescubierto = (double) letrasDescubiertas / palabraSecreta.length();
 
+            String monedaS;
+            if (totalAsegurado == 1) {
+                monedaS = " moneda ";
+            } else monedaS = " monedas ";
+
+            String letraS;
+            if (letrasDescubiertas == 1) {
+                letraS = " triste letra ";
+            } else letraS = " letras ";
+
             if (porcentajeDescubierto >= 0.70) {
-                mensaje = "Perdiste, pero te quedaste muy cerca.\n\nLa palabra era " + palabraSecreta;
+                mensaje = "<html>Perdiste, pero te quedaste muy cerca.<br>La palabra era <b>" + palabraSecreta +
+                "<br><br></b>Te llevas " + totalAsegurado + monedaS + "por descubrir el " +
+                        String.format("%.1f", porcentajeDescubierto * 100) + "% de la palabra</html>";
             } else if (porcentajeDescubierto <= 0.40) {
-                mensaje = "Perdiste sin esforzarte, nunca sabras la palabra.";
+                mensaje = "<html>Perdiste sin esforzarte, nunca sabras la palabra." +
+                        "<br><br>Solo conseguiste <b>" + totalAsegurado + "</b>" + monedaS + "por encontrar " +
+                        letrasDescubiertas + letraS + "</html>";
             } else {
-                mensaje = "Perdiste y no descubriste lo suficiente.\n\nPequeña pista: " + palabraObtenida.getPista();
+                mensaje = "<html>Perdiste y no descubriste lo suficiente.<br>Pequeña pista: " +
+                        palabraObtenida.getPista() + "<br><br>Por tu esfuerzo te quedas con <b>" + totalAsegurado +
+                        "</b>" + monedaS + "por descubrir " + letrasDescubiertas + letraS + "</html>";
             }
         }
 
@@ -166,5 +209,41 @@ public class LogicaJuego {
 
     public void setControlJuego(ControlJuego controlJuego) {
         this.controlJuego = controlJuego;
+    }
+
+    private void iniciarTiempo() {
+        detenerTiempo();
+        timer = new Timer(1000, e -> tick());
+        timer.start();
+    }
+
+    private void detenerTiempo() {
+        if (timer != null && timer.isRunning()) {
+            timer.stop();
+        }
+    }
+
+    private void tick() {
+        if (!juegoActivo) {
+            detenerTiempo();
+            return;
+        }
+        this.tiempoRestante--;
+        if (this.tiempoRestante == 0) {
+            this.vidas--;
+            if (vistaJuego != null) {
+                vistaJuego.setLblValVidas(UtilsJuego.calcularCorazones(vidas));
+                vistaJuego.setLblValPotencial(String.valueOf(UtilsJuego.calcularPremioPotencial(vidas, palabraSecreta.length(), this.dificultad)));
+            }
+            if (this.vidas == 0) {
+                detenerTiempo();
+                comprobarEstadoPartida();
+                return;
+            }
+            this.tiempoRestante = this.tiempoBase;
+        }
+        if (vistaJuego != null) {
+            vistaJuego.setLblValTiempo(this.tiempoRestante);
+        }
     }
 }

@@ -7,7 +7,8 @@ public class UtilsJuego {
 
     private static final int PREMIO_BASE = 10;
 
-    private static final Map<Integer, Double> MULTIPLICADORES = new HashMap<>();
+    protected static final Map<Integer, Double> MULTIPLICADORES = new HashMap<>();
+    private static final Map<Integer, Integer> TIEMPOS = new HashMap<>();
 
     static {
         MULTIPLICADORES.put(1, 1.0); // FÁCIL
@@ -15,6 +16,14 @@ public class UtilsJuego {
         MULTIPLICADORES.put(3, 1.5); // DIFÍCIL
         MULTIPLICADORES.put(4, 1.8); // EXTREMO
         MULTIPLICADORES.put(5, 2.0); // IMPOSIBLE
+    }
+
+    static {
+        TIEMPOS.put(1, 20); // FÁCIL
+        TIEMPOS.put(2, 15); // NORMAL
+        TIEMPOS.put(3, 10); //DIFÍCIL
+        TIEMPOS.put(4, 7); // EXTREMO
+        TIEMPOS.put(5, 4); //IMPOSIBLE
     }
 
     private static final String[] dibujos = {
@@ -43,13 +52,24 @@ public class UtilsJuego {
         return dibujos[vidas];
     }
 
-    public static int calcularPremioPotencial(int vidas, int letras, int dificultad) {
+    public static int calcularPremioPotencial(int premioVidas, int letras, int dificultad) {
         double multiplicador = MULTIPLICADORES.getOrDefault(dificultad, 1.0);
 
         int premioBaseAjustado = (int) (PREMIO_BASE * multiplicador);
         int premioLetras = 2 * letras;
-        int premioVidas = vidas;
 
         return premioBaseAjustado + premioLetras + premioVidas;
+    }
+
+    public static int calcularBonoDificultad(int dificultad) {
+
+        double  multiplicador = MULTIPLICADORES.getOrDefault(dificultad, 1.0);
+        int premioBaseAjustado = (int) (PREMIO_BASE * multiplicador);
+
+        return premioBaseAjustado - PREMIO_BASE;
+    }
+
+    public static int getTiempoBase(int dificultad) {
+        return TIEMPOS.getOrDefault(dificultad, 15);
     }
 }
