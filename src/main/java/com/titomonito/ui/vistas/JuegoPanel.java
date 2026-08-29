@@ -1,6 +1,5 @@
 package com.titomonito.ui.vistas;
 
-import com.titomonito.controller.ControlJuego;
 import com.titomonito.services.LogicaJuego;
 import com.titomonito.utils.Recursos;
 
@@ -21,6 +20,8 @@ public class JuegoPanel extends JPanel {
     private JLabel lblPalabra;
     private JLabel lblValPista;
     private JLabel lblValCategoria;
+    private JLabel lblValPotencial;
+    private JLabel lblValAsegurado;
 
     private List<JButton> teclas;
     private JButton btnSacapuntas, btnTijeras, btnGoma, btnPluma, btnMarcatextos;
@@ -76,6 +77,28 @@ public class JuegoPanel extends JPanel {
         pnlIzquierda.setOpaque(false);
         pnlIzquierda.setPreferredSize(new Dimension(500, 0));
 
+        Box sub1 = Box.createHorizontalBox();
+        Box sub2 = Box.createHorizontalBox();
+        sub1.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sub2.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel lblPotencial = new JLabel("Premio Potencial:  $ ");
+        lblPotencial.setFont(lblPotencial.getFont().deriveFont(Font.PLAIN, 20.0F));
+        lblValPotencial = new JLabel("");
+        lblValPotencial.setFont(lblPotencial.getFont().deriveFont(Font.BOLD, 20.0F));
+
+        JLabel lblTotalAcumulado = new JLabel("Total Asegurado:   $ ");
+        lblTotalAcumulado.setFont(lblPotencial.getFont());
+        lblValAsegurado = new JLabel("0");
+        lblValAsegurado.setFont(lblValPotencial.getFont());
+
+        sub1.add(lblPotencial);
+        sub1.add(lblValPotencial);
+        sub1.add(Box.createHorizontalGlue());
+        sub2.add(lblTotalAcumulado);
+        sub2.add(lblValAsegurado);
+        sub2.add(Box.createHorizontalGlue());
+
         JLabel lblInstrucciones = new JLabel("Descubre la palabra antes del trazo final, categoria:");
         lblInstrucciones.setFont(lblInstrucciones.getFont().deriveFont(18.0f));
         lblInstrucciones.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -89,13 +112,16 @@ public class JuegoPanel extends JPanel {
         lblValPista.setAlignmentX(Component.CENTER_ALIGNMENT);
         lblValPista.setFont(lblValPista.getFont().deriveFont(18.0f));
 
-        pnlIzquierda.add(Box.createRigidArea(new Dimension(0, 35)));
+        pnlIzquierda.add(Box.createRigidArea(new Dimension(0, 10)));
+        pnlIzquierda.add(sub1);
+        pnlIzquierda.add(sub2);
+        pnlIzquierda.add(Box.createVerticalStrut(25));
         pnlIzquierda.add(lblInstrucciones);
-        pnlIzquierda.add(Box.createVerticalStrut(10));
+        pnlIzquierda.add(Box.createVerticalStrut(5));
         pnlIzquierda.add(lblValCategoria);
-        pnlIzquierda.add(Box.createVerticalStrut(45));
+        pnlIzquierda.add(Box.createVerticalStrut(25));
         pnlIzquierda.add(lblPalabra);
-        pnlIzquierda.add(Box.createVerticalStrut(50));
+        pnlIzquierda.add(Box.createVerticalStrut(20));
         pnlIzquierda.add(lblValPista);
 
         // Panel de la derecha para la imagen de tito ------------------------------------------------------------------
@@ -166,7 +192,7 @@ public class JuegoPanel extends JPanel {
         return boton;
     }
 
-    private JButton crearTecla(String letra) {
+    private void crearTecla(String letra) {
 
         JButton boton = new JButton(letra);
         boton.setName(letra);
@@ -176,7 +202,6 @@ public class JuegoPanel extends JPanel {
         boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         teclas.add(boton);
-        return boton;
     }
 
     public void setLblValCategoria(String lblValCategoria) {
@@ -221,6 +246,13 @@ public class JuegoPanel extends JPanel {
         }
     }
 
+    public void setLblValPotencial(String p) {
+        this.lblValPotencial.setText(p);
+    }
+
+    public void setLblValAsegurado(String p) {
+        this.lblValAsegurado.setText(p);
+    }
 
     public List<JButton> getTeclas() {
         return teclas;

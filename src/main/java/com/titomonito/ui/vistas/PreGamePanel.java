@@ -7,12 +7,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Objects;
 
 public class PreGamePanel extends JPanel {
 
     private JPanel pnlDificultades, pnlCategorias;
+    private JSlider sliderDificultad;
     private final List<JButton> listaBotones = new ArrayList<>();
 
     public PreGamePanel() {
@@ -21,13 +23,6 @@ public class PreGamePanel extends JPanel {
         setLayout(new BorderLayout());
 
         initComponentes();
-    }
-
-    public void addBotonesListeners(ActionListener al) {
-
-        for (JButton btn : listaBotones) {
-            btn.addActionListener(al);
-        }
     }
 
     private void initComponentes() {
@@ -46,18 +41,31 @@ public class PreGamePanel extends JPanel {
         pnlDificultades = new JPanel();
         pnlDificultades.setOpaque(false);
         pnlDificultades.setLayout(new BoxLayout(pnlDificultades, BoxLayout.X_AXIS));
-        pnlDificultades.setPreferredSize(new Dimension(860, 70));
+        pnlDificultades.setPreferredSize(new Dimension(860, 110));
         pnlDificultades.setMaximumSize(pnlDificultades.getPreferredSize());
-        pnlDificultades.setBorder(BorderFactory.createEmptyBorder(25, 70, 0, 10));
+        pnlDificultades.setBorder(BorderFactory.createEmptyBorder(10, 70, 0, 10));
         pnlDificultades.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        JLabel lblDificultad = new JLabel("Elige la dificultad:");
-        JButton btnFacil = crearBoton("FÁCIL");
-        JButton btnNormal = crearBoton("NORMAL");
-        JButton btnDificil = crearBoton("DIFÍCIL");
+        JLabel lblDificultad = new JLabel("Elige la dificultad: ");
+        lblDificultad.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 
-        pnlDificultades.add(lblDificultad, 0);
-        pnlDificultades.add(Box.createHorizontalStrut(30), 1);
+        sliderDificultad = new JSlider(1, 5, 2);
+        sliderDificultad.setPaintTicks(true);
+        sliderDificultad.setSnapToTicks(true);
+        sliderDificultad.setPaintLabels(true);
+        sliderDificultad.setFont(lblDificultad.getFont().deriveFont(14.0f));
+
+        Hashtable<Integer, JLabel> etiquetas = new Hashtable<>();
+        etiquetas.put(1, new JLabel("Fácil"));
+        etiquetas.put(2, new JLabel("Normal"));
+        etiquetas.put(3, new JLabel("Difícil"));
+        etiquetas.put(4, new JLabel("Extremo"));
+        etiquetas.put(5, new JLabel("Imposible"));
+        sliderDificultad.setLabelTable(etiquetas);
+
+        pnlDificultades.add(lblDificultad);
+        pnlDificultades.add(sliderDificultad);
+        pnlDificultades.add(Box.createHorizontalStrut(30));
 
         // sub-panel rejilla para los botones de categorías ------------------------------------------------------------
         pnlCategorias = new JPanel();
@@ -92,6 +100,15 @@ public class PreGamePanel extends JPanel {
         return boton;
     }
 
+    public int getValorDificultad () {
+        return sliderDificultad.getValue();
+    }
+    public void addBotonesListeners(ActionListener al) {
+
+        for (JButton btn : listaBotones) {
+            btn.addActionListener(al);
+        }
+    }
 
     private void crearBotonesCategorias() {
 

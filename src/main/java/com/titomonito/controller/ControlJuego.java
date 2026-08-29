@@ -21,9 +21,9 @@ public class ControlJuego {
         LogicaJuego.getInstance().setControlJuego(this);
     }
 
-    public void mostrarResultado(String titulo, String mensaje, int id, String categoria) {
+    public void mostrarResultado(String titulo, String mensaje, int id, String categoria, int dificultad) {
 
-        String[] opciones = {"Volver a jugar", "Cambiar categoría", "Salir al menú"};
+        String[] opciones = {"Volver a jugar", "Cambiar opciones", "Salir al menú"};
         int seleccion = JOptionPane.showOptionDialog(
                 juegoPanel,
                 mensaje,
@@ -37,7 +37,7 @@ public class ControlJuego {
 
         switch (seleccion) {
             case 0:
-                LogicaJuego.getInstance().newGame(id, categoria);
+                LogicaJuego.getInstance().newGame(id, categoria, dificultad);
                 break;
             case 1:
                 ventana.cambiarVista(Constantes.PREGAME);
