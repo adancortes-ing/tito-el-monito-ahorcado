@@ -31,7 +31,8 @@ public class ControlPreGame {
         String categoria = boton.getName();
         int id_categoria = (int) boton.getClientProperty("id_categoria");
 
-        LogicaJuego.getInstance().newGame(id_categoria, categoria);
+
+        LogicaJuego.getInstance().newGame(id_categoria, categoria, panel.getValorDificultad());
         principal.cambiarVista(Constantes.JUEGO);
     }
 }
