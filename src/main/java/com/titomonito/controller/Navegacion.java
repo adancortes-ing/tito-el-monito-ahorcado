@@ -23,14 +23,7 @@ public class Navegacion {
 
     private void initListeners() {
 
-        view.addAcercaListener(this::controlMenu);
-        view.addAyudaListener(this::controlMenu);
-        view.addSalirListener(this::controlMenu);
-        view.addInicioListener(this::controlMenu);
-        view.addEstadisticasListener(this::controlMenu);
-        view.addLogrosListener(this::controlMenu);
-        view.addOpcionesListener(this::controlMenu);
-
+        view.addBotonesMenuListener(this::controlMenu);
         inicio.addIniciarListener(this::controlMenu);
     }
 
@@ -44,7 +37,7 @@ public class Navegacion {
                 principal.cambiarVista(Constantes.INICIO);
                 break;
             case Constantes.PREGAME:
-                principal.cambiarVista(Constantes.PREGAME); //TEMPORAL (CAMBIAR A PREGAME), SOLO PARA PODER ACCEDER RÁPIDAMENTE A PANEL DEL JUEGO
+                principal.cambiarVista(Constantes.PREGAME);
                 break;
             case Constantes.ESTADISTICAS:
                 principal.cambiarVista(Constantes.ESTADISTICAS);

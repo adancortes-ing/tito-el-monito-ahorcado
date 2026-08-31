@@ -29,30 +29,15 @@ public class PanelMenu extends JPanel {
         initComponentes();
     }
 
-    public void addInicioListener(ActionListener l) {
-        btnInicio.addActionListener(l);
-    }
+    public void addBotonesMenuListener(ActionListener al) {
 
-    public void addEstadisticasListener(ActionListener l) {
-        btnEstadisticas.addActionListener(l);
-    }
-
-    public void addLogrosListener(ActionListener l) {
-        btnLogros.addActionListener(l);
-    }
-
-    public void addAyudaListener(ActionListener l) {
-        btnAyuda.addActionListener(l);
-    }
-
-    public void addOpcionesListener(ActionListener l) { btnOpciones.addActionListener(l); }
-
-    public void addSalirListener(ActionListener l) {
-        btnSalir.addActionListener(l);
-    }
-
-    public void addAcercaListener(ActionListener l) {
-        btnAcerca.addActionListener(l);
+        btnInicio.addActionListener(al);
+        btnEstadisticas.addActionListener(al);
+        btnLogros.addActionListener(al);
+        btnAyuda.addActionListener(al);
+        btnOpciones.addActionListener(al);
+        btnAcerca.addActionListener(al);
+        btnSalir.addActionListener(al);
     }
 
     private void initComponentes() {
