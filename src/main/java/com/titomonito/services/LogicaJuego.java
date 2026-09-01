@@ -2,6 +2,8 @@ package com.titomonito.services;
 
 import com.titomonito.controller.ControlJuego;
 import com.titomonito.dao.JuegoDAO;
+import com.titomonito.dao.JugadorDAO;
+import com.titomonito.models.Jugador;
 import com.titomonito.models.Palabra;
 import com.titomonito.ui.vistas.JuegoPanel;
 
@@ -62,7 +64,8 @@ public class LogicaJuego {
         juegoActivo = true;
 
         // Se usa jugador fijo 1 por ahora
-        this.palabraObtenida = JuegoDAO.obtenerPalabra(id_categoria, 1);
+        this.palabraObtenida = JuegoDAO.obtenerPalabra(id_categoria,
+                SesionManager.getInstance().getJugadorActual().getId_jugador());
         assert palabraObtenida != null;
         this.palabraSecreta = palabraObtenida.getPalabra();
         this.letrasIncognitas = palabraSecreta.length();

@@ -2,6 +2,7 @@ package com.titomonito.ui;
 
 import com.titomonito.config.Constantes;
 import com.titomonito.config.GlobalConfig;
+import com.titomonito.services.SesionManager;
 import com.titomonito.ui.vistas.*;
 import com.titomonito.utils.Recursos;
 
@@ -126,7 +127,7 @@ public class VentanaBase extends JFrame {
             lblIconoJugador.setVerticalTextPosition(SwingConstants.TOP);
             add(lblIconoJugador);
 
-            JLabel lblValJugador = new JLabel("[Nombre del Jugador]");
+            JLabel lblValJugador = new JLabel(SesionManager.getInstance().getJugadorActual().getNombre());
             lblValJugador.setAlignmentY(Component.TOP_ALIGNMENT);
             lblValJugador.setMaximumSize(new Dimension(250, 35));
             lblValJugador.setPreferredSize(new Dimension(250, 35));
@@ -141,7 +142,7 @@ public class VentanaBase extends JFrame {
             lblIconoMonedas.setVerticalTextPosition(SwingConstants.TOP);
             add(lblIconoMonedas);
 
-            JLabel lblValMonedas = new JLabel("[$ 0000]");
+            JLabel lblValMonedas = new JLabel("$" + SesionManager.getInstance().getJugadorActual().getMonedas_actuales());
             lblValMonedas.setAlignmentY(Component.TOP_ALIGNMENT);
             add(lblValMonedas);
         }
