@@ -1,6 +1,9 @@
 package com.titomonito.controller;
 
+import com.titomonito.Main;
 import com.titomonito.config.Constantes;
+import com.titomonito.services.LogicaJuego;
+import com.titomonito.services.SesionManager;
 import com.titomonito.ui.*;
 import com.titomonito.ui.vistas.AcercaPanel;
 
@@ -55,13 +58,29 @@ public class Navegacion {
                 AcercaPanel acerca = new AcercaPanel(principal);
                 acerca.setVisible(true);
                 break;
+            case Constantes.CAMBIAR:
+                if (LogicaJuego.getInstance().isJuegoActivo()) {
+                    if (confirmarSalida()) {
+                        cambiarJugador();
+                    }
+                } else cambiarJugador();
+                break;
             case Constantes.SALIR:
-                if (confirmarSalida()) {
-                    System.exit(0);
-                }
+                if (LogicaJuego.getInstance().isJuegoActivo()) {
+                    if (confirmarSalida()) {
+                        System.exit(0);
+                    }
+                } else System.exit(0);
+
             default:
                 break;
         }
+    }
+
+    private void cambiarJugador() {
+        SesionManager.getInstance().cerrarSesion();
+        principal.dispose();
+        new Main().mostrarVentanaLogin();
     }
 
     private boolean confirmarSalida() {

@@ -15,6 +15,7 @@ public class PanelMenu extends JPanel {
     private JButton btnAyuda;
     private JButton btnOpciones;
     private JButton btnAcerca;
+    private JButton btnCambiarJugador;
     private JButton btnSalir;
 
     public PanelMenu() {
@@ -37,6 +38,7 @@ public class PanelMenu extends JPanel {
         btnAyuda.addActionListener(al);
         btnOpciones.addActionListener(al);
         btnAcerca.addActionListener(al);
+        btnCambiarJugador.addActionListener(al);
         btnSalir.addActionListener(al);
     }
 
@@ -50,6 +52,8 @@ public class PanelMenu extends JPanel {
         add(Box.createVerticalGlue());
 
         btnAcerca = crearBoton(Constantes.ACERCA_DE, "menu_about.png");
+        btnCambiarJugador = crearBoton(Constantes.CAMBIAR, "jugador.png");
+        btnCambiarJugador.setIcon(null);
         btnSalir = crearBoton(Constantes.SALIR, "menu_exit.png");
         btnSalir.setBackground(Constantes.COLOR_SALMON);
         btnSalir.setForeground(Color.WHITE);
@@ -68,7 +72,7 @@ public class PanelMenu extends JPanel {
         boton.setAlignmentX(Component.CENTER_ALIGNMENT);
         boton.setFont(Recursos.Fuentes.fuenteComic(Font.BOLD, 13));
 
-        boton.setMargin(new Insets(0, 10, 0, 5));
+        boton.setMargin(new Insets(0, 10, 0, 10));
         boton.setIcon(Recursos.cargarImagen(icono));
         boton.setHorizontalTextPosition(SwingConstants.RIGHT);
         boton.setHorizontalAlignment(SwingConstants.LEFT);

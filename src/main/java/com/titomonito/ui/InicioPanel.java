@@ -1,6 +1,9 @@
 package com.titomonito.ui;
 
 import com.titomonito.config.Constantes;
+import com.titomonito.dao.JugadorDAO;
+import com.titomonito.models.Jugador;
+import com.titomonito.services.SesionManager;
 import com.titomonito.utils.Recursos;
 
 import javax.swing.*;
@@ -11,11 +14,15 @@ import java.util.Objects;
 public class InicioPanel extends JPanel {
 
     private JButton btnIniciarJuego;
+    private JLabel lblValUltimaPalabra;
+    private JLabel lblValorRacha;
+    private JLabel lblValorTopMonedas;
 
     public InicioPanel() {
 
         setLayout(new FlowLayout(FlowLayout.LEFT, 75, 0));
         initComponentes();
+        actualizarDatos();
     }
 
     private void initComponentes() {
@@ -39,7 +46,7 @@ public class InicioPanel extends JPanel {
         JLabel lblUltimaPalabra = new JLabel("Última palabra descubierta");
         lblUltimaPalabra.setFont(lblUltimaPalabra.getFont().deriveFont(20.0f));
         lblUltimaPalabra.setAlignmentX(Component.CENTER_ALIGNMENT);
-        JLabel lblValUltimaPalabra = new JLabel("[ palabra ]");
+        lblValUltimaPalabra = new JLabel("[ palabra ]");
         lblValUltimaPalabra.setFont(lblValUltimaPalabra.getFont().deriveFont(Font.BOLD));
         lblValUltimaPalabra.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -63,7 +70,7 @@ public class InicioPanel extends JPanel {
         lblRacha.setVerticalTextPosition(SwingConstants.BOTTOM);
         lblRacha.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel lblValorRacha = new JLabel("[ 00 ]");
+        lblValorRacha = new JLabel("0");
         lblValorRacha.setFont(lblValorRacha.getFont().deriveFont(Font.BOLD, 30.0f));
         lblValorRacha.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -82,7 +89,7 @@ public class InicioPanel extends JPanel {
         lblTopMonedas.setVerticalTextPosition(SwingConstants.BOTTOM);
         lblTopMonedas.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel lblValorTopMonedas = new JLabel("[ 000 ]");
+        lblValorTopMonedas = new JLabel("0");
         lblValorTopMonedas.setFont(lblValorRacha.getFont().deriveFont(Font.BOLD, 30.0f));
         lblValorTopMonedas.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -93,6 +100,13 @@ public class InicioPanel extends JPanel {
         contenedor.add(east, BorderLayout.EAST);
         contenedor.add(west, BorderLayout.WEST);
         add(contenedor);
+    }
+
+    public void actualizarDatos() {
+        Jugador j = SesionManager.getInstance().getJugadorActual();
+        lblValorRacha.setText(String.valueOf(j.getRacha_actual()));
+        lblValorTopMonedas.setText(String.valueOf(j.getMonedas_maximas()));
+        lblValUltimaPalabra.setText(JugadorDAO.obtenerUltimaPalabra(j.getId_jugador()));
     }
 
     public void addIniciarListener(ActionListener l) {

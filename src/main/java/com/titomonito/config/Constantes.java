@@ -14,6 +14,7 @@ public class Constantes {
     public static final String SALIR = "SALIR";
     public static final String PREGAME = "Iniciar Juego";
     public static final String JUEGO = "JUEGO";
+    public static final String CAMBIAR = "CAMBIAR JUGADOR";
 
     // Precios de los Powerups
     public static final int PRECIO_SACAPUNTAS = 15;
