@@ -4,6 +4,7 @@ import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTGitHubIJThem
 import com.titomonito.config.ConfigDB;
 import com.titomonito.config.GlobalConfig;
 import com.titomonito.dao.generalDAO;
+import com.titomonito.ui.VentanaBase;
 import com.titomonito.ui.VentanaLogin;
 
 import javax.swing.*;
@@ -23,6 +24,13 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             VentanaLogin ventanaLogin = new VentanaLogin();
             ventanaLogin.setVisible(true);
+        });
+    }
+
+    public void mostrarVentanaPrincipal() {
+        SwingUtilities.invokeLater(() -> {
+            VentanaBase ventanaPrincipal = new VentanaBase();
+            ventanaPrincipal.setVisible(true);
         });
     }
 }

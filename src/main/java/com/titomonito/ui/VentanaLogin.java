@@ -1,10 +1,15 @@
 package com.titomonito.ui;
 
+import com.titomonito.models.Jugador;
+import com.titomonito.services.SesionManager;
 import com.titomonito.utils.Recursos;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static com.titomonito.config.Constantes.*;
@@ -15,6 +20,9 @@ public class VentanaLogin extends JFrame {
     private JButton btnSalir;
     private JButton btnJugar;
     private JButton btnCrear;
+    private JComboBox<String> cmbJugadores;
+    private JTextField txtNombre;
+    private final Map<String, Integer> mapaJugadores = new HashMap<>();
 
     public VentanaLogin() {
 
@@ -26,7 +34,16 @@ public class VentanaLogin extends JFrame {
         setIconImage(Objects.requireNonNull(Recursos.cargarImagen("icono.png")).getImage());
 
         initUI();
+        cargarJugadoresEnCombo();
         new com.titomonito.controller.ControlLogin(this);
+    }
+
+    private void cargarJugadoresEnCombo() {
+        List<Jugador> jugadores = SesionManager.getInstance().cargarJugadores();
+        for (Jugador j : jugadores) {
+            mapaJugadores.put(j.getNombre(), j.getId_jugador());
+            cmbJugadores.addItem(j.getNombre());
+        }
     }
 
     private void initUI() {
@@ -43,7 +60,7 @@ public class VentanaLogin extends JFrame {
         subTitulo.add(lblSeleccionar);
         subTitulo.add(Box.createHorizontalGlue());
 
-        final JComboBox<String> cmbJugadores = new JComboBox<>();
+        cmbJugadores = new JComboBox<>();
         cmbJugadores.setAlignmentX(Component.CENTER_ALIGNMENT);
         cmbJugadores.setPreferredSize(new Dimension(220, 50));
         cmbJugadores.setMaximumSize(cmbJugadores.getPreferredSize());
@@ -64,7 +81,7 @@ public class VentanaLogin extends JFrame {
         subTitulo2.add(lblCrear);
         subTitulo2.add(Box.createHorizontalGlue());
 
-        final JTextField txtNombre = new JTextField();
+        txtNombre = new JTextField();
         txtNombre.setAlignmentX(Component.CENTER_ALIGNMENT);
         txtNombre.setPreferredSize(new Dimension(200, 50));
         txtNombre.setMaximumSize(txtNombre.getPreferredSize());
@@ -104,6 +121,12 @@ public class VentanaLogin extends JFrame {
         btnCrear.addActionListener(al);
         btnSalir.addActionListener(al);
     }
+
+    public JComboBox<String> getCmbJugadores() { return cmbJugadores; }
+
+    public JTextField getTxtNombre() { return txtNombre; }
+
+    public Map<String, Integer> getMapaJugadores() { return mapaJugadores; }
 
     private void colocarPlaceHolder(String placeholderCombo, Color colorPlaceholder, Color colorTextoCombo, JTextField editorCombo) {
         editorCombo.setText(placeholderCombo);
