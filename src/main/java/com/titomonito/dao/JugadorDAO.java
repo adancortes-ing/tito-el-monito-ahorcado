@@ -140,4 +140,26 @@ public class JugadorDAO {
         }
         return false;
     }
+
+    public static String obtenerUltimaPalabra(int idJugador) {
+        String sql = "SELECT p.palabra " +
+                     "FROM palabras p " +
+                     "JOIN descubrimientos d ON p.id_palabra = d.id_palabra " +
+                     "WHERE d.id_jugador = ? " +
+                     "ORDER BY d.id DESC LIMIT 1";
+
+        try (Connection conn = ConfigDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, idJugador);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("palabra");
+            }
+        } catch (SQLException ex) {
+            LOGGER.severe("Error al obtener última palabra: " + ex.getMessage());
+        }
+        return "NINGUNA";
+    }
 }

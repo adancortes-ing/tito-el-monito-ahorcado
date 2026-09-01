@@ -48,6 +48,11 @@ public class ControlJuego {
         }
     }
 
+    public void refrescarDatosJugador() {
+        ventana.getPnlHeader().actualizarDatosJugador();
+        ventana.getInicio().actualizarDatos();
+    }
+
     private void controlarTeclas(ActionEvent e) {
 
         JButton boton = (JButton) e.getSource();

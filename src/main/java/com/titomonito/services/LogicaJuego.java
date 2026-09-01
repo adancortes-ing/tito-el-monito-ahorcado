@@ -41,6 +41,10 @@ public class LogicaJuego {
     private double porcentajeDescubierto;
     private int totalAsegurado;
 
+    // Contexto del jugador logueado
+    private Jugador jugadorActual;
+    private int bancoInicial;
+
     // Crea una instancia de esta clase cuando no existe
     public static LogicaJuego getInstance() {
         if (instance == null) {
@@ -63,9 +67,11 @@ public class LogicaJuego {
         totalAsegurado = 0;
         juegoActivo = true;
 
-        // Se usa jugador fijo 1 por ahora
-        this.palabraObtenida = JuegoDAO.obtenerPalabra(id_categoria,
-                SesionManager.getInstance().getJugadorActual().getId_jugador());
+        // Se obtiene el jugador actual y se guarda su banco inicial
+        this.jugadorActual = SesionManager.getInstance().getJugadorActual();
+        this.bancoInicial = jugadorActual.getMonedas_actuales();
+
+        this.palabraObtenida = JuegoDAO.obtenerPalabra(id_categoria, jugadorActual.getId_jugador());
         assert palabraObtenida != null;
         this.palabraSecreta = palabraObtenida.getPalabra();
         this.letrasIncognitas = palabraSecreta.length();
@@ -147,6 +153,63 @@ public class LogicaJuego {
         }
     }
 
+    private void liquidarPartida(boolean gano) {
+        if (jugadorActual == null) return;
+
+        int idJugador = jugadorActual.getId_jugador();
+        int monedasMaximasActuales = jugadorActual.getMonedas_maximas();
+        int rachaActualActual = jugadorActual.getRacha_actual();
+        int rachaMaximaActual = jugadorActual.getRacha_maxima();
+
+        int monedasFinales;
+        int nuevasMonedasMaximas = monedasMaximasActuales;
+        int nuevaRachaActual;
+        int nuevaRachaMaxima = rachaMaximaActual;
+
+        if (gano) {
+            // Victoria: bancoInicial + monedasGanadas (con multiplicador) + bonoVictoria + bonoVidas
+            double mult = UtilsJuego.MULTIPLICADORES.getOrDefault(dificultad, 1.0);
+            int bonoVictoria = (int) (10 * mult);
+            int bonoVidas = vidas;
+            monedasFinales = bancoInicial + monedasGanadas + bonoVictoria + bonoVidas;
+
+            // Solo actualizar monedasMaximas si se supera el récord
+            if (monedasFinales > monedasMaximasActuales) {
+                nuevasMonedasMaximas = monedasFinales;
+            }
+
+            // Racha: incrementar actual y posiblemente actualizar máxima
+            nuevaRachaActual = rachaActualActual + 1;
+            if (nuevaRachaActual > rachaMaximaActual) {
+                nuevaRachaMaxima = nuevaRachaActual;
+            }
+
+            // Registrar la palabra como descubierta
+            JugadorDAO.registrarDescubrimiento(idJugador, palabraObtenida.getId_palabra());
+        } else {
+            // Derrota: bancoInicial + totalAsegurado (ya penalizado proporcionalmente)
+            monedasFinales = bancoInicial + totalAsegurado;
+
+            // Racha: resetear actual
+            nuevaRachaActual = 0;
+        }
+
+        // Persistir en BD
+        JugadorDAO.actualizarMonedas(idJugador, monedasFinales, nuevasMonedasMaximas);
+        JugadorDAO.actualizarRachas(idJugador, nuevaRachaActual, nuevaRachaMaxima);
+
+        // Actualizar el objeto en memoria (cache)
+        jugadorActual.setMonedas_actuales(monedasFinales);
+        jugadorActual.setMonedas_maximas(nuevasMonedasMaximas);
+        jugadorActual.setRacha_actual(nuevaRachaActual);
+        jugadorActual.setRacha_maxima(nuevaRachaMaxima);
+
+        // Refrescar UI en background (sin forzar navegación)
+        if (controlJuego != null) {
+            controlJuego.refrescarDatosJugador();
+        }
+    }
+
     private void calcularResultado(boolean juegoGanado) {
 
         String titulo = juegoGanado ? "Salvaste a Tito" : "Tito a Muerto";
@@ -191,6 +254,7 @@ public class LogicaJuego {
             }
         }
 
+        liquidarPartida(juegoGanado);
         controlJuego.mostrarResultado(titulo, mensaje, this.id_categoria, this.categoria, this.dificultad);
     }
 
@@ -212,6 +276,10 @@ public class LogicaJuego {
 
     public void setControlJuego(ControlJuego controlJuego) {
         this.controlJuego = controlJuego;
+    }
+
+    public boolean isJuegoActivo() {
+        return juegoActivo;
     }
 
     private void iniciarTiempo() {

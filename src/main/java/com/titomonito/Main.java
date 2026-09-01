@@ -21,16 +21,20 @@ public class Main {
         ConfigDB.initDB();
         generalDAO.obtenerCategorias();
 
-        SwingUtilities.invokeLater(() -> {
-            VentanaLogin ventanaLogin = new VentanaLogin();
-            ventanaLogin.setVisible(true);
-        });
+        new Main().mostrarVentanaLogin();
     }
 
     public void mostrarVentanaPrincipal() {
         SwingUtilities.invokeLater(() -> {
             VentanaBase ventanaPrincipal = new VentanaBase();
             ventanaPrincipal.setVisible(true);
+        });
+    }
+
+    public void mostrarVentanaLogin () {
+        SwingUtilities.invokeLater(() -> {
+            VentanaLogin ventanaLogin = new VentanaLogin();
+            ventanaLogin.setVisible(true);
         });
     }
 }

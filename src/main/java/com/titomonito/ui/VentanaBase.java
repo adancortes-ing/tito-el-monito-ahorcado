@@ -2,6 +2,7 @@ package com.titomonito.ui;
 
 import com.titomonito.config.Constantes;
 import com.titomonito.config.GlobalConfig;
+import com.titomonito.models.Jugador;
 import com.titomonito.services.SesionManager;
 import com.titomonito.ui.vistas.*;
 import com.titomonito.utils.Recursos;
@@ -107,7 +108,15 @@ public class VentanaBase extends JFrame {
         return pnlHeader;
     }
 
+    public InicioPanel getInicio() {
+
+        return inicio;
+    }
+
     public static class PanelHeader extends JPanel {
+
+        private JLabel lblValJugador;
+        private JLabel lblValMonedas;
 
         public PanelHeader() {
 
@@ -116,6 +125,7 @@ public class VentanaBase extends JFrame {
             setPreferredSize(new Dimension(1080, 120));
 
             initComponentes();
+            actualizarDatosJugador();
         }
 
         private void initComponentes() {
@@ -127,7 +137,7 @@ public class VentanaBase extends JFrame {
             lblIconoJugador.setVerticalTextPosition(SwingConstants.TOP);
             add(lblIconoJugador);
 
-            JLabel lblValJugador = new JLabel(SesionManager.getInstance().getJugadorActual().getNombre());
+            lblValJugador = new JLabel();
             lblValJugador.setAlignmentY(Component.TOP_ALIGNMENT);
             lblValJugador.setMaximumSize(new Dimension(250, 35));
             lblValJugador.setPreferredSize(new Dimension(250, 35));
@@ -142,9 +152,15 @@ public class VentanaBase extends JFrame {
             lblIconoMonedas.setVerticalTextPosition(SwingConstants.TOP);
             add(lblIconoMonedas);
 
-            JLabel lblValMonedas = new JLabel("$" + SesionManager.getInstance().getJugadorActual().getMonedas_actuales());
+            lblValMonedas = new JLabel();
             lblValMonedas.setAlignmentY(Component.TOP_ALIGNMENT);
             add(lblValMonedas);
+        }
+
+        public void actualizarDatosJugador() {
+            Jugador j = SesionManager.getInstance().getJugadorActual();
+            lblValJugador.setText(j.getNombre());
+            lblValMonedas.setText("$ " + j.getMonedas_actuales());
         }
 
         @Override
