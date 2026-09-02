@@ -6,9 +6,7 @@ import com.titomonito.services.SesionManager;
 import com.titomonito.utils.Recursos;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.util.List;
@@ -44,11 +42,6 @@ public class EstadisticasPanel extends JPanel {
 
     private void initUI() {
 
-        JLabel titulo = new JLabel("ESTADÍSTICAS");
-        titulo.setHorizontalAlignment(SwingConstants.CENTER);
-        titulo.setFont(titulo.getFont().deriveFont(Font.BOLD, 22.0f));
-        //add(titulo, BorderLayout.NORTH);
-
         add(crearPanelResumen(), BorderLayout.WEST);
         add(crearPanelRanking(), BorderLayout.EAST);
         add(crearPanelCategorias(), BorderLayout.SOUTH);
@@ -58,7 +51,9 @@ public class EstadisticasPanel extends JPanel {
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(BorderFactory.createTitledBorder("Resumen Personal"));
+        javax.swing.border.TitledBorder borderRes = BorderFactory.createTitledBorder("Resumen Personal");
+        borderRes.setTitleFont(borderRes.getTitleFont().deriveFont(16.0f));
+        panel.setBorder(borderRes);
         panel.setPreferredSize(new Dimension(360, 0));
 
         barraProgresoGlobal = new JProgressBar(0, 100);
@@ -117,7 +112,9 @@ public class EstadisticasPanel extends JPanel {
     private JPanel crearPanelRanking() {
 
         JPanel panel = new JPanel(new BorderLayout(5, 0));
-        panel.setBorder(BorderFactory.createTitledBorder("Salón de la Fama"));
+        javax.swing.border.TitledBorder borderRank = BorderFactory.createTitledBorder("Salón de la Fama");
+        borderRank.setTitleFont(borderRank.getTitleFont().deriveFont(16.0f));
+        panel.setBorder(borderRank);
         panel.setPreferredSize(new Dimension(390, 0));
 
         JPanel pnlFiltro = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -132,10 +129,20 @@ public class EstadisticasPanel extends JPanel {
 
         modeloRanking = new RankingTableModel();
         tablaRanking = new JTable(modeloRanking);
-        tablaRanking.setRowHeight(20);
+        tablaRanking.setRowHeight(28);
         tablaRanking.getTableHeader().setReorderingAllowed(false);
         tablaRanking.setEnabled(false);
         tablaRanking.setFont(lblFiltro.getFont().deriveFont(20.0f));
+
+        javax.swing.table.JTableHeader headerRanking = tablaRanking.getTableHeader();
+        headerRanking.setFont(headerRanking.getFont().deriveFont(Font.BOLD, 20.0f));
+        headerRanking.setPreferredSize(new Dimension(0, 35));
+
+        tablaRanking.getColumnModel().getColumn(0).setPreferredWidth(60);
+        tablaRanking.getColumnModel().getColumn(0).setMaxWidth(60);
+        tablaRanking.getColumnModel().getColumn(1).setPreferredWidth(135);
+        tablaRanking.getColumnModel().getColumn(2).setPreferredWidth(70);
+
         panel.add(new JScrollPane(tablaRanking), BorderLayout.CENTER);
 
         lblPosicionJugador = new JLabel(" ");
@@ -149,7 +156,9 @@ public class EstadisticasPanel extends JPanel {
     private JPanel crearPanelCategorias() {
 
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(BorderFactory.createTitledBorder("Progreso por Categoría"));
+        javax.swing.border.TitledBorder borderCat = BorderFactory.createTitledBorder("Progreso por Categoría");
+        borderCat.setTitleFont(borderCat.getTitleFont().deriveFont(16.0f));
+        panel.setBorder(borderCat);
         panel.setPreferredSize(new Dimension(0, 280));
 
         modeloCategorias = new CategoriasTableModel();
@@ -164,7 +173,14 @@ public class EstadisticasPanel extends JPanel {
         tablaCategorias.getTableHeader().setReorderingAllowed(false);
         tablaCategorias.setEnabled(false);
         tablaCategorias.getColumnModel().getColumn(3).setPreferredWidth(180);
+        tablaCategorias.getColumnModel().getColumn(0).setPreferredWidth(40);
+        tablaCategorias.getColumnModel().getColumn(0).setMaxWidth(50);
+        tablaCategorias.getColumnModel().getColumn(2).setPreferredWidth(50);
         tablaCategorias.setFont(tablaCategorias.getFont().deriveFont(20.0f));
+
+        javax.swing.table.JTableHeader headerCat = tablaCategorias.getTableHeader();
+        headerCat.setFont(headerCat.getFont().deriveFont(Font.BOLD, 20.0f));
+        headerCat.setPreferredSize(new Dimension(0, 35));
 
         panel.add(new JScrollPane(tablaCategorias), BorderLayout.CENTER);
 
@@ -212,7 +228,7 @@ public class EstadisticasPanel extends JPanel {
             case 1:
                 datos = JugadorDAO.obtenerRankingPorMonedasMaximas();
                 posicionJugador = JugadorDAO.obtenerPosicionEnRankingPorMonedas(j.getId_jugador());
-                valorLabel = "Monedas $";
+                valorLabel = "Monedas";
                 break;
             default:
                 datos = JugadorDAO.obtenerRankingPorRachaMaxima();
@@ -244,7 +260,7 @@ public class EstadisticasPanel extends JPanel {
 
     private static class RankingTableModel extends AbstractTableModel {
 
-        private String[] columnas = {"Posición", "Jugador", "Estadística"};
+        private String[] columnas = {"Pos", "Jugador", "Estad."};
         private Object[][] datos = new Object[0][3];
 
         public void setDatos(List<Object[]> filas, String nombreColumnaValor) {
@@ -253,7 +269,6 @@ public class EstadisticasPanel extends JPanel {
             for (int i = 0; i < filas.size(); i++) {
                 datos[i] = filas.get(i);
             }
-            fireTableStructureChanged();
             fireTableDataChanged();
         }
 

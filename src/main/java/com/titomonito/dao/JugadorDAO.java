@@ -191,7 +191,7 @@ public class JugadorDAO {
 
     public static List<Object[]> obtenerRankingPorPalabras() {
         List<Object[]> ranking = new ArrayList<>();
-        String sql = "SELECT j.id_jugador, j.nombre, COUNT(d.id_descubrimiento) AS total " +
+        String sql = "SELECT j.id_jugador, j.nombre, COUNT(d.id) AS total " +
                      "FROM jugadores j " +
                      "LEFT JOIN descubrimientos d ON j.id_jugador = d.id_jugador " +
                      "GROUP BY j.id_jugador " +
@@ -250,7 +250,7 @@ public class JugadorDAO {
 
     public static int obtenerPosicionEnRankingPorPalabras(int idJugador) {
         String sql = "SELECT COUNT(*) + 1 AS posicion FROM (" +
-                     "    SELECT j.id_jugador, COUNT(d.id_descubrimiento) AS total " +
+                     "    SELECT j.id_jugador, COUNT(d.id) AS total " +
                      "    FROM jugadores j " +
                      "    LEFT JOIN descubrimientos d ON j.id_jugador = d.id_jugador " +
                      "    GROUP BY j.id_jugador " +
