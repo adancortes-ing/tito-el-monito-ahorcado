@@ -37,7 +37,12 @@ public class Navegacion {
         switch (opcion) {
 
             case Constantes.INICIO:
-                principal.cambiarVista(Constantes.INICIO);
+                if (LogicaJuego.getInstance().isJuegoActivo()) {
+                    if (confirmarSalida()) {
+                        principal.cambiarVista(Constantes.INICIO);
+                    }
+                } else principal.cambiarVista(Constantes.INICIO);
+
                 break;
             case Constantes.PREGAME:
                 principal.cambiarVista(Constantes.PREGAME);

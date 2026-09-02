@@ -16,6 +16,19 @@ public class Constantes {
     public static final String JUEGO = "JUEGO";
     public static final String CAMBIAR = "CAMBIAR JUGADOR";
 
+    // Constantes de dificultades
+    public static final int DIFICULTAD_IMPOSIBLE = 5;
+
+    // Constante de bonus del sacapuntas
+    public static final int BONUS_SACAPUNTAS = 10;
+
+    // Constantes de los utiles
+    public static final String UTIL_SACAPUNTAS = "SACAPUNTAS";
+    public static final String UTIL_TIJERAS = "TIJERAS";
+    public static final String UTIL_GOMA = "GOMA";
+    public static final String UTIL_PLUMA = "PLUMA";
+    public static final String UTIL_MARCATEXTOS = "MARCATEXTOS";
+
     // Precios de los Powerups
     public static final int PRECIO_SACAPUNTAS = 15;
     public static final int PRECIO_TIJERAS = 20;
