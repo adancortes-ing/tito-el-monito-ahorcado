@@ -253,7 +253,7 @@ public class EstadisticasPanel extends JPanel {
 
         super.paintComponent(g);
 
-        Image fondo = Objects.requireNonNull(Recursos.cargarImagen("bg_center.png")).getImage();
+        Image fondo = Objects.requireNonNull(Recursos.cargarImagen("bg_contenedor.png")).getImage();
 
         g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
     }
