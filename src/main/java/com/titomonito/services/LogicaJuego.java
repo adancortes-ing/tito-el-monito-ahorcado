@@ -1,5 +1,6 @@
 package com.titomonito.services;
 
+import com.titomonito.config.Constantes;
 import com.titomonito.controller.ControlJuego;
 import com.titomonito.dao.JuegoDAO;
 import com.titomonito.dao.JugadorDAO;
@@ -10,6 +11,8 @@ import com.titomonito.ui.vistas.JuegoPanel;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class LogicaJuego {
     // Variables de comunicación
@@ -26,7 +29,7 @@ public class LogicaJuego {
     private int dificultad;
 
     //Variables que cambian durante la partida
-    private boolean juegoActivo;
+    private boolean juegoActivo = false;
     private char[] palabraIncompleta;
     private int letrasIncognitas;
     private int vidas;
@@ -34,12 +37,21 @@ public class LogicaJuego {
     private int letrasDescubiertas;
     private int tiempoBase;
     private int tiempoRestante;
+    private int tiempoBonusTurno;
+    private int tiempoBonusAcumulado;
     private Timer timer;
 
     //Variables para el sistema de economía
     private int monedasGanadas;
     private double porcentajeDescubierto;
     private int totalAsegurado;
+
+    // Flags de utiles ya comprados en la partida actual
+    private boolean sacapuntasUsado = false;
+    private boolean tijerasUsado = false;
+    private boolean gomaUsado = false;
+    private boolean plumaUsado = false;
+    private boolean marcatextosUsado = false;
 
     // Contexto del jugador logueado
     private Jugador jugadorActual;
@@ -66,6 +78,7 @@ public class LogicaJuego {
         monedasGanadas = 0;
         totalAsegurado = 0;
         juegoActivo = true;
+        resetearUtilesUsados();
 
         // Se obtiene el jugador actual y se guarda su banco inicial
         this.jugadorActual = SesionManager.getInstance().getJugadorActual();
@@ -89,8 +102,12 @@ public class LogicaJuego {
         vistaJuego.reiniciarPista();
 
         tiempoRestante = tiempoBase;
+        tiempoBonusTurno = 0;
+        tiempoBonusAcumulado = 0;
         if (vistaJuego != null) {
             vistaJuego.setLblValTiempo(tiempoRestante);
+            vistaJuego.reiniciarPista();
+            vistaJuego.actualizarEstadoBotonesTienda(jugadorActual.getMonedas_actuales(), dificultad);
         }
         iniciarTiempo();
     }
@@ -114,11 +131,22 @@ public class LogicaJuego {
             porcentajeDescubierto = (double) letrasDescubiertas / palabraSecreta.length();
             totalAsegurado = (int) Math.round(monedasGanadas * porcentajeDescubierto);
 
+            int tiempoTotalAlInicio = tiempoBase + tiempoBonusTurno;
+            int tiempoConsumido = tiempoTotalAlInicio - tiempoRestante;
+            int bonusConsumido = Math.min(tiempoConsumido, tiempoBonusTurno);
+            if (bonusConsumido >= tiempoBonusTurno) {
+                tiempoBonusAcumulado = 0;
+            } else {
+                tiempoBonusAcumulado = tiempoBonusTurno - bonusConsumido;
+            }
+
             vistaJuego.setLblPalabra(UtilsJuego.construirPalabra(palabraIncompleta));
             vistaJuego.setLblValAsegurado(String.valueOf(totalAsegurado));
 
         } else {
             vidas--;
+            tiempoBonusAcumulado = 0;
+            notificarCambioEstado();
             vistaJuego.setLblValVidas(UtilsJuego.calcularCorazones(vidas));
             vistaJuego.dibujarTito(UtilsJuego.obtenerDibujo(vidas));
             vistaJuego.setLblValPotencial(String.valueOf(UtilsJuego.calcularPremioPotencial(vidas, palabraSecreta.length(), this.dificultad)));
@@ -128,10 +156,7 @@ public class LogicaJuego {
         comprobarEstadoPartida();
 
         if (juegoActivo) {
-            this.tiempoRestante = this.tiempoBase;
-            if (vistaJuego != null) {
-                vistaJuego.setLblValTiempo(this.tiempoRestante);
-            }
+            iniciarNuevoTurno();
         }
     }
 
@@ -262,6 +287,43 @@ public class LogicaJuego {
         this.vistaJuego = vistaJuego;
     }
 
+    public int getVidas() {
+        return vidas;
+    }
+
+    public boolean puedeComprar(String util) {
+        Jugador j = SesionManager.getInstance().getJugadorActual();
+        if (j == null) return false;
+        int saldo = j.getMonedas_actuales();
+
+        if (Constantes.UTIL_SACAPUNTAS.equals(util)) {
+            return saldo >= Constantes.PRECIO_SACAPUNTAS;
+        }
+        if (Constantes.UTIL_TIJERAS.equals(util)) {
+            return !tijerasUsado && saldo >= Constantes.PRECIO_TIJERAS && vidas < 6;
+        }
+        if (Constantes.UTIL_GOMA.equals(util)) {
+            return !gomaUsado && saldo >= Constantes.PRECIO_GOMA;
+        }
+        if (Constantes.UTIL_PLUMA.equals(util)) {
+            return !plumaUsado && saldo >= Constantes.PRECIO_PLUMA;
+        }
+        if (Constantes.UTIL_MARCATEXTOS.equals(util)) {
+            return !marcatextosUsado
+                    && dificultad != Constantes.DIFICULTAD_IMPOSIBLE
+                    && saldo >= Constantes.PRECIO_MARCATEXTOS;
+        }
+        return false;
+    }
+
+    private void resetearUtilesUsados() {
+        sacapuntasUsado = false;
+        tijerasUsado = false;
+        gomaUsado = false;
+        plumaUsado = false;
+        marcatextosUsado = false;
+    }
+
     public void reiniciarCorazones() {
         corazones.clear();
     }
@@ -294,6 +356,191 @@ public class LogicaJuego {
         }
     }
 
+    private void iniciarNuevoTurno() {
+        tiempoBonusTurno = tiempoBonusAcumulado;
+        tiempoRestante = tiempoBase + tiempoBonusTurno;
+        tiempoBonusAcumulado = 0;
+        if (vistaJuego != null) {
+            vistaJuego.setLblValTiempo(tiempoRestante);
+        }
+    }
+
+    private void notificarCambioEstado() {
+        if (vistaJuego != null && jugadorActual != null) {
+            vistaJuego.actualizarEstadoBotonesTienda(jugadorActual.getMonedas_actuales(), dificultad);
+        }
+    }
+
+    public boolean comprarSacapuntas() {
+        Jugador j = SesionManager.getInstance().getJugadorActual();
+        if (j == null) return false;
+        if (j.getMonedas_actuales() < Constantes.PRECIO_SACAPUNTAS) return false;
+
+        int nuevasMonedas = j.getMonedas_actuales() - Constantes.PRECIO_SACAPUNTAS;
+        int nuevasMaximas = Math.max(j.getMonedas_maximas(), nuevasMonedas);
+        JugadorDAO.actualizarMonedas(j.getId_jugador(), nuevasMonedas, nuevasMaximas);
+
+        j.setMonedas_actuales(nuevasMonedas);
+        j.setMonedas_maximas(nuevasMaximas);
+        bancoInicial = nuevasMonedas;
+
+        tiempoRestante += Constantes.BONUS_SACAPUNTAS;
+        tiempoBonusTurno += Constantes.BONUS_SACAPUNTAS;
+        sacapuntasUsado = true;
+
+        if (controlJuego != null) controlJuego.refrescarDatosJugador();
+        if (vistaJuego != null) {
+            vistaJuego.setLblValTiempo(tiempoRestante);
+        }
+        notificarCambioEstado();
+        return true;
+    }
+
+    public boolean comprarTijeras() {
+        Jugador j = SesionManager.getInstance().getJugadorActual();
+        if (j == null) return false;
+        if (j.getMonedas_actuales() < Constantes.PRECIO_TIJERAS) return false;
+        if (vidas >= 6) return false;
+
+        int nuevasMonedas = j.getMonedas_actuales() - Constantes.PRECIO_TIJERAS;
+        int nuevasMaximas = Math.max(j.getMonedas_maximas(), nuevasMonedas);
+        JugadorDAO.actualizarMonedas(j.getId_jugador(), nuevasMonedas, nuevasMaximas);
+
+        j.setMonedas_actuales(nuevasMonedas);
+        j.setMonedas_maximas(nuevasMaximas);
+        bancoInicial = nuevasMonedas;
+
+        vidas++;
+        tijerasUsado = true;
+        if (vistaJuego != null) {
+            vistaJuego.setLblValVidas(UtilsJuego.calcularCorazones(vidas));
+            vistaJuego.deshabilitarBoton(Constantes.UTIL_TIJERAS);
+        }
+
+        if (controlJuego != null) controlJuego.refrescarDatosJugador();
+        notificarCambioEstado();
+        return true;
+    }
+
+    public boolean comprarGoma() {
+        Jugador j = SesionManager.getInstance().getJugadorActual();
+        if (j == null) return false;
+        if (j.getMonedas_actuales() < Constantes.PRECIO_GOMA) return false;
+
+        int nuevasMonedas = j.getMonedas_actuales() - Constantes.PRECIO_GOMA;
+        int nuevasMaximas = Math.max(j.getMonedas_maximas(), nuevasMonedas);
+        JugadorDAO.actualizarMonedas(j.getId_jugador(), nuevasMonedas, nuevasMaximas);
+
+        j.setMonedas_actuales(nuevasMonedas);
+        j.setMonedas_maximas(nuevasMaximas);
+        bancoInicial = nuevasMonedas;
+
+        if (vistaJuego != null && palabraSecreta != null) {
+            List<String> disponibles = new ArrayList<>();
+            for (char c : Constantes.ALFABETO.toCharArray()) {
+                String letra = String.valueOf(c);
+                if (palabraSecreta.toUpperCase().indexOf(letra) >= 0) continue;
+                JButton tecla = vistaJuego.getTecla(letra);
+                if (tecla != null && tecla.isEnabled()) {
+                    disponibles.add(letra);
+                }
+            }
+            java.util.Collections.shuffle(disponibles);
+            int cantidad = Math.min(4, disponibles.size());
+            for (int i = 0; i < cantidad; i++) {
+                vistaJuego.setTeclaHabilitada(disponibles.get(i), false);
+            }
+            vistaJuego.deshabilitarBoton(Constantes.UTIL_GOMA);
+        }
+        gomaUsado = true;
+
+        if (controlJuego != null) controlJuego.refrescarDatosJugador();
+        notificarCambioEstado();
+        return true;
+    }
+
+    public boolean comprarPluma() {
+        Jugador j = SesionManager.getInstance().getJugadorActual();
+        if (j == null) return false;
+        if (j.getMonedas_actuales() < Constantes.PRECIO_PLUMA) return false;
+        if (palabraSecreta == null || palabraIncompleta == null) return false;
+
+        int nuevasMonedas = j.getMonedas_actuales() - Constantes.PRECIO_PLUMA;
+        int nuevasMaximas = Math.max(j.getMonedas_maximas(), nuevasMonedas);
+        JugadorDAO.actualizarMonedas(j.getId_jugador(), nuevasMonedas, nuevasMaximas);
+
+        j.setMonedas_actuales(nuevasMonedas);
+        j.setMonedas_maximas(nuevasMaximas);
+        bancoInicial = nuevasMonedas;
+
+        java.util.Map<Character, Integer> conteo = new java.util.LinkedHashMap<>();
+        for (int i = 0; i < palabraSecreta.length(); i++) {
+            if (palabraIncompleta[i] == '_') {
+                char c = palabraSecreta.charAt(i);
+                conteo.merge(c, 1, Integer::sum);
+            }
+        }
+
+        if (!conteo.isEmpty()) {
+            int maxOcurrencias = Collections.max(conteo.values());
+            List<Character> candidatas = new ArrayList<>();
+            for (java.util.Map.Entry<Character, Integer> e : conteo.entrySet()) {
+                if (e.getValue() == maxOcurrencias) candidatas.add(e.getKey());
+            }
+            char elegida = candidatas.get(new java.util.Random().nextInt(candidatas.size()));
+
+            for (int i = 0; i < palabraSecreta.length(); i++) {
+                if (palabraSecreta.charAt(i) == elegida) {
+                    palabraIncompleta[i] = elegida;
+                    letrasIncognitas--;
+                }
+            }
+            letrasDescubiertas = palabraSecreta.length() - letrasIncognitas;
+            monedasGanadas += conteo.get(elegida) * 2;
+            porcentajeDescubierto = (double) letrasDescubiertas / palabraSecreta.length();
+            totalAsegurado = (int) Math.round(monedasGanadas * porcentajeDescubierto);
+
+            if (vistaJuego != null) {
+                vistaJuego.setLblPalabra(UtilsJuego.construirPalabra(palabraIncompleta));
+                vistaJuego.setLblValAsegurado(String.valueOf(totalAsegurado));
+                vistaJuego.setTeclaHabilitada(String.valueOf(elegida), false);
+                vistaJuego.deshabilitarBoton(Constantes.UTIL_PLUMA);
+            }
+        }
+        plumaUsado = true;
+
+        if (controlJuego != null) controlJuego.refrescarDatosJugador();
+        notificarCambioEstado();
+
+        comprobarEstadoPartida();
+        return true;
+    }
+
+    public boolean comprarMarcatextos() {
+        Jugador j = SesionManager.getInstance().getJugadorActual();
+        if (j == null) return false;
+        if (dificultad == Constantes.DIFICULTAD_IMPOSIBLE) return false;
+        if (j.getMonedas_actuales() < Constantes.PRECIO_MARCATEXTOS) return false;
+
+        int nuevasMonedas = j.getMonedas_actuales() - Constantes.PRECIO_MARCATEXTOS;
+        int nuevasMaximas = Math.max(j.getMonedas_maximas(), nuevasMonedas);
+        JugadorDAO.actualizarMonedas(j.getId_jugador(), nuevasMonedas, nuevasMaximas);
+
+        j.setMonedas_actuales(nuevasMonedas);
+        j.setMonedas_maximas(nuevasMaximas);
+        bancoInicial = nuevasMonedas;
+
+        if (vistaJuego != null && palabraObtenida != null) {
+            vistaJuego.setLblValPista(palabraObtenida.getPista());
+            vistaJuego.deshabilitarBoton(Constantes.UTIL_MARCATEXTOS);
+        }
+        marcatextosUsado = true;
+
+        if (controlJuego != null) controlJuego.refrescarDatosJugador();
+        notificarCambioEstado();
+        return true;
+    }
+
     private void tick() {
         if (!juegoActivo) {
             detenerTiempo();
@@ -302,16 +549,19 @@ public class LogicaJuego {
         this.tiempoRestante--;
         if (this.tiempoRestante == 0) {
             this.vidas--;
+            tiempoBonusAcumulado = 0;
+            notificarCambioEstado();
             if (vistaJuego != null) {
                 vistaJuego.setLblValVidas(UtilsJuego.calcularCorazones(vidas));
                 vistaJuego.setLblValPotencial(String.valueOf(UtilsJuego.calcularPremioPotencial(vidas, palabraSecreta.length(), this.dificultad)));
+                vistaJuego.mostrarFeedbackTiempoAgotado();
             }
             if (this.vidas == 0) {
                 detenerTiempo();
                 comprobarEstadoPartida();
                 return;
             }
-            this.tiempoRestante = this.tiempoBase;
+            iniciarNuevoTurno();
         }
         if (vistaJuego != null) {
             vistaJuego.setLblValTiempo(this.tiempoRestante);

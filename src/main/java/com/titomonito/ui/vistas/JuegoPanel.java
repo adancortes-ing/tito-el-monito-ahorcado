@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import static com.titomonito.config.Constantes.*;
-
 public class JuegoPanel extends JPanel {
 
     private JLabel lblValTiempo;
@@ -169,6 +168,12 @@ public class JuegoPanel extends JPanel {
         btnPluma = crearBoton("Pluma", "item_pen.png", PRECIO_PLUMA, "Revela una letra correcta al azar que aún no haya sido descubierta.");
         btnMarcatextos = crearBoton("Marcatextos", "item_marker.png", PRECIO_MARCATEXTOS, "Revela la pista asociada a la palabra");
 
+        btnSacapuntas.addActionListener(e -> LogicaJuego.getInstance().comprarSacapuntas());
+        btnTijeras.addActionListener(e -> LogicaJuego.getInstance().comprarTijeras());
+        btnGoma.addActionListener(e -> LogicaJuego.getInstance().comprarGoma());
+        btnPluma.addActionListener(e -> LogicaJuego.getInstance().comprarPluma());
+        btnMarcatextos.addActionListener(e -> LogicaJuego.getInstance().comprarMarcatextos());
+
         pnlInferior.add(btnSacapuntas);
         pnlInferior.add(btnTijeras);
         pnlInferior.add(btnGoma);
@@ -281,6 +286,65 @@ public class JuegoPanel extends JPanel {
                 .filter(btn -> btn.getName().equalsIgnoreCase(letra))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public void actualizarEstadoBotonesTienda(int saldoActual, int dificultad) {
+        LogicaJuego logica = LogicaJuego.getInstance();
+        btnSacapuntas.setEnabled(logica.puedeComprar(UTIL_SACAPUNTAS));
+        btnTijeras.setEnabled(logica.puedeComprar(UTIL_TIJERAS));
+        btnGoma.setEnabled(logica.puedeComprar(UTIL_GOMA));
+        btnPluma.setEnabled(logica.puedeComprar(UTIL_PLUMA));
+        btnMarcatextos.setEnabled(logica.puedeComprar(UTIL_MARCATEXTOS));
+    }
+
+    public void deshabilitarBoton(String nombre) {
+        switch (nombre) {
+            case UTIL_TIJERAS:
+                btnTijeras.setEnabled(false);
+                break;
+            case UTIL_GOMA:
+                btnGoma.setEnabled(false);
+                break;
+            case UTIL_PLUMA:
+                btnPluma.setEnabled(false);
+                break;
+            case UTIL_MARCATEXTOS:
+                btnMarcatextos.setEnabled(false);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void setLblValPista(String pista) {
+        lblValPista.setText(pista);
+    }
+
+    public void mostrarFeedbackTiempoAgotado() {
+        Color colorOriginal = lblValTiempo.getForeground();
+        Color colorCorazones = lblValPista.getForeground();
+        lblValTiempo.setForeground(Color.RED);
+        lblValVidas.setForeground(Color.RED);
+
+        Timer parpadeo = new Timer(150, null);
+        parpadeo.addActionListener(e -> {
+            if (lblValTiempo.getForeground() == Color.RED) {
+                lblValTiempo.setForeground(Color.WHITE);
+                lblValVidas.setForeground(Color.WHITE);
+            } else {
+                lblValTiempo.setForeground(Color.RED);
+                lblValVidas.setForeground(Color.RED);
+            }
+        });
+        parpadeo.start();
+
+        Timer restaurar = new Timer(1000, e -> {
+            parpadeo.stop();
+            lblValTiempo.setForeground(colorOriginal);
+            lblValVidas.setForeground(colorCorazones);
+        });
+        restaurar.setRepeats(false);
+        restaurar.start();
     }
 
     @Override

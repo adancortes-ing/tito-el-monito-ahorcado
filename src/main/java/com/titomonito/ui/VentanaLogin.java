@@ -69,7 +69,7 @@ public class VentanaLogin extends JFrame {
         final String placeholderCombo = "Selecciona jugador";
         final Color colorPlaceholder = Color.GRAY;
         final Color colorTextoCombo = cmbJugadores.getForeground();
-        cmbJugadores.setEditable(true);
+        cmbJugadores.setEditable(false);
         JTextField editorCombo = (JTextField) cmbJugadores.getEditor().getEditorComponent();
         colocarPlaceHolder(placeholderCombo, colorPlaceholder, colorTextoCombo, editorCombo);
 
