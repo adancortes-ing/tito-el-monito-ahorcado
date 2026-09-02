@@ -2,6 +2,7 @@ package com.titomonito.controller;
 
 import com.titomonito.Main;
 import com.titomonito.config.Constantes;
+import com.titomonito.models.Jugador;
 import com.titomonito.services.LogicaJuego;
 import com.titomonito.services.SesionManager;
 import com.titomonito.ui.*;
@@ -46,9 +47,14 @@ public class Navegacion {
                 break;
             case Constantes.PREGAME:
                 principal.cambiarVista(Constantes.PREGAME);
+                Jugador jugadorActual = SesionManager.getInstance().getJugadorActual();
+                if (jugadorActual != null) {
+                    principal.getPreGame().actualizarEstadoCategorias(jugadorActual.getId_jugador());
+                }
                 break;
             case Constantes.ESTADISTICAS:
                 principal.cambiarVista(Constantes.ESTADISTICAS);
+                principal.getEstadisticas().refrescar();
                 break;
             case Constantes.LOGROS:
                 principal.cambiarVista(Constantes.LOGROS);

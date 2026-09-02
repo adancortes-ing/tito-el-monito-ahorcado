@@ -85,7 +85,13 @@ public class LogicaJuego {
         this.bancoInicial = jugadorActual.getMonedas_actuales();
 
         this.palabraObtenida = JuegoDAO.obtenerPalabra(id_categoria, jugadorActual.getId_jugador());
-        assert palabraObtenida != null;
+        if (palabraObtenida == null) {
+            if (controlJuego != null) {
+                controlJuego.mostrarCategoriaCompletada(nombreCategoria);
+            }
+            juegoActivo = false;
+            return;
+        }
         this.palabraSecreta = palabraObtenida.getPalabra();
         this.letrasIncognitas = palabraSecreta.length();
 

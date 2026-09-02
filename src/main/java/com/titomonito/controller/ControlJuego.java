@@ -48,6 +48,17 @@ public class ControlJuego {
         }
     }
 
+    public void mostrarCategoriaCompletada(String nombreCategoria) {
+        JOptionPane.showMessageDialog(
+                juegoPanel,
+                "¡Felicidades! Has descubierto todas las palabras de la categoría: " + nombreCategoria + ".\n\n" +
+                "Esta categoría queda bloqueada para tu jugador.",
+                "Categoría Completada",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+        ventana.cambiarVista(Constantes.PREGAME);
+    }
+
     public void refrescarDatosJugador() {
         ventana.getPnlHeader().actualizarDatosJugador();
         ventana.getInicio().actualizarDatos();

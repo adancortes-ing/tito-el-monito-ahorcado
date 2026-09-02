@@ -78,7 +78,6 @@ public class PreGamePanel extends JPanel {
         pnlCategorias.add(lblCategoria);
 
         crearBotonesCategorias();
-        listaBotones.get(3).setEnabled(false);// TEMPORAL DESACTIVADO HASTA QUE AÑADA PALABRAS A LA CATEGORIA AUTOS
 
         // =============================================================================================================
         contenedorCentro.add(pnlDificultades);
@@ -103,6 +102,17 @@ public class PreGamePanel extends JPanel {
     public int getValorDificultad () {
         return sliderDificultad.getValue();
     }
+
+    public void actualizarEstadoCategorias(int idJugador) {
+        for (JButton btn : listaBotones) {
+            Integer idCategoria = (Integer) btn.getClientProperty("id_categoria");
+            if (idCategoria == null) continue;
+            if (com.titomonito.dao.JugadorDAO.categoriaCompletada(idCategoria, idJugador)) {
+                btn.setEnabled(false);
+            }
+        }
+    }
+
     public void addBotonesListeners(ActionListener al) {
 
         for (JButton btn : listaBotones) {

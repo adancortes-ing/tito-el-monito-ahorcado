@@ -162,4 +162,192 @@ public class JugadorDAO {
         }
         return "NINGUNA";
     }
+
+    public static int contarPalabrasTotales() {
+        String sql = "SELECT COUNT(*) AS total FROM palabras";
+        try (Connection conn = ConfigDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) return rs.getInt("total");
+        } catch (SQLException ex) {
+            LOGGER.severe("Error al contar palabras totales: " + ex.getMessage());
+        }
+        return 0;
+    }
+
+    public static int contarDescubrimientosJugador(int idJugador) {
+        String sql = "SELECT COUNT(*) AS total FROM descubrimientos WHERE id_jugador = ?";
+        try (Connection conn = ConfigDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idJugador);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt("total");
+            }
+        } catch (SQLException ex) {
+            LOGGER.severe("Error al contar descubrimientos: " + ex.getMessage());
+        }
+        return 0;
+    }
+
+    public static List<Object[]> obtenerRankingPorPalabras() {
+        List<Object[]> ranking = new ArrayList<>();
+        String sql = "SELECT j.id_jugador, j.nombre, COUNT(d.id_descubrimiento) AS total " +
+                     "FROM jugadores j " +
+                     "LEFT JOIN descubrimientos d ON j.id_jugador = d.id_jugador " +
+                     "GROUP BY j.id_jugador " +
+                     "ORDER BY total DESC " +
+                     "LIMIT 10";
+        try (Connection conn = ConfigDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            int posicion = 1;
+            while (rs.next()) {
+                ranking.add(new Object[]{posicion++, rs.getString("nombre"), rs.getInt("total")});
+            }
+        } catch (SQLException ex) {
+            LOGGER.severe("Error al obtener ranking por palabras: " + ex.getMessage());
+        }
+        return ranking;
+    }
+
+    public static List<Object[]> obtenerRankingPorMonedasMaximas() {
+        List<Object[]> ranking = new ArrayList<>();
+        String sql = "SELECT id_jugador, nombre, monedas_maximas " +
+                     "FROM jugadores " +
+                     "ORDER BY monedas_maximas DESC " +
+                     "LIMIT 10";
+        try (Connection conn = ConfigDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            int posicion = 1;
+            while (rs.next()) {
+                ranking.add(new Object[]{posicion++, rs.getString("nombre"), rs.getInt("monedas_maximas")});
+            }
+        } catch (SQLException ex) {
+            LOGGER.severe("Error al obtener ranking por monedas: " + ex.getMessage());
+        }
+        return ranking;
+    }
+
+    public static List<Object[]> obtenerRankingPorRachaMaxima() {
+        List<Object[]> ranking = new ArrayList<>();
+        String sql = "SELECT id_jugador, nombre, racha_maxima " +
+                     "FROM jugadores " +
+                     "ORDER BY racha_maxima DESC " +
+                     "LIMIT 10";
+        try (Connection conn = ConfigDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            int posicion = 1;
+            while (rs.next()) {
+                ranking.add(new Object[]{posicion++, rs.getString("nombre"), rs.getInt("racha_maxima")});
+            }
+        } catch (SQLException ex) {
+            LOGGER.severe("Error al obtener ranking por racha: " + ex.getMessage());
+        }
+        return ranking;
+    }
+
+    public static int obtenerPosicionEnRankingPorPalabras(int idJugador) {
+        String sql = "SELECT COUNT(*) + 1 AS posicion FROM (" +
+                     "    SELECT j.id_jugador, COUNT(d.id_descubrimiento) AS total " +
+                     "    FROM jugadores j " +
+                     "    LEFT JOIN descubrimientos d ON j.id_jugador = d.id_jugador " +
+                     "    GROUP BY j.id_jugador " +
+                     "    HAVING total > (" +
+                     "        SELECT COUNT(*) FROM descubrimientos WHERE id_jugador = ?" +
+                     "    )" +
+                     ")";
+        try (Connection conn = ConfigDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idJugador);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt("posicion");
+            }
+        } catch (SQLException ex) {
+            LOGGER.severe("Error al obtener posición: " + ex.getMessage());
+        }
+        return -1;
+    }
+
+    public static int obtenerPosicionEnRankingPorMonedas(int idJugador) {
+        String sql = "SELECT COUNT(*) + 1 AS posicion FROM jugadores WHERE monedas_maximas > " +
+                     "(SELECT monedas_maximas FROM jugadores WHERE id_jugador = ?)";
+        try (Connection conn = ConfigDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idJugador);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt("posicion");
+            }
+        } catch (SQLException ex) {
+            LOGGER.severe("Error al obtener posición por monedas: " + ex.getMessage());
+        }
+        return -1;
+    }
+
+    public static int obtenerPosicionEnRankingPorRacha(int idJugador) {
+        String sql = "SELECT COUNT(*) + 1 AS posicion FROM jugadores WHERE racha_maxima > " +
+                     "(SELECT racha_maxima FROM jugadores WHERE id_jugador = ?)";
+        try (Connection conn = ConfigDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idJugador);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt("posicion");
+            }
+        } catch (SQLException ex) {
+            LOGGER.severe("Error al obtener posición por racha: " + ex.getMessage());
+        }
+        return -1;
+    }
+
+    public static List<Object[]> obtenerProgresoPorCategorias(int idJugador) {
+        List<Object[]> categorias = new ArrayList<>();
+        String sql = "SELECT c.id_categoria, c.nombre, " +
+                     "       (SELECT COUNT(*) FROM descubrimientos d " +
+                     "        JOIN palabras p2 ON d.id_palabra = p2.id_palabra " +
+                     "        WHERE d.id_jugador = ? AND p2.id_categoria = c.id_categoria) AS descubiertas, " +
+                     "       (SELECT COUNT(*) FROM palabras p WHERE p.id_categoria = c.id_categoria) AS total " +
+                     "FROM categorias c " +
+                     "ORDER BY (CAST((SELECT COUNT(*) FROM descubrimientos d " +
+                     "               JOIN palabras p2 ON d.id_palabra = p2.id_palabra " +
+                     "               WHERE d.id_jugador = ? AND p2.id_categoria = c.id_categoria) AS REAL) / " +
+                     "          (SELECT COUNT(*) FROM palabras p WHERE p.id_categoria = c.id_categoria)) DESC";
+        try (Connection conn = ConfigDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idJugador);
+            ps.setInt(2, idJugador);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    categorias.add(new Object[]{
+                            rs.getInt("id_categoria"),
+                            rs.getString("nombre"),
+                            rs.getInt("descubiertas"),
+                            rs.getInt("total")
+                    });
+                }
+            }
+        } catch (SQLException ex) {
+            LOGGER.severe("Error al obtener progreso por categorías: " + ex.getMessage());
+        }
+        return categorias;
+    }
+
+    public static boolean categoriaCompletada(int idCategoria, int idJugador) {
+        String sql = "SELECT COUNT(*) FROM palabras p " +
+                     "WHERE p.id_categoria = ? " +
+                     "AND p.id_palabra NOT IN (" +
+                     "    SELECT d.id_palabra FROM descubrimientos d WHERE d.id_jugador = ?" +
+                     ")";
+        try (Connection conn = ConfigDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idCategoria);
+            ps.setInt(2, idJugador);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt(1) == 0;
+            }
+        } catch (SQLException ex) {
+            LOGGER.severe("Error al verificar categoría completada: " + ex.getMessage());
+        }
+        return false;
+    }
 }
