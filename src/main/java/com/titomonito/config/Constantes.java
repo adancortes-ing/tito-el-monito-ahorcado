@@ -44,4 +44,17 @@ public class Constantes {
     public static final Color COLOR_AZUL_CLARO = new Color(206, 244, 250);
 
     public static final String ALFABETO =   "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+
+    // Mensaje de confirmación al abandonar partida activa
+    public static final String MSJ_CONFIRMAR_ABANDONO =
+            "<html><div style='width:340px'>" +
+            "Si abandonas la partida ahora:<br><br>" +
+            "&bull; Se reiniciará tu <b>racha actual</b> a 0.<br>" +
+            "&bull; <b>No recibirás</b> las monedas aseguradas en esta partida.<br><br>" +
+            "¿Seguro que quieres salir?" +
+            "</div></html>";
+
+    public static final String TITULO_ABANDONO = "Confirmación de salida";
+    public static final String BTN_ABANDONAR_SI = "Sí, abandonar";
+    public static final String BTN_ABANDONAR_NO = "Volver al juego";
 }

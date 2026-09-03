@@ -39,49 +39,95 @@ public class Navegacion {
 
             case Constantes.INICIO:
                 if (LogicaJuego.getInstance().isJuegoActivo()) {
-                    if (confirmarSalida()) {
+                    if (confirmarAbandono()) {
+                        LogicaJuego.getInstance().abandonarPartida();
                         principal.cambiarVista(Constantes.INICIO);
                     }
                 } else principal.cambiarVista(Constantes.INICIO);
 
                 break;
             case Constantes.PREGAME:
-                principal.cambiarVista(Constantes.PREGAME);
-                Jugador jugadorActual = SesionManager.getInstance().getJugadorActual();
-                if (jugadorActual != null) {
-                    principal.getPreGame().actualizarEstadoCategorias(jugadorActual.getId_jugador());
+                if (LogicaJuego.getInstance().isJuegoActivo()) {
+                    if (confirmarAbandono()) {
+                        LogicaJuego.getInstance().abandonarPartida();
+                        principal.cambiarVista(Constantes.PREGAME);
+                        Jugador jugadorActual = SesionManager.getInstance().getJugadorActual();
+                        if (jugadorActual != null) {
+                            principal.getPreGame().actualizarEstadoCategorias(jugadorActual.getId_jugador());
+                        }
+                    }
+                } else {
+                    principal.cambiarVista(Constantes.PREGAME);
+                    Jugador jugadorActual = SesionManager.getInstance().getJugadorActual();
+                    if (jugadorActual != null) {
+                        principal.getPreGame().actualizarEstadoCategorias(jugadorActual.getId_jugador());
+                    }
                 }
                 break;
             case Constantes.ESTADISTICAS:
-                principal.cambiarVista(Constantes.ESTADISTICAS);
-                principal.getEstadisticas().refrescar();
+                if (LogicaJuego.getInstance().isJuegoActivo()) {
+                    if (confirmarAbandono()) {
+                        LogicaJuego.getInstance().abandonarPartida();
+                        principal.cambiarVista(Constantes.ESTADISTICAS);
+                        principal.getEstadisticas().refrescar();
+                    }
+                } else {
+                    principal.cambiarVista(Constantes.ESTADISTICAS);
+                    principal.getEstadisticas().refrescar();
+                }
                 break;
             case Constantes.LOGROS:
-                principal.cambiarVista(Constantes.LOGROS);
+                if (LogicaJuego.getInstance().isJuegoActivo()) {
+                    if (confirmarAbandono()) {
+                        LogicaJuego.getInstance().abandonarPartida();
+                        principal.cambiarVista(Constantes.LOGROS);
+                    }
+                } else principal.cambiarVista(Constantes.LOGROS);
                 break;
             case Constantes.AYUDA:
-                principal.cambiarVista(Constantes.AYUDA);
+                if (LogicaJuego.getInstance().isJuegoActivo()) {
+                    if (confirmarAbandono()) {
+                        LogicaJuego.getInstance().abandonarPartida();
+                        principal.cambiarVista(Constantes.AYUDA);
+                    }
+                } else principal.cambiarVista(Constantes.AYUDA);
                 break;
             case Constantes.OPCIONES:
-                principal.cambiarVista(Constantes.OPCIONES);
+                if (LogicaJuego.getInstance().isJuegoActivo()) {
+                    if (confirmarAbandono()) {
+                        LogicaJuego.getInstance().abandonarPartida();
+                        principal.cambiarVista(Constantes.OPCIONES);
+                    }
+                } else principal.cambiarVista(Constantes.OPCIONES);
                 break;
             case Constantes.ACERCA_DE:
-                AcercaPanel acerca = new AcercaPanel(principal);
-                acerca.setVisible(true);
+                if (LogicaJuego.getInstance().isJuegoActivo()) {
+                    if (confirmarAbandono()) {
+                        LogicaJuego.getInstance().abandonarPartida();
+                        AcercaPanel acerca = new AcercaPanel(principal);
+                        acerca.setVisible(true);
+                    }
+                } else {
+                    AcercaPanel acerca = new AcercaPanel(principal);
+                    acerca.setVisible(true);
+                }
                 break;
             case Constantes.CAMBIAR:
                 if (LogicaJuego.getInstance().isJuegoActivo()) {
-                    if (confirmarSalida()) {
+                    if (confirmarAbandono()) {
+                        LogicaJuego.getInstance().abandonarPartida();
                         cambiarJugador();
                     }
                 } else cambiarJugador();
                 break;
             case Constantes.SALIR:
                 if (LogicaJuego.getInstance().isJuegoActivo()) {
-                    if (confirmarSalida()) {
+                    if (confirmarAbandono()) {
+                        LogicaJuego.getInstance().abandonarPartida();
                         System.exit(0);
                     }
                 } else System.exit(0);
+                break;
 
             default:
                 break;
@@ -94,15 +140,15 @@ public class Navegacion {
         new Main().mostrarVentanaLogin();
     }
 
-    private boolean confirmarSalida() {
+    private boolean confirmarAbandono() {
 
-        Object[] respuestas = {"Sí, quiero salir", "Volver al juego"};
+        Object[] respuestas = {Constantes.BTN_ABANDONAR_SI, Constantes.BTN_ABANDONAR_NO};
 
         return JOptionPane.showOptionDialog(principal,
-                "¿Seguro que quieres abandonar a Tito?",
-                "Confirmación de salida",
+                Constantes.MSJ_CONFIRMAR_ABANDONO,
+                Constantes.TITULO_ABANDONO,
                 JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
+                JOptionPane.WARNING_MESSAGE,
                 null,
                 respuestas,
                 respuestas[1]) == JOptionPane.YES_OPTION;

@@ -350,6 +350,35 @@ public class LogicaJuego {
         return juegoActivo;
     }
 
+    public void abandonarPartida() {
+        if (!juegoActivo) return;
+        detenerTiempo();
+        juegoActivo = false;
+        if (vistaJuego != null) {
+            vistaJuego.setTeclado(false);
+        }
+
+        if (jugadorActual == null) return;
+
+        int idJugador = jugadorActual.getId_jugador();
+        int monedasActuales = jugadorActual.getMonedas_actuales();
+        int monedasMaximas = jugadorActual.getMonedas_maximas();
+        int rachaMaxima = jugadorActual.getRacha_maxima();
+
+        JugadorDAO.actualizarMonedas(idJugador, monedasActuales, monedasMaximas);
+        JugadorDAO.actualizarRachas(idJugador, 0, rachaMaxima);
+
+        jugadorActual.setRacha_actual(0);
+
+        monedasGanadas = 0;
+        totalAsegurado = 0;
+        letrasDescubiertas = 0;
+
+        if (controlJuego != null) {
+            controlJuego.refrescarDatosJugador();
+        }
+    }
+
     private void iniciarTiempo() {
         detenerTiempo();
         timer = new Timer(1000, e -> tick());
