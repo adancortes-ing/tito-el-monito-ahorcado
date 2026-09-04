@@ -36,7 +36,7 @@ public class TarjetaHazana extends JPanel {
         lblIcono.setMinimumSize(new Dimension(80, 80));
 
         lblNombre = new JLabel("<html><center>" + logroId.getNombre() + "</center></html>");
-        lblNombre.setFont(lblNombre.getFont().deriveFont(Font.BOLD, 10));
+        lblNombre.setFont(lblNombre.getFont().deriveFont(Font.BOLD, 13));
         lblNombre.setAlignmentX(CENTER_ALIGNMENT);
         lblNombre.setMaximumSize(new Dimension(120, 36));
         lblNombre.setPreferredSize(new Dimension(120, 36));
@@ -51,7 +51,7 @@ public class TarjetaHazana extends JPanel {
         add(lblNuevo);
 
         ImageIcon nuevoIcono = Recursos.cargarImagen("logro_bandera_nuevo.png");
-        if (nuevoIcono != null) {
+        if (nuevoIcono.getImageLoadStatus() == java.awt.MediaTracker.COMPLETE) {
             Image img = nuevoIcono.getImage().getScaledInstance(40, 20, Image.SCALE_DEFAULT);
             lblNuevo.setIcon(new ImageIcon(img));
         }
@@ -90,8 +90,8 @@ public class TarjetaHazana extends JPanel {
 
         ImageIcon icono = Recursos.cargarImagen(logroId.getIconoPath());
 
-        if (icono != null) {
-            Image img = icono.getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+        if (icono.getImageLoadStatus() == java.awt.MediaTracker.COMPLETE) {
+            Image img = icono.getImage();
             if (!desbloqueado) {
                 img = crearImagenDeshabilitada(img);
             }
@@ -123,7 +123,7 @@ public class TarjetaHazana extends JPanel {
         BufferedImage bi = new BufferedImage(80, 80, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = bi.createGraphics();
         g2.drawImage(img, 0, 0, null);
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.35f));
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.50f));
         g2.setColor(Color.GRAY);
         g2.fillRect(0, 0, 80, 80);
         g2.dispose();
@@ -146,12 +146,12 @@ public class TarjetaHazana extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Color bordeColor = desbloqueado
-                ? new Color(255, 215, 0)
+                ? new Color(253, 191, 0)
                 : new Color(180, 180, 180);
 
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setStroke(new BasicStroke(desbloqueado ? 2 : 1));
+        g2.setStroke(new BasicStroke(desbloqueado ? 6 : 1));
         g2.setColor(bordeColor);
         int arc = 10;
         g2.drawRoundRect(2, 2, getWidth() - 4, getHeight() - 4, arc, arc);

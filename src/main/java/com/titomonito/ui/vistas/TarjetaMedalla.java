@@ -5,6 +5,7 @@ import com.titomonito.utils.Recursos;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class TarjetaMedalla extends JPanel {
 
@@ -27,16 +28,16 @@ public class TarjetaMedalla extends JPanel {
 
         lblIcono = new JLabel();
         lblIcono.setAlignmentX(CENTER_ALIGNMENT);
-        lblIcono.setPreferredSize(new Dimension(80, 80));
-        lblIcono.setMaximumSize(new Dimension(80, 80));
-        lblIcono.setMinimumSize(new Dimension(80, 80));
+        lblIcono.setPreferredSize(new Dimension(70, 70));
+        lblIcono.setMaximumSize(new Dimension(70, 70));
+        lblIcono.setMinimumSize(new Dimension(70, 70));
 
         lblNombre = new JLabel(nombreCategoria);
-        lblNombre.setFont(lblNombre.getFont().deriveFont(Font.BOLD, 13));
+        lblNombre.setFont(lblNombre.getFont().deriveFont(Font.BOLD, 12));
         lblNombre.setAlignmentX(CENTER_ALIGNMENT);
 
         lblProgreso = new JLabel("0%");
-        lblProgreso.setFont(lblProgreso.getFont().deriveFont(12f));
+        lblProgreso.setFont(lblProgreso.getFont().deriveFont(11f));
         lblProgreso.setAlignmentX(CENTER_ALIGNMENT);
         lblProgreso.setForeground(Color.GRAY);
 
@@ -60,14 +61,20 @@ public class TarjetaMedalla extends JPanel {
         double porcentaje = datosProgreso[2];
 
         NivelMedalla nivel = NivelMedalla.fromProgreso(porcentaje);
+        String sufijoNivel = nivel.name().toLowerCase();
 
-        ImageIcon iconoCat = Recursos.cargarImagen("cat_" + idCategoria + ".png");
-        ImageIcon marcoIcono = Recursos.cargarImagen(nivel.getMarcoPath());
+        String nombreArchivo = "cat_" + idCategoria + "_" + sufijoNivel + ".png";
+        ImageIcon icono = Recursos.cargarImagen(nombreArchivo);
 
-        if (iconoCat != null) {
-            //Image img = iconoCat.getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT);
-            lblIcono.setIcon(new ImageIcon(iconoCat.getImage()));
+
+        Image imgFinal;
+        if (icono.getImageLoadStatus() == java.awt.MediaTracker.COMPLETE) {
+            imgFinal = icono.getImage();
+        } else {
+            imgFinal = crearPlaceholder(70, 70);
         }
+
+        lblIcono.setIcon(new ImageIcon(imgFinal));
 
         if (porcentaje >= 1.0) {
             lblProgreso.setText("¡Completada!");
@@ -86,6 +93,18 @@ public class TarjetaMedalla extends JPanel {
         repaint();
     }
 
+    private Image crearPlaceholder(int ancho, int alto) {
+        BufferedImage img = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = img.createGraphics();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(new Color(200, 200, 200));
+        g2.fillOval(5, 5, ancho - 10, alto - 10);
+        g2.setColor(Color.DARK_GRAY);
+        g2.drawString("?", ancho / 2 - 5, alto / 2 + 5);
+        g2.dispose();
+        return img;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -93,13 +112,13 @@ public class TarjetaMedalla extends JPanel {
         Color bordeColor;
         switch (nivel) {
             case ORO:
-                bordeColor = new Color(255, 215, 0);
+                bordeColor = new Color(253, 191, 0);
                 break;
             case PLATA:
-                bordeColor = new Color(192, 192, 192);
+                bordeColor = new Color(145, 145, 145);
                 break;
             case BRONCE:
-                bordeColor = new Color(205, 127, 50);
+                bordeColor = new Color(185, 115, 55);
                 break;
             default:
                 bordeColor = new Color(180, 180, 180);
@@ -107,7 +126,7 @@ public class TarjetaMedalla extends JPanel {
 
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setStroke(new BasicStroke(6));
+        g2.setStroke(new BasicStroke(3));
         g2.setColor(bordeColor);
         int arc = 12;
         g2.drawRoundRect(2, 2, getWidth() - 4, getHeight() - 4, arc, arc);
