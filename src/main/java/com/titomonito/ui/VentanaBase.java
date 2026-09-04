@@ -22,6 +22,7 @@ public class VentanaBase extends JFrame {
     private PreGamePanel preGamePanel;
     private JuegoPanel juego;
     private EstadisticasPanel estadisticas;
+    private LogrosPanel logros;
 
     public VentanaBase() {
 
@@ -47,6 +48,10 @@ public class VentanaBase extends JFrame {
     public void cambiarVista(String vista) {
 
         vistas.show(contenedor, vista);
+
+        if (Constantes.LOGROS.equals(vista)) {
+            logros.refrescar();
+        }
     }
 
     private void initUI() {
@@ -64,7 +69,7 @@ public class VentanaBase extends JFrame {
         inicio = new InicioPanel();
         EstadisticasPanel panelEstadisticas = new EstadisticasPanel();
         this.estadisticas = panelEstadisticas;
-        LogrosPanel logros = new LogrosPanel();
+        this.logros = new LogrosPanel();
         AyudaPanel ayuda = new AyudaPanel();
         OpcionesPanel opciones = new OpcionesPanel();
         preGamePanel = new PreGamePanel();
