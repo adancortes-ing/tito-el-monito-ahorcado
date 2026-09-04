@@ -41,7 +41,7 @@ public class PreGamePanel extends JPanel {
         pnlDificultades = new JPanel();
         pnlDificultades.setOpaque(false);
         pnlDificultades.setLayout(new BoxLayout(pnlDificultades, BoxLayout.X_AXIS));
-        pnlDificultades.setPreferredSize(new Dimension(860, 110));
+        pnlDificultades.setPreferredSize(new Dimension(860, 100));
         pnlDificultades.setMaximumSize(pnlDificultades.getPreferredSize());
         pnlDificultades.setBorder(BorderFactory.createEmptyBorder(10, 70, 0, 10));
         pnlDificultades.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -71,8 +71,8 @@ public class PreGamePanel extends JPanel {
         pnlCategorias = new JPanel();
         pnlCategorias.setOpaque(false);
         pnlCategorias.setAlignmentX(Component.LEFT_ALIGNMENT);
-        pnlCategorias.setBorder(BorderFactory.createEmptyBorder(0, 70, 130, 30));
-        pnlCategorias.setLayout(new GridLayout(5, 4));
+        pnlCategorias.setBorder(BorderFactory.createEmptyBorder(0, 70, 20, 30));
+        pnlCategorias.setLayout(new GridLayout(7, 4));
 
         JLabel lblCategoria = new JLabel("Elige la Categoria:");
         pnlCategorias.add(lblCategoria);
