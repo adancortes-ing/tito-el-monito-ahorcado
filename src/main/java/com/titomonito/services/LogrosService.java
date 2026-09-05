@@ -3,7 +3,10 @@ package com.titomonito.services;
 import com.titomonito.dao.JugadorDAO;
 import com.titomonito.dao.LogrosDAO;
 import com.titomonito.enums.LogroId;
+import com.titomonito.models.Jugador;
 
+import javax.swing.*;
+import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -86,7 +89,35 @@ public class LogrosService {
             nuevos.add(LogroId.DB_TOTAL);
         }
 
+        if (!nuevos.isEmpty()) {
+            int totalPremio = nuevos.stream().mapToInt(LogroId::getPremio).sum();
+            pagarPremio(idJugador, totalPremio);
+        }
+
         return nuevos;
+    }
+
+    private void pagarPremio(int idJugador, int montoPremio) {
+        Jugador j = JugadorDAO.obtenerPorId(idJugador);
+        if (j == null) return;
+
+        int nuevasActuales = j.getMonedas_actuales() + montoPremio;
+        int nuevasMaximas = Math.max(j.getMonedas_maximas(), nuevasActuales);
+
+        JugadorDAO.actualizarMonedas(idJugador, nuevasActuales, nuevasMaximas);
+
+        Jugador jugadorSesion = SesionManager.getInstance().getJugadorActual();
+        if (jugadorSesion != null && jugadorSesion.getId_jugador() == idJugador) {
+            jugadorSesion.setMonedas_actuales(nuevasActuales);
+            jugadorSesion.setMonedas_maximas(nuevasMaximas);
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            Frame frame = JOptionPane.getRootFrame();
+            if (frame != null && frame instanceof com.titomonito.ui.VentanaBase) {
+                ((com.titomonito.ui.VentanaBase) frame).getPnlHeader().actualizarDatosJugador();
+            }
+        });
     }
 
     public Map<Integer, double[]> obtenerProgresoPorCategoria(int idJugador) {

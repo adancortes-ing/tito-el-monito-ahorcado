@@ -126,12 +126,16 @@ public class LogrosPanel extends JPanel {
     }
 
     private void mostrarPopupNuevosLogros(List<LogroId> logros) {
-        StringBuilder sb = new StringBuilder("<html><div style='width:300px'>");
-        sb.append("<b>¡Nuevo logro desbloqueado!</b><br><br>");
+        int totalPremio = logros.stream().mapToInt(LogroId::getPremio).sum();
+
+        StringBuilder sb = new StringBuilder("<html><div style='width:320px'>");
+        sb.append("<b>¡Nuevo").append(logros.size() > 1 ? "s" : "").append(" logro").append(logros.size() > 1 ? "s" : "").append(" desbloqueado").append(logros.size() > 1 ? "s" : "").append("!</b><br><br>");
         for (LogroId logro : logros) {
-            sb.append("&#9733; <b>").append(logro.getNombre()).append("</b><br>");
+            sb.append("&#9733; <b>").append(logro.getNombre()).append("</b>");
+            sb.append(" <span style='color:#FFD700'>+$").append(logro.getPremio()).append("</span><br>");
             sb.append("&nbsp;&nbsp;&nbsp;").append(logro.getDescripcion()).append("<br><br>");
         }
+        sb.append("<span style='color:#FFD700'>+$").append(totalPremio).append("</span> monedas agregadas a tu cuenta.");
         sb.append("</div></html>");
 
         JOptionPane.showMessageDialog(
