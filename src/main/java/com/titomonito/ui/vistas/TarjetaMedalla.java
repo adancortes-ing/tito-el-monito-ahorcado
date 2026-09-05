@@ -33,11 +33,11 @@ public class TarjetaMedalla extends JPanel {
         lblIcono.setMinimumSize(new Dimension(70, 70));
 
         lblNombre = new JLabel(nombreCategoria);
-        lblNombre.setFont(lblNombre.getFont().deriveFont(Font.BOLD, 12));
+        lblNombre.setFont(lblNombre.getFont().deriveFont(Font.BOLD, 14));
         lblNombre.setAlignmentX(CENTER_ALIGNMENT);
 
         lblProgreso = new JLabel("0%");
-        lblProgreso.setFont(lblProgreso.getFont().deriveFont(11f));
+        lblProgreso.setFont(lblProgreso.getFont().deriveFont(14f));
         lblProgreso.setAlignmentX(CENTER_ALIGNMENT);
         lblProgreso.setForeground(Color.GRAY);
 

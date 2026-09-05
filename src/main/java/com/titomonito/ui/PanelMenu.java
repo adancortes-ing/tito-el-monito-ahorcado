@@ -36,7 +36,7 @@ public class PanelMenu extends JPanel {
         btnEstadisticas.addActionListener(al);
         btnLogros.addActionListener(al);
         btnAyuda.addActionListener(al);
-        btnOpciones.addActionListener(al);
+        //btnOpciones.addActionListener(al);
         btnAcerca.addActionListener(al);
         btnCambiarJugador.addActionListener(al);
         btnSalir.addActionListener(al);
@@ -48,12 +48,13 @@ public class PanelMenu extends JPanel {
         btnEstadisticas = crearBoton(Constantes.ESTADISTICAS, "menu_estadisticas.png");
         btnLogros = crearBoton(Constantes.LOGROS, "menu_logros.png");
         btnAyuda = crearBoton(Constantes.AYUDA, "menu_ayuda.png");
-        btnOpciones = crearBoton(Constantes.OPCIONES, "menu_config.png");
+        //btnOpciones = crearBoton(Constantes.OPCIONES, "menu_config.png");
         add(Box.createVerticalGlue());
 
         btnAcerca = crearBoton(Constantes.ACERCA_DE, "menu_about.png");
         btnCambiarJugador = crearBoton(Constantes.CAMBIAR, "jugador.png");
-        btnCambiarJugador.setIcon(null);
+        btnCambiarJugador.setMargin(new Insets(0, 5, 0, 3));
+        btnCambiarJugador.setFont(Recursos.Fuentes.fuenteComic(Font.BOLD, 12));
         btnSalir = crearBoton(Constantes.SALIR, "menu_exit.png");
         btnSalir.setBackground(Constantes.COLOR_SALMON);
         btnSalir.setForeground(Color.WHITE);

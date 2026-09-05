@@ -30,11 +30,11 @@ public class Constantes {
     public static final String UTIL_MARCATEXTOS = "MARCATEXTOS";
 
     // Precios de los Powerups
-    public static final int PRECIO_SACAPUNTAS = 15;
-    public static final int PRECIO_TIJERAS = 20;
+    public static final int PRECIO_SACAPUNTAS = 20;
+    public static final int PRECIO_TIJERAS = 35;
     public static final int PRECIO_GOMA = 30;
-    public static final int PRECIO_PLUMA = 35;
-    public static final int PRECIO_MARCATEXTOS = 45;
+    public static final int PRECIO_PLUMA = 45;
+    public static final int PRECIO_MARCATEXTOS = 60;
 
     //Paleta de colores de la aplicación
     public static final Color COLOR_AZUL = new Color(108, 222, 242);

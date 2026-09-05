@@ -12,7 +12,7 @@ public class GlobalConfig {
 
     private static final Logger LOGGER = Logger.getLogger("com.titomonito");
 
-    public static final String VERSION_JUEGO = "version 0.8.2-ALPHA";
+    public static final String VERSION_JUEGO = "version 0.8.4-BETA";
     public static final Dimension MEDIDA_VENTANA = new Dimension(1080, 750);
 
     public static void CargarConfig() {

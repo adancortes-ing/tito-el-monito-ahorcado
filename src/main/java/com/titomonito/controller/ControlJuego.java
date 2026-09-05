@@ -1,12 +1,15 @@
 package com.titomonito.controller;
 
 import com.titomonito.config.Constantes;
+import com.titomonito.enums.LogroId;
 import com.titomonito.services.LogicaJuego;
 import com.titomonito.ui.VentanaBase;
 import com.titomonito.ui.vistas.JuegoPanel;
+import com.titomonito.ui.vistas.LogrosPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 public class ControlJuego {
 
@@ -62,6 +65,11 @@ public class ControlJuego {
     public void refrescarDatosJugador() {
         ventana.getPnlHeader().actualizarDatosJugador();
         ventana.getInicio().actualizarDatos();
+    }
+
+    public void mostrarLogrosEnPartida(List<LogroId> logros) {
+        if (logros == null || logros.isEmpty()) return;
+        LogrosPanel.mostrarPopupRT(logros, juegoPanel);
     }
 
     private void controlarTeclas(ActionEvent e) {

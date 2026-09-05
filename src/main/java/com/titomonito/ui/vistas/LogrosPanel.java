@@ -83,9 +83,17 @@ public class LogrosPanel extends JPanel {
             panel.add(tarjeta);
         }
 
+        JScrollPane scrollPane = new JScrollPane(panel);
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(15);
+
         JPanel wrapper = new JPanel(new BorderLayout());
         wrapper.setOpaque(false);
-        wrapper.add(panel, BorderLayout.NORTH);
+        wrapper.add(scrollPane, BorderLayout.CENTER);
         return wrapper;
     }
 
@@ -142,6 +150,29 @@ public class LogrosPanel extends JPanel {
                 this,
                 sb.toString(),
                 "Logro Desbloqueado",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
+    public static void mostrarPopupRT(List<LogroId> logros, Component parent) {
+        if (logros == null || logros.isEmpty()) return;
+
+        int totalPremio = logros.stream().mapToInt(LogroId::getPremio).sum();
+
+        StringBuilder sb = new StringBuilder("<html><div style='width:320px'>");
+        sb.append("<b>&#9889; ¡Logro").append(logros.size() > 1 ? "s" : "").append(" en partida!</b><br><br>");
+        for (LogroId logro : logros) {
+            sb.append("&#9733; <b>").append(logro.getNombre()).append("</b>");
+            sb.append(" <span style='color:#FFD700'>+$").append(logro.getPremio()).append("</span><br>");
+            sb.append("&nbsp;&nbsp;&nbsp;").append(logro.getDescripcion()).append("<br><br>");
+        }
+        sb.append("<span style='color:#FFD700'>+$").append(totalPremio).append("</span> monedas agregadas a tu cuenta.");
+        sb.append("</div></html>");
+
+        JOptionPane.showMessageDialog(
+                parent,
+                sb.toString(),
+                "¡Logro Desbloqueado!",
                 JOptionPane.INFORMATION_MESSAGE
         );
     }

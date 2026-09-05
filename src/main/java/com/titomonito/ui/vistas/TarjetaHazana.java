@@ -36,7 +36,7 @@ public class TarjetaHazana extends JPanel {
         lblIcono.setMinimumSize(new Dimension(80, 80));
 
         lblNombre = new JLabel("<html><center>" + logroId.getNombre() + "</center></html>");
-        lblNombre.setFont(lblNombre.getFont().deriveFont(Font.BOLD, 13));
+        lblNombre.setFont(lblNombre.getFont().deriveFont(Font.BOLD, 14));
         lblNombre.setAlignmentX(CENTER_ALIGNMENT);
         lblNombre.setMaximumSize(new Dimension(120, 36));
         lblNombre.setPreferredSize(new Dimension(120, 36));
@@ -123,7 +123,7 @@ public class TarjetaHazana extends JPanel {
         BufferedImage bi = new BufferedImage(80, 80, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = bi.createGraphics();
         g2.drawImage(img, 0, 0, null);
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.50f));
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.80f));
         g2.setColor(Color.GRAY);
         g2.fillRect(0, 0, 80, 80);
         g2.dispose();

@@ -4,6 +4,7 @@ import com.titomonito.dao.JugadorDAO;
 import com.titomonito.dao.LogrosDAO;
 import com.titomonito.enums.LogroId;
 import com.titomonito.models.Jugador;
+import com.titomonito.models.SnapshotPartida;
 
 import javax.swing.*;
 import java.awt.Frame;
@@ -87,6 +88,121 @@ public class LogrosService {
                 && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.DB_TOTAL.getCodigo())) {
             LogrosDAO.registrarLogro(idJugador, LogroId.DB_TOTAL.getCodigo());
             nuevos.add(LogroId.DB_TOTAL);
+        }
+
+        if (!nuevos.isEmpty()) {
+            int totalPremio = nuevos.stream().mapToInt(LogroId::getPremio).sum();
+            pagarPremio(idJugador, totalPremio);
+        }
+
+        return nuevos;
+    }
+
+    public List<LogroId> evaluarLogrosEnPartida(SnapshotPartida snap) {
+        List<LogroId> nuevos = new ArrayList<>();
+        if (!snap.isGano()) return nuevos;
+
+        int idJugador = snap.getIdJugador();
+        SesionJuegoTracker tracker = SesionJuegoTracker.getInstance();
+
+        if (snap.getVidasRestantes() == 6
+                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_PERFECTA.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.RT_PERFECTA.getCodigo());
+            nuevos.add(LogroId.RT_PERFECTA);
+        }
+        if (snap.getVidasRestantes() == 5
+                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_CASI_PERFECTA.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.RT_CASI_PERFECTA.getCodigo());
+            nuevos.add(LogroId.RT_CASI_PERFECTA);
+        }
+        if (snap.getVidasRestantes() == 1
+                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_MILAGRO.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.RT_MILAGRO.getCodigo());
+            nuevos.add(LogroId.RT_MILAGRO);
+        }
+
+        if (!snap.isUsoAlgunUtil()
+                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_SIN_UTILES.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.RT_SIN_UTILES.getCodigo());
+            nuevos.add(LogroId.RT_SIN_UTILES);
+        }
+        if (snap.isUsoSacapuntas()
+                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_SACAPUNTAS.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.RT_SACAPUNTAS.getCodigo());
+            nuevos.add(LogroId.RT_SACAPUNTAS);
+        }
+        if (snap.isUsoMarcatextos()
+                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_MARCATEXTOS.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.RT_MARCATEXTOS.getCodigo());
+            nuevos.add(LogroId.RT_MARCATEXTOS);
+        }
+
+        if (tracker.getRachaExtremoSesion() >= 10
+                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_RACHA_EXTREMO.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.RT_RACHA_EXTREMO.getCodigo());
+            nuevos.add(LogroId.RT_RACHA_EXTREMO);
+        }
+        if (tracker.getRachaImposibleSesion() >= 5
+                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_RACHA_IMPOSIBLE.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.RT_RACHA_IMPOSIBLE.getCodigo());
+            nuevos.add(LogroId.RT_RACHA_IMPOSIBLE);
+        }
+
+        if (tracker.getRachaGlobalSesion() >= 10
+                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_RACHA_SESION_10.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.RT_RACHA_SESION_10.getCodigo());
+            nuevos.add(LogroId.RT_RACHA_SESION_10);
+        }
+        if (tracker.getRachaGlobalSesion() >= 20
+                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_RACHA_SESION_20.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.RT_RACHA_SESION_20.getCodigo());
+            nuevos.add(LogroId.RT_RACHA_SESION_20);
+        }
+
+        if (tracker.getCategoriasDistintasGanadas() >= 3
+                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_CAT_3.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.RT_CAT_3.getCodigo());
+            nuevos.add(LogroId.RT_CAT_3);
+        }
+        if (tracker.getCategoriasDistintasGanadas() >= 8
+                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_CAT_8.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.RT_CAT_8.getCodigo());
+            nuevos.add(LogroId.RT_CAT_8);
+        }
+
+        if (snap.getMonedasObtenidas() > 50
+                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_PARTIDA_RICA.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.RT_PARTIDA_RICA.getCodigo());
+            nuevos.add(LogroId.RT_PARTIDA_RICA);
+        }
+
+        if (snap.getTiempoRestanteAlFinal() == 1
+                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_CONTRA_RELOJ.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.RT_CONTRA_RELOJ.getCodigo());
+            nuevos.add(LogroId.RT_CONTRA_RELOJ);
+        }
+
+        if (snap.getUtilesCount() >= 3
+                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_TRES_UTILES.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.RT_TRES_UTILES.getCodigo());
+            nuevos.add(LogroId.RT_TRES_UTILES);
+        }
+        if (snap.getUtilesCount() >= 5
+                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_CINCO_UTILES.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.RT_CINCO_UTILES.getCodigo());
+            nuevos.add(LogroId.RT_CINCO_UTILES);
+        }
+
+        if (snap.isGano() && snap.getVidasRestantes() == 1 && snap.getTiempoRestanteAlFinal() == 1
+                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_AL_FILO.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.RT_AL_FILO.getCodigo());
+            nuevos.add(LogroId.RT_AL_FILO);
+        }
+
+        if (snap.isGano() && snap.getVidasRestantes() == 6 && snap.getLongitudPalabra() >= 10
+                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_PALABRA_LARGA.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.RT_PALABRA_LARGA.getCodigo());
+            nuevos.add(LogroId.RT_PALABRA_LARGA);
         }
 
         if (!nuevos.isEmpty()) {
