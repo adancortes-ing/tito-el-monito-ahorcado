@@ -30,11 +30,11 @@ public class Constantes {
     public static final String UTIL_MARCATEXTOS = "MARCATEXTOS";
 
     // Precios de los Powerups
-    public static final int PRECIO_SACAPUNTAS = 15;
-    public static final int PRECIO_TIJERAS = 20;
+    public static final int PRECIO_SACAPUNTAS = 20;
+    public static final int PRECIO_TIJERAS = 35;
     public static final int PRECIO_GOMA = 30;
-    public static final int PRECIO_PLUMA = 35;
-    public static final int PRECIO_MARCATEXTOS = 45;
+    public static final int PRECIO_PLUMA = 45;
+    public static final int PRECIO_MARCATEXTOS = 60;
 
     //Paleta de colores de la aplicación
     public static final Color COLOR_AZUL = new Color(108, 222, 242);
@@ -44,4 +44,17 @@ public class Constantes {
     public static final Color COLOR_AZUL_CLARO = new Color(206, 244, 250);
 
     public static final String ALFABETO =   "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+
+    // Mensaje de confirmación al abandonar partida activa
+    public static final String MSJ_CONFIRMAR_ABANDONO =
+            "<html><div style='width:340px'>" +
+            "Si abandonas la partida ahora:<br><br>" +
+            "&bull; Se reiniciará tu <b>racha actual</b> a 0.<br>" +
+            "&bull; <b>No recibirás</b> las monedas aseguradas en esta partida.<br><br>" +
+            "¿Seguro que quieres salir?" +
+            "</div></html>";
+
+    public static final String TITULO_ABANDONO = "Confirmación de salida";
+    public static final String BTN_ABANDONAR_SI = "Sí, abandonar";
+    public static final String BTN_ABANDONAR_NO = "Volver al juego";
 }

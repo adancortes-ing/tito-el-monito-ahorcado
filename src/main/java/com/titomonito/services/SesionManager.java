@@ -26,7 +26,7 @@ public class SesionManager {
     }
 
     public void iniciarSesion(Jugador jugador) {
-
+        SesionJuegoTracker.getInstance().reiniciar();
         this.jugadorActual = jugador;
     }
 
@@ -36,7 +36,7 @@ public class SesionManager {
     }
 
     public void cerrarSesion() {
-
+        SesionJuegoTracker.getInstance().reiniciar();
         this.jugadorActual = null;
     }
 

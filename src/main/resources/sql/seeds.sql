@@ -780,4 +780,6 @@ INSERT OR IGNORE INTO palabras (id_categoria, palabra, pista) VALUES (1,'MANZANA
  (16,'MEGAMAN','Armas que cambian segun enemigo'),
  (16,'ZERO','Espada y precision en batalla'),
  (16,'STRIDER','Ninja futurista muy habil');
+ 
+ 
 COMMIT;
