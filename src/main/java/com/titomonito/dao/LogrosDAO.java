@@ -15,7 +15,7 @@ public class LogrosDAO {
     private static final Logger LOGGER = Logger.getLogger(LogrosDAO.class.getName());
 
     public static void registrarLogro(int idJugador, String codigoLogro) {
-        String sql = "INSERT OR IGNORE INTO logros (id_jugador, id_logro) VALUES (?, ?)";
+        String sql = "INSERT INTO logros (id_jugador, id_logro) VALUES (?, ?)";
         try (Connection conn = ConfigDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, idJugador);
@@ -56,6 +56,21 @@ public class LogrosDAO {
             LOGGER.severe("Error al obtener logros desbloqueados: " + ex.getMessage());
         }
         return codigos;
+    }
+
+    public static int contarLogrosDesbloqueados(int idJugador, String codigoLogro) {
+        String sql = "SELECT COUNT(*) FROM logros WHERE id_jugador = ? AND id_logro = ?";
+        try (Connection conn = ConfigDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idJugador);
+            ps.setString(2, codigoLogro);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            LOGGER.severe("Error al contar logros desbloqueados: " + ex.getMessage());
+        }
+        return 0;
     }
 
     public static int contarPalabrasDescubiertas(int idJugador) {

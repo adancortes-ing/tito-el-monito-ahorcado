@@ -35,27 +35,29 @@ public class LogrosService {
         int rachaMaxima = LogrosDAO.obtenerRachaMaxima(idJugador);
         int monedasMaximas = LogrosDAO.obtenerMonedasMaximas(idJugador);
         int totalPalabras = LogrosDAO.contarPalabrasTotales();
+        int dificultadMinimaLogros = 2; // Normal
+        int dificultadMinimaExtremoLogros = 3; // Difícil
 
-        if (palabrasDescubiertas >= 100 && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.DB_PAL_100.getCodigo())) {
-            LogrosDAO.registrarLogro(idJugador, LogroId.DB_PAL_100.getCodigo());
-            nuevos.add(LogroId.DB_PAL_100);
+        if (palabrasDescubiertas >= 200 && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.DB_PAL_200.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.DB_PAL_200.getCodigo());
+            nuevos.add(LogroId.DB_PAL_200);
         }
-        if (palabrasDescubiertas >= 500 && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.DB_PAL_500.getCodigo())) {
-            LogrosDAO.registrarLogro(idJugador, LogroId.DB_PAL_500.getCodigo());
-            nuevos.add(LogroId.DB_PAL_500);
+        if (palabrasDescubiertas >= 800 && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.DB_PAL_800.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.DB_PAL_800.getCodigo());
+            nuevos.add(LogroId.DB_PAL_800);
         }
-        if (palabrasDescubiertas >= 1000 && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.DB_PAL_1000.getCodigo())) {
-            LogrosDAO.registrarLogro(idJugador, LogroId.DB_PAL_1000.getCodigo());
-            nuevos.add(LogroId.DB_PAL_1000);
+        if (palabrasDescubiertas >= 1600 && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.DB_PAL_1600.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.DB_PAL_1600.getCodigo());
+            nuevos.add(LogroId.DB_PAL_1600);
         }
 
-        if (categoriasCompletas >= 5 && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.DB_CAT_5.getCodigo())) {
-            LogrosDAO.registrarLogro(idJugador, LogroId.DB_CAT_5.getCodigo());
-            nuevos.add(LogroId.DB_CAT_5);
-        }
         if (categoriasCompletas >= 10 && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.DB_CAT_10.getCodigo())) {
             LogrosDAO.registrarLogro(idJugador, LogroId.DB_CAT_10.getCodigo());
             nuevos.add(LogroId.DB_CAT_10);
+        }
+        if (categoriasCompletas >= 20 && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.DB_CAT_20.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.DB_CAT_20.getCodigo());
+            nuevos.add(LogroId.DB_CAT_20);
         }
 
         if (rachaMaxima >= 10 && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.DB_RAC_10.getCodigo())) {
@@ -105,36 +107,50 @@ public class LogrosService {
         int idJugador = snap.getIdJugador();
         SesionJuegoTracker tracker = SesionJuegoTracker.getInstance();
 
-        if (snap.getVidasRestantes() == 6
-                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_PERFECTA.getCodigo())) {
+        int dificultadPartida = snap.getDificultad();
+
+        if (snap.getVidasRestantes() == 6 && dificultadPartida >= 2) {
+            int countPerfecta = LogrosDAO.contarLogrosDesbloqueados(idJugador, LogroId.RT_PERFECTA.getCodigo());
             LogrosDAO.registrarLogro(idJugador, LogroId.RT_PERFECTA.getCodigo());
-            nuevos.add(LogroId.RT_PERFECTA);
+            if (countPerfecta + 1 >= 3) {
+                nuevos.add(LogroId.RT_PERFECTA);
+            }
         }
-        if (snap.getVidasRestantes() == 5
-                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_CASI_PERFECTA.getCodigo())) {
+        if (snap.getVidasRestantes() == 5 && dificultadPartida >= 2) {
+            int countCasi = LogrosDAO.contarLogrosDesbloqueados(idJugador, LogroId.RT_CASI_PERFECTA.getCodigo());
             LogrosDAO.registrarLogro(idJugador, LogroId.RT_CASI_PERFECTA.getCodigo());
-            nuevos.add(LogroId.RT_CASI_PERFECTA);
+            if (countCasi + 1 >= 3) {
+                nuevos.add(LogroId.RT_CASI_PERFECTA);
+            }
         }
-        if (snap.getVidasRestantes() == 1
-                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_MILAGRO.getCodigo())) {
+        if (snap.getVidasRestantes() == 1 && dificultadPartida >= 2) {
+            int countMilagro = LogrosDAO.contarLogrosDesbloqueados(idJugador, LogroId.RT_MILAGRO.getCodigo());
             LogrosDAO.registrarLogro(idJugador, LogroId.RT_MILAGRO.getCodigo());
-            nuevos.add(LogroId.RT_MILAGRO);
+            if (countMilagro + 1 >= 3) {
+                nuevos.add(LogroId.RT_MILAGRO);
+            }
         }
 
-        if (!snap.isUsoAlgunUtil()
-                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_SIN_UTILES.getCodigo())) {
+        if (!snap.isUsoAlgunUtil() && dificultadPartida >= 2) {
+            int countSinUtiles = LogrosDAO.contarLogrosDesbloqueados(idJugador, LogroId.RT_SIN_UTILES.getCodigo());
             LogrosDAO.registrarLogro(idJugador, LogroId.RT_SIN_UTILES.getCodigo());
-            nuevos.add(LogroId.RT_SIN_UTILES);
+            if (countSinUtiles + 1 >= 5) {
+                nuevos.add(LogroId.RT_SIN_UTILES);
+            }
         }
-        if (snap.isUsoSacapuntas()
-                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_SACAPUNTAS.getCodigo())) {
+        if (snap.isUsoSacapuntas() && dificultadPartida >= 2) {
+            int countSacapuntas = LogrosDAO.contarLogrosDesbloqueados(idJugador, LogroId.RT_SACAPUNTAS.getCodigo());
             LogrosDAO.registrarLogro(idJugador, LogroId.RT_SACAPUNTAS.getCodigo());
-            nuevos.add(LogroId.RT_SACAPUNTAS);
+            if (countSacapuntas + 1 >= 3) {
+                nuevos.add(LogroId.RT_SACAPUNTAS);
+            }
         }
-        if (snap.isUsoMarcatextos()
-                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_MARCATEXTOS.getCodigo())) {
+        if (snap.isUsoMarcatextos() && dificultadPartida >= 3) {
+            int countMarcatextos = LogrosDAO.contarLogrosDesbloqueados(idJugador, LogroId.RT_MARCATEXTOS.getCodigo());
             LogrosDAO.registrarLogro(idJugador, LogroId.RT_MARCATEXTOS.getCodigo());
-            nuevos.add(LogroId.RT_MARCATEXTOS);
+            if (countMarcatextos + 1 >= 3) {
+                nuevos.add(LogroId.RT_MARCATEXTOS);
+            }
         }
 
         if (tracker.getRachaExtremoSesion() >= 10
@@ -142,35 +158,35 @@ public class LogrosService {
             LogrosDAO.registrarLogro(idJugador, LogroId.RT_RACHA_EXTREMO.getCodigo());
             nuevos.add(LogroId.RT_RACHA_EXTREMO);
         }
-        if (tracker.getRachaImposibleSesion() >= 5
+        if (tracker.getRachaImposibleSesion() >= 10
                 && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_RACHA_IMPOSIBLE.getCodigo())) {
             LogrosDAO.registrarLogro(idJugador, LogroId.RT_RACHA_IMPOSIBLE.getCodigo());
             nuevos.add(LogroId.RT_RACHA_IMPOSIBLE);
         }
 
-        if (tracker.getRachaGlobalSesion() >= 10
+        if (tracker.getRachaGlobalSesion() >= 10 && dificultadPartida >= 2
                 && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_RACHA_SESION_10.getCodigo())) {
             LogrosDAO.registrarLogro(idJugador, LogroId.RT_RACHA_SESION_10.getCodigo());
             nuevos.add(LogroId.RT_RACHA_SESION_10);
         }
-        if (tracker.getRachaGlobalSesion() >= 20
+        if (tracker.getRachaGlobalSesion() >= 20 && dificultadPartida >= 2
                 && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_RACHA_SESION_20.getCodigo())) {
             LogrosDAO.registrarLogro(idJugador, LogroId.RT_RACHA_SESION_20.getCodigo());
             nuevos.add(LogroId.RT_RACHA_SESION_20);
         }
 
-        if (tracker.getCategoriasDistintasGanadas() >= 3
-                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_CAT_3.getCodigo())) {
-            LogrosDAO.registrarLogro(idJugador, LogroId.RT_CAT_3.getCodigo());
-            nuevos.add(LogroId.RT_CAT_3);
+        if (tracker.getCategoriasDistintasGanadas() >= 6
+                && LogrosDAO.contarLogrosDesbloqueados(idJugador, LogroId.RT_CAT_6.getCodigo()) < 1) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.RT_CAT_6.getCodigo());
+            nuevos.add(LogroId.RT_CAT_6);
         }
-        if (tracker.getCategoriasDistintasGanadas() >= 8
-                && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_CAT_8.getCodigo())) {
-            LogrosDAO.registrarLogro(idJugador, LogroId.RT_CAT_8.getCodigo());
-            nuevos.add(LogroId.RT_CAT_8);
+        if (tracker.getCategoriasDistintasGanadas() >= 15
+                && LogrosDAO.contarLogrosDesbloqueados(idJugador, LogroId.RT_CAT_15.getCodigo()) < 1) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.RT_CAT_15.getCodigo());
+            nuevos.add(LogroId.RT_CAT_15);
         }
 
-        if (snap.getMonedasObtenidas() > 50
+        if (snap.getMonedasObtenidas() > 50 && dificultadPartida >= 2
                 && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.RT_PARTIDA_RICA.getCodigo())) {
             LogrosDAO.registrarLogro(idJugador, LogroId.RT_PARTIDA_RICA.getCodigo());
             nuevos.add(LogroId.RT_PARTIDA_RICA);

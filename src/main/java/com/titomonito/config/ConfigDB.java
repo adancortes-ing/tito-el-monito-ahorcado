@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class ConfigDB {
 
-    private static final int CURRENT_DB_VERSION = 2; // Sube a 2 cuando agregues cambios
+    private static final int CURRENT_DB_VERSION = 3;
 
     private static final String DB_NAME = "tito_db.db";
     private static final String DB_NOMBRE_CARPETA = "Tito el Monito Ahorcado";
@@ -75,6 +75,7 @@ public class ConfigDB {
                 ejecutarScriptSQL(stmt, "/sql/schema.sql");
                 ejecutarScriptSQL(stmt, "/sql/seeds.sql");
                 ejecutarScriptSQL(stmt, "/sql/update2.sql");
+                ejecutarScriptSQL(stmt, "/sql/update3.sql");
 
                 // Actualizar version en PRAGMA de la base de datos
                 stmt.execute("PRAGMA user_version = " + CURRENT_DB_VERSION + ";");
