@@ -105,6 +105,7 @@ public class LogicaJuego {
         }
         this.palabraSecreta = palabraObtenida.getPalabra();
         this.letrasIncognitas = palabraSecreta.length();
+        System.out.println(palabraSecreta);
 
         palabraIncompleta = new char[palabraSecreta.length()];
         Arrays.fill(palabraIncompleta, '_');
@@ -240,7 +241,7 @@ public class LogicaJuego {
 
         List<LogroId> logros = liquidarPartida(juegoGanado);
         controlJuego.mostrarLogrosEnPartida(logros);
-        controlJuego.mostrarResultado(titulo, mensaje, this.id_categoria, this.categoria, this.dificultad);
+        controlJuego.mostrarResultado(titulo, mensaje, this.id_categoria, this.categoria, this.dificultad, juegoGanado);
         return logros;
     }
 

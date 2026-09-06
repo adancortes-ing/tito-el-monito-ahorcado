@@ -51,7 +51,7 @@ public class AyudaPanel extends JPanel {
     public AyudaPanel() {
 
         setLayout(new BorderLayout());
-        setBorder(BorderFactory.createEmptyBorder(5, 60, 5, 25));
+        setBorder(BorderFactory.createEmptyBorder(5, 60, 50, 25));
         setOpaque(false);
 
         add(crearHeader(), BorderLayout.NORTH);

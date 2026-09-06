@@ -43,7 +43,7 @@ public class LogrosPanel extends JPanel {
 
     public LogrosPanel() {
         setLayout(new BorderLayout(5, 5));
-        setBorder(BorderFactory.createEmptyBorder(0, 20, 5, 20));
+        setBorder(BorderFactory.createEmptyBorder(25, 20, 5, 20));
         initUI();
     }
 
@@ -51,6 +51,8 @@ public class LogrosPanel extends JPanel {
         pestanas = new JTabbedPane();
         pestanas.addTab("Medallas", crearPanelMedallas());
         pestanas.addTab("Hazañas", crearPanelHazanas());
+        pestanas.putClientProperty("FlatLaf.style",
+                "tabInsets: 1,15,1,15; selectedInsets: 0,0,0,0; tabHeight: 10");
         add(pestanas, BorderLayout.CENTER);
     }
 
@@ -203,7 +205,7 @@ public class LogrosPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Image fondo = Objects.requireNonNull(Recursos.cargarImagen("bg_center.png")).getImage();
+        Image fondo = Objects.requireNonNull(Recursos.cargarImagen("bg_hojaBlanca2.png")).getImage();
         g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
     }
 }

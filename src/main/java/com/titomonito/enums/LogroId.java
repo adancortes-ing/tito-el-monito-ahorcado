@@ -31,7 +31,7 @@ public enum LogroId {
     DB_RAC_10("Mano Caliente", "Alcanza una racha de 10 victorias consecutivas.", "logro_rac_10.png", 250),
     DB_RAC_30("Racha Dorada", "Alcanza una racha de 30 victorias consecutivas.", "logro_rac_30.png", 600),
     DB_RAC_75("Leyenda del Monito", "Alcanza una racha de 75 victorias consecutivas.", "logro_rac_75.png", 1200),
-    DB_MON_500("Ahorrativo", "Acumula 500 monedas (récord histórico).", "logro_mon_500.png", 150),
+    DB_MON_1000("Ahorrativo", "Acumula 1000 monedas (récord histórico).", "logro_mon_500.png", 170),
     DB_MON_2500("Billetera Gruesa", "Acumula 2500 monedas (récord histórico).", "logro_mon_2500.png", 400),
     DB_MON_5000("Millonario del Lápiz", "Acumula 5000 monedas (récord histórico).", "logro_mon_5000.png", 800),
     DB_TOTAL("Biblioteca Viviente", "Descubre todas las 2000 palabras del diccionario.", "logro_total.png", 3000);

@@ -35,8 +35,6 @@ public class LogrosService {
         int rachaMaxima = LogrosDAO.obtenerRachaMaxima(idJugador);
         int monedasMaximas = LogrosDAO.obtenerMonedasMaximas(idJugador);
         int totalPalabras = LogrosDAO.contarPalabrasTotales();
-        int dificultadMinimaLogros = 2; // Normal
-        int dificultadMinimaExtremoLogros = 3; // Difícil
 
         if (palabrasDescubiertas >= 200 && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.DB_PAL_200.getCodigo())) {
             LogrosDAO.registrarLogro(idJugador, LogroId.DB_PAL_200.getCodigo());
@@ -73,9 +71,9 @@ public class LogrosService {
             nuevos.add(LogroId.DB_RAC_75);
         }
 
-        if (monedasMaximas >= 500 && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.DB_MON_500.getCodigo())) {
-            LogrosDAO.registrarLogro(idJugador, LogroId.DB_MON_500.getCodigo());
-            nuevos.add(LogroId.DB_MON_500);
+        if (monedasMaximas >= 1000 && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.DB_MON_1000.getCodigo())) {
+            LogrosDAO.registrarLogro(idJugador, LogroId.DB_MON_1000.getCodigo());
+            nuevos.add(LogroId.DB_MON_1000);
         }
         if (monedasMaximas >= 2500 && !LogrosDAO.yaDesbloqueado(idJugador, LogroId.DB_MON_2500.getCodigo())) {
             LogrosDAO.registrarLogro(idJugador, LogroId.DB_MON_2500.getCodigo());
@@ -103,52 +101,59 @@ public class LogrosService {
     public List<LogroId> evaluarLogrosEnPartida(SnapshotPartida snap) {
         List<LogroId> nuevos = new ArrayList<>();
         if (!snap.isGano()) return nuevos;
+        int dificultadMinimaLogros = 2; // Normal
 
         int idJugador = snap.getIdJugador();
         SesionJuegoTracker tracker = SesionJuegoTracker.getInstance();
 
         int dificultadPartida = snap.getDificultad();
 
-        if (snap.getVidasRestantes() == 6 && dificultadPartida >= 2) {
+        if (snap.getVidasRestantes() == 6 && dificultadPartida >= dificultadMinimaLogros &&
+                LogrosDAO.contarLogrosDesbloqueados(idJugador, LogroId.RT_PERFECTA.getCodigo()) < 3) {
             int countPerfecta = LogrosDAO.contarLogrosDesbloqueados(idJugador, LogroId.RT_PERFECTA.getCodigo());
             LogrosDAO.registrarLogro(idJugador, LogroId.RT_PERFECTA.getCodigo());
-            if (countPerfecta + 1 >= 3) {
+            if (countPerfecta + 1 == 3) {
                 nuevos.add(LogroId.RT_PERFECTA);
             }
         }
-        if (snap.getVidasRestantes() == 5 && dificultadPartida >= 2) {
+        if (snap.getVidasRestantes() == 5 && dificultadPartida >= dificultadMinimaLogros &&
+                LogrosDAO.contarLogrosDesbloqueados(idJugador, LogroId.RT_CASI_PERFECTA.getCodigo()) < 3) {
             int countCasi = LogrosDAO.contarLogrosDesbloqueados(idJugador, LogroId.RT_CASI_PERFECTA.getCodigo());
             LogrosDAO.registrarLogro(idJugador, LogroId.RT_CASI_PERFECTA.getCodigo());
-            if (countCasi + 1 >= 3) {
+            if (countCasi + 1 == 3) {
                 nuevos.add(LogroId.RT_CASI_PERFECTA);
             }
         }
-        if (snap.getVidasRestantes() == 1 && dificultadPartida >= 2) {
+        if (snap.getVidasRestantes() == 1 && dificultadPartida >= dificultadMinimaLogros &&
+                LogrosDAO.contarLogrosDesbloqueados(idJugador, LogroId.RT_MILAGRO.getCodigo()) < 3) {
             int countMilagro = LogrosDAO.contarLogrosDesbloqueados(idJugador, LogroId.RT_MILAGRO.getCodigo());
             LogrosDAO.registrarLogro(idJugador, LogroId.RT_MILAGRO.getCodigo());
-            if (countMilagro + 1 >= 3) {
+            if (countMilagro + 1 == 3) {
                 nuevos.add(LogroId.RT_MILAGRO);
             }
         }
 
-        if (!snap.isUsoAlgunUtil() && dificultadPartida >= 2) {
+        if (!snap.isUsoAlgunUtil() && dificultadPartida >= dificultadMinimaLogros  &&
+                LogrosDAO.contarLogrosDesbloqueados(idJugador, LogroId.RT_SIN_UTILES.getCodigo()) < 5) {
             int countSinUtiles = LogrosDAO.contarLogrosDesbloqueados(idJugador, LogroId.RT_SIN_UTILES.getCodigo());
             LogrosDAO.registrarLogro(idJugador, LogroId.RT_SIN_UTILES.getCodigo());
-            if (countSinUtiles + 1 >= 5) {
+            if (countSinUtiles + 1 == 5) {
                 nuevos.add(LogroId.RT_SIN_UTILES);
             }
         }
-        if (snap.isUsoSacapuntas() && dificultadPartida >= 2) {
+        if (snap.isUsoSacapuntas() && dificultadPartida >= dificultadMinimaLogros  &&
+                LogrosDAO.contarLogrosDesbloqueados(idJugador, LogroId.RT_SACAPUNTAS.getCodigo()) < 3) {
             int countSacapuntas = LogrosDAO.contarLogrosDesbloqueados(idJugador, LogroId.RT_SACAPUNTAS.getCodigo());
             LogrosDAO.registrarLogro(idJugador, LogroId.RT_SACAPUNTAS.getCodigo());
-            if (countSacapuntas + 1 >= 3) {
+            if (countSacapuntas + 1 == 3) {
                 nuevos.add(LogroId.RT_SACAPUNTAS);
             }
         }
-        if (snap.isUsoMarcatextos() && dificultadPartida >= 3) {
+        if (snap.isUsoMarcatextos() && dificultadPartida >= 3 &&
+                LogrosDAO.contarLogrosDesbloqueados(idJugador, LogroId.RT_MARCATEXTOS.getCodigo()) < 3) {
             int countMarcatextos = LogrosDAO.contarLogrosDesbloqueados(idJugador, LogroId.RT_MARCATEXTOS.getCodigo());
             LogrosDAO.registrarLogro(idJugador, LogroId.RT_MARCATEXTOS.getCodigo());
-            if (countMarcatextos + 1 >= 3) {
+            if (countMarcatextos + 1 == 3) {
                 nuevos.add(LogroId.RT_MARCATEXTOS);
             }
         }
@@ -246,7 +251,7 @@ public class LogrosService {
 
         SwingUtilities.invokeLater(() -> {
             Frame frame = JOptionPane.getRootFrame();
-            if (frame != null && frame instanceof com.titomonito.ui.VentanaBase) {
+            if (frame instanceof com.titomonito.ui.VentanaBase) {
                 ((com.titomonito.ui.VentanaBase) frame).getPnlHeader().actualizarDatosJugador();
             }
         });

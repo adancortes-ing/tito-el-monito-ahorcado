@@ -34,8 +34,8 @@ public class EstadisticasPanel extends JPanel {
 
     public EstadisticasPanel() {
 
-        setLayout(new BorderLayout(10, 10));
-        setBorder(BorderFactory.createEmptyBorder(5, 65, 5, 30));
+        setLayout(new BorderLayout(10, 7));
+        setBorder(BorderFactory.createEmptyBorder(20, 50, 15, 30));
 
         initUI();
     }
@@ -77,7 +77,7 @@ public class EstadisticasPanel extends JPanel {
         panel.add(lblPorcentajeGlobal);
         panel.add(Box.createVerticalStrut(5));
         panel.add(lblPalabrasDescubiertas);
-        panel.add(Box.createVerticalStrut(15));
+        panel.add(Box.createVerticalStrut(10));
 
         JSeparator sep = new JSeparator();
         sep.setMaximumSize(new Dimension(230, 5));
@@ -159,7 +159,7 @@ public class EstadisticasPanel extends JPanel {
         javax.swing.border.TitledBorder borderCat = BorderFactory.createTitledBorder("Progreso por Categoría");
         borderCat.setTitleFont(borderCat.getTitleFont().deriveFont(16.0f));
         panel.setBorder(borderCat);
-        panel.setPreferredSize(new Dimension(0, 280));
+        panel.setPreferredSize(new Dimension(0, 265));
 
         modeloCategorias = new CategoriasTableModel();
         tablaCategorias = new JTable(modeloCategorias) {
@@ -253,7 +253,7 @@ public class EstadisticasPanel extends JPanel {
 
         super.paintComponent(g);
 
-        Image fondo = Objects.requireNonNull(Recursos.cargarImagen("bg_contenedor.png")).getImage();
+        Image fondo = Objects.requireNonNull(Recursos.cargarImagen("bg_hojaBlanca.png")).getImage();
 
         g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
     }
