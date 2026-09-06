@@ -176,6 +176,7 @@ public class LogicaJuego {
         }
 
         vistaJuego.feedbackTecla(String.valueOf(letra), letraEncontrada);
+        ServicioSonido.getInstance().reproducir(letraEncontrada ? "tecla_acierto" : "tecla_error");
         List<LogroId> nuevos = comprobarEstadoPartida();
 
         if (juegoActivo) {
@@ -244,6 +245,7 @@ public class LogicaJuego {
 
         List<LogroId> logros = liquidarPartida(juegoGanado);
         controlJuego.mostrarLogrosEnPartida(logros);
+        ServicioSonido.getInstance().reproducir(juegoGanado ? "victoria" : "derrota");
         controlJuego.mostrarResultado(titulo, mensaje, this.id_categoria, this.categoria, this.dificultad, juegoGanado);
         return logros;
     }
@@ -498,6 +500,7 @@ public class LogicaJuego {
             vistaJuego.setLblValTiempo(tiempoRestante);
         }
         notificarCambioEstado();
+        ServicioSonido.getInstance().reproducir("powerup");
         return true;
     }
 
@@ -522,11 +525,13 @@ public class LogicaJuego {
         incrementarTier(Constantes.UTIL_TIJERAS);
         if (vistaJuego != null) {
             vistaJuego.setLblValVidas(UtilsJuego.calcularCorazones(vidas));
+            vistaJuego.dibujarTito(UtilsJuego.obtenerDibujo(vidas));
             vistaJuego.deshabilitarBoton(Constantes.UTIL_TIJERAS);
         }
 
         if (controlJuego != null) controlJuego.refrescarDatosJugador();
         notificarCambioEstado();
+        ServicioSonido.getInstance().reproducir("powerup");
         return true;
     }
 
@@ -567,6 +572,7 @@ public class LogicaJuego {
 
         if (controlJuego != null) controlJuego.refrescarDatosJugador();
         notificarCambioEstado();
+        ServicioSonido.getInstance().reproducir("powerup");
         return true;
     }
 
@@ -625,6 +631,7 @@ public class LogicaJuego {
 
         if (controlJuego != null) controlJuego.refrescarDatosJugador();
         notificarCambioEstado();
+        ServicioSonido.getInstance().reproducir("powerup");
 
         comprobarEstadoPartida();
         return true;
@@ -655,6 +662,7 @@ public class LogicaJuego {
 
         if (controlJuego != null) controlJuego.refrescarDatosJugador();
         notificarCambioEstado();
+        ServicioSonido.getInstance().reproducir("powerup");
         return true;
     }
 
@@ -664,13 +672,16 @@ public class LogicaJuego {
             return;
         }
         this.tiempoRestante--;
+        boolean vidaPerdidaPorTiempo = false;
         if (this.tiempoRestante == 0) {
             this.vidas--;
+            vidaPerdidaPorTiempo = true;
             tiempoBonusAcumulado = 0;
             notificarCambioEstado();
             if (vistaJuego != null) {
                 vistaJuego.setLblValVidas(UtilsJuego.calcularCorazones(vidas));
                 vistaJuego.setLblValPotencial(String.valueOf(UtilsJuego.calcularPremioPotencial(vidas, palabraSecreta.length(), this.dificultad)));
+                vistaJuego.dibujarTito(UtilsJuego.obtenerDibujo(vidas));
                 vistaJuego.mostrarFeedbackTiempoAgotado();
             }
             if (this.vidas == 0) {
@@ -678,7 +689,11 @@ public class LogicaJuego {
                 comprobarEstadoPartida();
                 return;
             }
+            ServicioSonido.getInstance().reproducir("lesion");
             iniciarNuevoTurno();
+        }
+        if (!vidaPerdidaPorTiempo && this.tiempoRestante > 0 && this.tiempoRestante <= 5) {
+            ServicioSonido.getInstance().reproducir("tic-tac");
         }
         if (vistaJuego != null) {
             vistaJuego.setLblValTiempo(this.tiempoRestante);

@@ -4,6 +4,7 @@ import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMTGitHubIJThem
 import com.titomonito.config.ConfigDB;
 import com.titomonito.config.GlobalConfig;
 import com.titomonito.dao.generalDAO;
+import com.titomonito.services.ServicioSonido;
 import com.titomonito.ui.VentanaBase;
 import com.titomonito.ui.VentanaLogin;
 
@@ -20,6 +21,7 @@ public class Main {
         GlobalConfig.configurarLoggers();
         ConfigDB.initDB();
         generalDAO.obtenerCategorias();
+        ServicioSonido.getInstance();
 
         new Main().mostrarVentanaLogin();
     }
