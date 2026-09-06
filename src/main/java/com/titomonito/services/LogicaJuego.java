@@ -170,6 +170,9 @@ public class LogicaJuego {
             vistaJuego.setLblValVidas(UtilsJuego.calcularCorazones(vidas));
             vistaJuego.dibujarTito(UtilsJuego.obtenerDibujo(vidas));
             vistaJuego.setLblValPotencial(String.valueOf(UtilsJuego.calcularPremioPotencial(vidas, palabraSecreta.length(), this.dificultad)));
+            if (vistaJuego != null) {
+                vistaJuego.sacudir();
+            }
         }
 
         vistaJuego.setTeclaHabilitada(String.valueOf(letra), false);

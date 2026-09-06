@@ -24,6 +24,7 @@ public class JuegoPanel extends JPanel {
 
     private List<JButton> teclas;
     private JButton btnSacapuntas, btnTijeras, btnGoma, btnPluma, btnMarcatextos;
+    private Timer timerPulso;
 
     public JuegoPanel() {
 
@@ -217,13 +218,34 @@ public class JuegoPanel extends JPanel {
 
     public void setLblValTiempo(int tiempo) {
         lblValTiempo.setText(String.valueOf(tiempo));
-
         if (tiempo <= 5) {
-            lblValTiempo.setForeground(Color.RED);
-        } else if (tiempo <= 10) {
-            lblValTiempo.setForeground(new Color(255, 85, 0));
+            if (timerPulso == null || !timerPulso.isRunning()) {
+                timerPulso = new Timer(250, e -> {
+                    Font f = lblValTiempo.getFont();
+                    if (f.getSize() == 36) {
+                        lblValTiempo.setFont(f.deriveFont(42.0f));
+                        lblValTiempo.setForeground(Color.RED);
+                    } else {
+                        lblValTiempo.setFont(f.deriveFont(36.0f));
+                        lblValTiempo.setForeground(new Color(150, 0, 0));
+                    }
+                });
+                timerPulso.start();
+            }
         } else {
-            lblValTiempo.setForeground(Color.BLACK);
+            detenerPulsoTiempo();
+            if (tiempo <= 10) {
+                lblValTiempo.setForeground(new Color(255, 85, 0));
+            } else {
+                lblValTiempo.setForeground(Color.BLACK);
+            }
+        }
+    }
+
+    private void detenerPulsoTiempo() {
+        if (timerPulso != null && timerPulso.isRunning()) {
+            timerPulso.stop();
+            lblValTiempo.setFont(lblValTiempo.getFont().deriveFont(36.0f));
         }
     }
 
@@ -345,6 +367,29 @@ public class JuegoPanel extends JPanel {
         });
         restaurar.setRepeats(false);
         restaurar.start();
+    }
+
+    public void sacudir() {
+        final Insets original = new Insets(0, 60, 10, 20);
+        final int[] offsets = { -8, 8, -6, 6, -4, 4, -2, 2, 0 };
+
+        Timer timerShake = new Timer(20, null);
+        timerShake.addActionListener(new java.awt.event.ActionListener() {
+            int step = 0;
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                if (step < offsets.length) {
+                    int off = offsets[step++];
+                    setBorder(BorderFactory.createEmptyBorder(
+                        original.top, original.left + off, original.bottom, original.right - off
+                    ));
+                } else {
+                    setBorder(BorderFactory.createEmptyBorder(original.top, original.left, original.bottom, original.right));
+                    timerShake.stop();
+                }
+            }
+        });
+        timerShake.start();
     }
 
     @Override
