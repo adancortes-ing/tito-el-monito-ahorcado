@@ -291,6 +291,37 @@ public class JuegoPanel extends JPanel {
         }
     }
 
+    public void feedbackTecla(String letra, boolean acierto) {
+        JButton btn = getTecla(letra);
+        if (btn == null) return;
+
+        btn.setEnabled(false);
+
+        if (acierto) {
+            btn.putClientProperty("FlatLaf.style", "disabledBackground: #66bb6a");
+            Timer restaurar = new Timer(500, e -> btn.putClientProperty("FlatLaf.style", null));
+            restaurar.setRepeats(false);
+            restaurar.start();
+        } else {
+            btn.putClientProperty("FlatLaf.style", "disabledBackground: #ef5350");
+            Timer parpadeo = new Timer(160, null);
+            final int[] pasos = {0};
+            parpadeo.addActionListener(e -> {
+                pasos[0]++;
+                if (pasos[0] < 4) {
+                    btn.putClientProperty("FlatLaf.style",
+                            pasos[0] % 2 == 0
+                                    ? "disabledBackground: #ef5350"
+                                    : "disabledBackground: #c62828");
+                } else {
+                    btn.putClientProperty("FlatLaf.style", null);
+                    ((Timer) e.getSource()).stop();
+                }
+            });
+            parpadeo.start();
+        }
+    }
+
     public void setLblValPotencial(String p) {
         this.lblValPotencial.setText(p);
     }

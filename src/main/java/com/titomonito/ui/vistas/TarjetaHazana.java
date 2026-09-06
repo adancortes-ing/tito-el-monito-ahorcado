@@ -16,6 +16,7 @@ public class TarjetaHazana extends JPanel {
 
     private boolean desbloqueado;
     private boolean esNuevo;
+    private boolean hover = false;
 
     public TarjetaHazana(LogroId logroId) {
         this.logroId = logroId;
@@ -58,6 +59,21 @@ public class TarjetaHazana extends JPanel {
 
         actualizar(false, false);
         setToolTipText("");
+
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent e) {
+                hover = true;
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
+                repaint();
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent e) {
+                hover = false;
+                repaint();
+            }
+        });
     }
 
     public LogroId getLogroId() {
@@ -151,8 +167,13 @@ public class TarjetaHazana extends JPanel {
 
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setStroke(new BasicStroke(desbloqueado ? 6 : 1));
-        g2.setColor(bordeColor);
+        if (hover) {
+            g2.setStroke(new BasicStroke(5));
+            g2.setColor(new Color(253, 191, 0, 180));
+        } else {
+            g2.setStroke(new BasicStroke(desbloqueado ? 6 : 1));
+            g2.setColor(bordeColor);
+        }
         int arc = 10;
         g2.drawRoundRect(2, 2, getWidth() - 4, getHeight() - 4, arc, arc);
         g2.dispose();

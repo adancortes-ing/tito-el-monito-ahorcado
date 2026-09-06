@@ -175,7 +175,7 @@ public class LogicaJuego {
             }
         }
 
-        vistaJuego.setTeclaHabilitada(String.valueOf(letra), false);
+        vistaJuego.feedbackTecla(String.valueOf(letra), letraEncontrada);
         List<LogroId> nuevos = comprobarEstadoPartida();
 
         if (juegoActivo) {

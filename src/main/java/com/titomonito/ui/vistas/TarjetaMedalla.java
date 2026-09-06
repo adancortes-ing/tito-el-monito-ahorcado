@@ -16,6 +16,7 @@ public class TarjetaMedalla extends JPanel {
     private final JLabel lblProgreso;
 
     private double[] datosProgreso;
+    private boolean hover = false;
 
     public TarjetaMedalla(int idCategoria, String nombreCategoria, String iconoPath) {
         this.idCategoria = idCategoria;
@@ -48,6 +49,21 @@ public class TarjetaMedalla extends JPanel {
 
         actualizar(null);
         setToolTipText("");
+
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent e) {
+                hover = true;
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
+                repaint();
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent e) {
+                hover = false;
+                repaint();
+            }
+        });
     }
 
     public int getIdCategoria() {
@@ -126,10 +142,17 @@ public class TarjetaMedalla extends JPanel {
 
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setStroke(new BasicStroke(3));
-        g2.setColor(bordeColor);
-        int arc = 12;
-        g2.drawRoundRect(2, 2, getWidth() - 4, getHeight() - 4, arc, arc);
+        if (hover) {
+            g2.setStroke(new BasicStroke(4));
+            g2.setColor(new Color(253, 191, 0, 180));
+            int arc = 12;
+            g2.drawRoundRect(2, 2, getWidth() - 4, getHeight() - 4, arc, arc);
+        } else {
+            g2.setStroke(new BasicStroke(3));
+            g2.setColor(bordeColor);
+            int arc = 12;
+            g2.drawRoundRect(2, 2, getWidth() - 4, getHeight() - 4, arc, arc);
+        }
         g2.dispose();
     }
 }
