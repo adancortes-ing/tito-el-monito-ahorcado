@@ -88,18 +88,6 @@ public class TarjetaHazana extends JPanel {
         return desbloqueado;
     }
 
-    public void setDesbloqueado(boolean desbloqueado) {
-        this.desbloqueado = desbloqueado;
-    }
-
-    public boolean isEsNuevo() {
-        return esNuevo;
-    }
-
-    public void setEsNuevo(boolean esNuevo) {
-        this.esNuevo = esNuevo;
-    }
-
     public void actualizar(boolean desbloqueado, boolean esNuevo) {
         this.desbloqueado = desbloqueado;
         this.esNuevo = esNuevo;

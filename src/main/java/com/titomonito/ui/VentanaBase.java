@@ -67,8 +67,7 @@ public class VentanaBase extends JFrame {
         add(contenedor, BorderLayout.CENTER);
 
         inicio = new InicioPanel();
-        EstadisticasPanel panelEstadisticas = new EstadisticasPanel();
-        this.estadisticas = panelEstadisticas;
+        this.estadisticas = new EstadisticasPanel();
         this.logros = new LogrosPanel();
         AyudaPanel ayuda = new AyudaPanel();
         OpcionesPanel opciones = new OpcionesPanel();
@@ -177,7 +176,7 @@ public class VentanaBase extends JFrame {
         public void actualizarDatosJugador() {
             Jugador j = SesionManager.getInstance().getJugadorActual();
             lblValJugador.setText(j.getNombre());
-            lblValMonedas.setText("$ " + j.getMonedas_actuales());
+            lblValMonedas.setText("$ " + j.getMonedasActuales());
         }
 
         @Override

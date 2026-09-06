@@ -36,7 +36,11 @@ public class ConfigDB {
     public static Connection getConnection() throws SQLException {
         String url = "jdbc:sqlite:" + dbPath;
         try {
-            return DriverManager.getConnection(url);
+            Connection conn = DriverManager.getConnection(url);
+            try (Statement stmt = conn.createStatement()) {
+                stmt.execute("PRAGMA foreign_keys = ON;");
+            }
+            return conn;
         } catch (SQLException ex) {
             // 1. Registrar en el archivo de log
             LOGGER.log(Level.SEVERE, "Error crítico al conectar con la base de datos en: " + dbPath, ex);
@@ -53,12 +57,9 @@ public class ConfigDB {
         }
     }
 
-    public static void initDB() {
+    public static void initDB() throws IOException, SQLException {
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
-
-            // Habilitar las llaves foráneas en SQLite
-            stmt.execute("PRAGMA foreign_keys = ON;");
 
             // Obtener la versión actual de la base de datos
             int versionActual = 0;
@@ -81,9 +82,6 @@ public class ConfigDB {
                 stmt.execute("PRAGMA user_version = " + CURRENT_DB_VERSION + ";");
                 LOGGER.info("Base de datos inicializada y sembrada con éxito en la versión " + CURRENT_DB_VERSION);
             }
-
-        } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "Error al inicializar la base de datos.", ex);
         }
     }
 

@@ -112,7 +112,7 @@ public class LogrosPanel extends JPanel {
         var jugador = SesionManager.getInstance().getJugadorActual();
         if (jugador == null) return;
 
-        int idJugador = jugador.getId_jugador();
+        int idJugador = jugador.getIdJugador();
 
         List<LogroId> nuevos = LogrosService.getInstance().evaluarLogrosHistoricos(idJugador);
 
@@ -155,9 +155,10 @@ public class LogrosPanel extends JPanel {
         int totalPremio = logros.stream().mapToInt(LogroId::getPremio).sum();
 
         StringBuilder sb = new StringBuilder("<html><div style='width:320px'>");
+        String estrella = Recursos.imagenURL("estrella.png");
         sb.append("<b>¡Nuevo").append(logros.size() > 1 ? "s" : "").append(" logro").append(logros.size() > 1 ? "s" : "").append(" desbloqueado").append(logros.size() > 1 ? "s" : "").append("!</b><br><br>");
         for (LogroId logro : logros) {
-            sb.append("<img src='file:").append(new java.io.File("src/main/resources/ui/estrella.png").getAbsolutePath()).append("' width='12' height='12'/><b>").append(logro.getNombre()).append("</b>");
+            sb.append("<img src='").append(estrella).append("' width='12' height='12'/><b>").append(logro.getNombre()).append("</b>");
             sb.append(" <span style='color:#FEC60F'>+$").append(logro.getPremio()).append("</span><br>");
             sb.append("&nbsp;&nbsp;&nbsp;").append(logro.getDescripcion()).append("<br><br>");
         }
@@ -178,9 +179,10 @@ public class LogrosPanel extends JPanel {
         int totalPremio = logros.stream().mapToInt(LogroId::getPremio).sum();
 
         StringBuilder sb = new StringBuilder("<html><div style='width:320px'>");
-        sb.append("<img src='file:").append(new java.io.File("src/main/resources/ui/estrella.png").getAbsolutePath()).append("' width='12' height='12'/> <b>¡Logro").append(logros.size() > 1 ? "s" : "").append(" en partida!</b><br><br>");
+        String estrella = Recursos.imagenURL("estrella.png");
+        sb.append("<img src='").append(estrella).append("' width='12' height='12'/> <b>¡Logro").append(logros.size() > 1 ? "s" : "").append(" en partida!</b><br><br>");
         for (LogroId logro : logros) {
-            sb.append("<img src='file:").append(new java.io.File("src/main/resources/ui/estrella.png").getAbsolutePath()).append("' width='12' height='12'/> <b>").append(logro.getNombre()).append("</b>");
+            sb.append("<img src='").append(estrella).append("' width='12' height='12'/> <b>").append(logro.getNombre()).append("</b>");
             sb.append(" <span style='color:#FEC60F'>+$").append(logro.getPremio()).append("</span><br>");
             sb.append("&nbsp;&nbsp;&nbsp;").append(logro.getDescripcion()).append("<br><br>");
         }

@@ -2,60 +2,60 @@ package com.titomonito.models;
 
 public class Jugador {
 
-    private int id_jugador;
-    private String nombre;
-    private int monedas_actuales;
-    private int monedas_maximas;
-    private int racha_actual;
-    private int racha_maxima;
+    private final int idJugador;
+    private final String nombre;
+    private int monedasActuales;
+    private int monedasMaximas;
+    private int rachaActual;
+    private int rachaMaxima;
 
-    public Jugador(int id_jugador, String nombre, int monedas_actuales,
-                   int monedas_maximas, int racha_actual, int racha_maxima) {
-        this.id_jugador = id_jugador;
+    public Jugador(int idJugador, String nombre, int monedasActuales,
+                   int monedasMaximas, int rachaActual, int rachaMaxima) {
+        this.idJugador = idJugador;
         this.nombre = nombre;
-        this.monedas_actuales = monedas_actuales;
-        this.monedas_maximas = monedas_maximas;
-        this.racha_actual = racha_actual;
-        this.racha_maxima = racha_maxima;
+        this.monedasActuales = monedasActuales;
+        this.monedasMaximas = monedasMaximas;
+        this.rachaActual = rachaActual;
+        this.rachaMaxima = rachaMaxima;
     }
 
-    public int getId_jugador() {
-        return id_jugador;
+    public int getIdJugador() {
+        return idJugador;
     }
 
     public String getNombre() {
         return nombre;
     }
 
-    public int getMonedas_actuales() {
-        return monedas_actuales;
+    public int getMonedasActuales() {
+        return monedasActuales;
     }
 
-    public void setMonedas_actuales(int monedas_actuales) {
-        this.monedas_actuales = monedas_actuales;
+    public void setMonedasActuales(int monedasActuales) {
+        this.monedasActuales = monedasActuales;
     }
 
-    public int getMonedas_maximas() {
-        return monedas_maximas;
+    public int getMonedasMaximas() {
+        return monedasMaximas;
     }
 
-    public void setMonedas_maximas(int monedas_maximas) {
-        this.monedas_maximas = monedas_maximas;
+    public void setMonedasMaximas(int monedasMaximas) {
+        this.monedasMaximas = monedasMaximas;
     }
 
-    public int getRacha_actual() {
-        return racha_actual;
+    public int getRachaActual() {
+        return rachaActual;
     }
 
-    public void setRacha_actual(int racha_actual) {
-        this.racha_actual = racha_actual;
+    public void setRachaActual(int rachaActual) {
+        this.rachaActual = rachaActual;
     }
 
-    public int getRacha_maxima() {
-        return racha_maxima;
+    public int getRachaMaxima() {
+        return rachaMaxima;
     }
 
-    public void setRacha_maxima(int racha_maxima) {
-        this.racha_maxima = racha_maxima;
+    public void setRachaMaxima(int rachaMaxima) {
+        this.rachaMaxima = rachaMaxima;
     }
 }

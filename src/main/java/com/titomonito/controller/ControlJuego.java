@@ -77,11 +77,13 @@ public class ControlJuego {
             panelBotones.add(botones[i]);
         }
 
-        new Timer(1500, e -> {
+        Timer timerHabilitar = new Timer(1500, e -> {
             for (JButton b : botones) {
                 b.setEnabled(true);
             }
-        }).start();
+        });
+        timerHabilitar.setRepeats(false);
+        timerHabilitar.start();
 
         dialog.add(panelBotones, java.awt.BorderLayout.SOUTH);
         dialog.pack();

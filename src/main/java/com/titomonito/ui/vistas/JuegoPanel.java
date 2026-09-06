@@ -242,7 +242,7 @@ public class JuegoPanel extends JPanel {
         }
     }
 
-    private void detenerPulsoTiempo() {
+    public void detenerPulsoTiempo() {
         if (timerPulso != null && timerPulso.isRunning()) {
             timerPulso.stop();
             lblValTiempo.setFont(lblValTiempo.getFont().deriveFont(36.0f));
@@ -330,10 +330,6 @@ public class JuegoPanel extends JPanel {
         this.lblValAsegurado.setText(p);
     }
 
-    public List<JButton> getTeclas() {
-        return teclas;
-    }
-
     public JButton getTecla(String letra) {
         return teclas.stream()
                 .filter(btn -> btn.getName().equalsIgnoreCase(letra))
@@ -341,7 +337,7 @@ public class JuegoPanel extends JPanel {
                 .orElse(null);
     }
 
-    public void actualizarEstadoBotonesTienda(int saldoActual, int dificultad) {
+    public void actualizarEstadoBotonesTienda() {
         LogicaJuego logica = LogicaJuego.getInstance();
         btnSacapuntas.setEnabled(logica.puedeComprar(UTIL_SACAPUNTAS));
         btnTijeras.setEnabled(logica.puedeComprar(UTIL_TIJERAS));
@@ -375,7 +371,7 @@ public class JuegoPanel extends JPanel {
 
     public void mostrarFeedbackTiempoAgotado() {
         Color colorOriginal = lblValTiempo.getForeground();
-        Color colorCorazones = lblValPista.getForeground();
+        Color colorCorazones = lblValVidas.getForeground();
         lblValTiempo.setForeground(Color.RED);
         lblValVidas.setForeground(Color.RED);
 
@@ -401,7 +397,7 @@ public class JuegoPanel extends JPanel {
     }
 
     public void sacudir() {
-        final Insets original = new Insets(0, 60, 10, 20);
+        final Insets original = getBorder() != null ? getBorder().getBorderInsets(this) : new Insets(0, 60, 10, 20);
         final int[] offsets = { -8, 8, -6, 6, -4, 4, -2, 2, 0 };
 
         Timer timerShake = new Timer(20, null);

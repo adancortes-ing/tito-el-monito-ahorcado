@@ -16,11 +16,38 @@ public class Constantes {
     public static final String JUEGO = "JUEGO";
     public static final String CAMBIAR = "CAMBIAR JUGADOR";
 
+    // Textos de la ventana de login
+    public static final String TXT_JUGAR = "JUGAR";
+    public static final String TXT_CREAR_JUGAR = "CREAR y JUGAR";
+    public static final String PH_SELECCIONAR_JUGADOR = "Selecciona jugador";
+    public static final String PH_NOMBRE_JUGADOR = "Ingresa tu nombre";
+    public static final String TXT_INICIAR_JUEGO = "Iniciar Juego";
+
     // Constantes de dificultades
+    public static final int DIFICULTAD_EXTREMO = 4;
     public static final int DIFICULTAD_IMPOSIBLE = 5;
 
     // Constante de bonus del sacapuntas
     public static final int BONUS_SACAPUNTAS = 10;
+
+    // Monedas que otorga cada letra descubierta
+    public static final int MONEDAS_POR_LETRA = 2;
+
+    // Límite de registros en los rankings
+    public static final int TOP_RANKING = 10;
+
+    // Umbrales de mensaje de derrota (porcentaje descubierto)
+    public static final double UMBRAL_DERROTA_ALTA = 0.70;
+    public static final double UMBRAL_DERROTA_BAJA = 0.40;
+
+    // Letras incorrectas que desactiva la Goma
+    public static final int LETRAS_DESACTIVADAS_GOMA = 4;
+
+    // Segundos bajo los cuales el reloj hace tic-tac
+    public static final int TIEMPO_UMBRAL_TIC_TAC = 5;
+
+    // Delay del temporizador de partida (ms)
+    public static final int DELAY_TIMER_JUEGO = 1000;
 
     // Constantes de los utiles
     public static final String UTIL_SACAPUNTAS = "SACAPUNTAS";

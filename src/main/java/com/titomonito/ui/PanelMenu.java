@@ -13,7 +13,6 @@ public class PanelMenu extends JPanel {
     private JButton btnEstadisticas;
     private JButton btnLogros;
     private JButton btnAyuda;
-    private JButton btnOpciones;
     private JButton btnAcerca;
     private JButton btnCambiarJugador;
     private JButton btnSalir;
@@ -36,7 +35,6 @@ public class PanelMenu extends JPanel {
         btnEstadisticas.addActionListener(al);
         btnLogros.addActionListener(al);
         btnAyuda.addActionListener(al);
-        //btnOpciones.addActionListener(al);
         btnAcerca.addActionListener(al);
         btnCambiarJugador.addActionListener(al);
         btnSalir.addActionListener(al);
@@ -48,7 +46,6 @@ public class PanelMenu extends JPanel {
         btnEstadisticas = crearBoton(Constantes.ESTADISTICAS, "menu_estadisticas.png");
         btnLogros = crearBoton(Constantes.LOGROS, "menu_logros.png");
         btnAyuda = crearBoton(Constantes.AYUDA, "menu_ayuda.png");
-        //btnOpciones = crearBoton(Constantes.OPCIONES, "menu_config.png");
         add(Box.createVerticalGlue());
 
         btnAcerca = crearBoton(Constantes.ACERCA_DE, "menu_about.png");

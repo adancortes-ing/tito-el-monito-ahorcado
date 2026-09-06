@@ -1,6 +1,7 @@
 package com.titomonito.dao;
 
 import com.titomonito.config.ConfigDB;
+import com.titomonito.config.Constantes;
 import com.titomonito.models.Jugador;
 
 import java.sql.Connection;
@@ -82,7 +83,7 @@ public class JugadorDAO {
             try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     int idGenerado = generatedKeys.getInt(1);
-                    return new Jugador(idGenerado, nombre, MONEDAS_BIENVENIDA, 0, 0, 0);
+                    return new Jugador(idGenerado, nombre, MONEDAS_BIENVENIDA, MONEDAS_BIENVENIDA, 0, 0);
                 }
             }
         } catch (SQLException ex) {
@@ -196,7 +197,7 @@ public class JugadorDAO {
                      "LEFT JOIN descubrimientos d ON j.id_jugador = d.id_jugador " +
                      "GROUP BY j.id_jugador " +
                      "ORDER BY total DESC " +
-                     "LIMIT 10";
+                     "LIMIT " + Constantes.TOP_RANKING;
         try (Connection conn = ConfigDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -215,7 +216,7 @@ public class JugadorDAO {
         String sql = "SELECT id_jugador, nombre, monedas_maximas " +
                      "FROM jugadores " +
                      "ORDER BY monedas_maximas DESC " +
-                     "LIMIT 10";
+                     "LIMIT " + Constantes.TOP_RANKING;
         try (Connection conn = ConfigDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -234,7 +235,7 @@ public class JugadorDAO {
         String sql = "SELECT id_jugador, nombre, racha_maxima " +
                      "FROM jugadores " +
                      "ORDER BY racha_maxima DESC " +
-                     "LIMIT 10";
+                     "LIMIT " + Constantes.TOP_RANKING;
         try (Connection conn = ConfigDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {

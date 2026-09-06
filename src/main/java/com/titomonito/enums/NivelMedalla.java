@@ -2,33 +2,27 @@ package com.titomonito.enums;
 
 public enum NivelMedalla {
 
-    BLOQUEADO(0.0, "medalla_marco_bloqueado.png"),
-    BRONCE(0.25, "medalla_marco_bronce.png"),
-    PLATA(0.50, "medalla_marco_plata.png"),
-    ORO(1.00, "medalla_marco_oro.png");
+    BLOQUEADO(0.0),
+    BRONCE(0.25),
+    PLATA(0.50),
+    ORO(1.00);
 
     private final double umbral;
-    private final String marcoPath;
 
-    NivelMedalla(double umbral, String marcoPath) {
+    NivelMedalla(double umbral) {
         this.umbral = umbral;
-        this.marcoPath = marcoPath;
     }
 
     public double getUmbral() {
         return umbral;
     }
 
-    public String getMarcoPath() {
-        return marcoPath;
-    }
-
     public static NivelMedalla fromProgreso(double porcentaje) {
-        if (porcentaje >= 1.0) {
+        if (porcentaje >= ORO.getUmbral()) {
             return ORO;
-        } else if (porcentaje >= 0.50) {
+        } else if (porcentaje >= PLATA.getUmbral()) {
             return PLATA;
-        } else if (porcentaje >= 0.25) {
+        } else if (porcentaje >= BRONCE.getUmbral()) {
             return BRONCE;
         } else {
             return BLOQUEADO;

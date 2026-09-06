@@ -5,16 +5,16 @@ import java.util.List;
 
 public class Categorias {
 
-    private static final List<Categorias> listaCategorias = new ArrayList<>();;
+    private static final List<Categorias> listaCategorias = new ArrayList<>();
 
-    private final int id_categoria;
-    private final String nombre_categoria;
-    private final String url_icono;
+    private final int idCategoria;
+    private final String nombreCategoria;
+    private final String urlIcono;
 
-    public Categorias(int id_categoria, String nombre_categoria, String url_icono) {
-        this.id_categoria = id_categoria;
-        this.nombre_categoria = nombre_categoria;
-        this.url_icono = url_icono;
+    public Categorias(int idCategoria, String nombreCategoria, String urlIcono) {
+        this.idCategoria = idCategoria;
+        this.nombreCategoria = nombreCategoria;
+        this.urlIcono = urlIcono;
     }
 
     public static List<Categorias> getListaCategorias() {
@@ -25,15 +25,15 @@ public class Categorias {
         listaCategorias.add(cat);
     }
 
-    public int getId_categoria() {
-        return id_categoria;
+    public int getIdCategoria() {
+        return idCategoria;
     }
 
-    public String getNombre_categoria() {
-        return nombre_categoria;
+    public String getNombreCategoria() {
+        return nombreCategoria;
     }
 
-    public String getUrl_icono() {
-        return url_icono;
+    public String getUrlIcono() {
+        return urlIcono;
     }
 }

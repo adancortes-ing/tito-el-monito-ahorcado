@@ -12,10 +12,10 @@ public class GlobalConfig {
 
     private static final Logger LOGGER = Logger.getLogger("com.titomonito");
 
-    public static final String VERSION_JUEGO = "version 0.9.0-SNAPSHOT";
+    public static final String VERSION_JUEGO = "version 0.9.0-BETA";
     public static final Dimension MEDIDA_VENTANA = new Dimension(1080, 750);
 
-    public static void CargarConfig() {
+    public static void cargarConfig() {
 
         Font fuenteGlobal = com.titomonito.utils.Recursos.cargarFuente("IndieFlower-Regular.ttf", 24.0f);
         Font fuenteComic = new Font("Comic Sans MS", Font.PLAIN, 16);

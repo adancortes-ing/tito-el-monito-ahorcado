@@ -1,20 +1,17 @@
 package com.titomonito.models;
 
 public class Palabra {
-    private int id_palabra;
-    private int id_categoria;
-    private String palabra;
-    private String pista;
+    private final int idPalabra;
+    private final String palabra;
+    private final String pista;
 
-    public Palabra(int id_palabra, int id_categoria, String palabra, String pista) {
-        this.id_palabra = id_palabra;
-        this.id_categoria = id_categoria;
+    public Palabra(int idPalabra, String palabra, String pista) {
+        this.idPalabra = idPalabra;
         this.palabra = palabra;
         this.pista = pista;
     }
 
-    public int getId_palabra() { return id_palabra; }
-    public int getId_categoria() { return id_categoria; }
+    public int getIdPalabra() { return idPalabra; }
     public String getPalabra() { return palabra; }
     public String getPista() { return pista; }
 }

@@ -39,9 +39,4 @@ public class SesionManager {
         SesionJuegoTracker.getInstance().reiniciar();
         this.jugadorActual = null;
     }
-
-    public boolean haySesionActiva() {
-
-        return jugadorActual != null;
-    }
 }

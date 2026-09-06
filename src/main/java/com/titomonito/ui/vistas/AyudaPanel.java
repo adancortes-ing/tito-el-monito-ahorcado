@@ -3,7 +3,6 @@ package com.titomonito.ui.vistas;
 import com.titomonito.utils.Recursos;
 
 import javax.swing.*;
-import javax.swing.border.AbstractBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -344,7 +343,6 @@ public class AyudaPanel extends JPanel {
 
         int ancho = 720;
         lbl.setMaximumSize(new Dimension(ancho, Integer.MAX_VALUE));
-        //lbl.setPreferredSize(new Dimension(ancho, lbl.getPreferredSize().height));
 
         contenido.add(lbl);
         contenido.add(Box.createVerticalStrut(6));
@@ -367,7 +365,6 @@ public class AyudaPanel extends JPanel {
 
             int ancho = 700;
             lbl.setMaximumSize(new Dimension(ancho, Integer.MAX_VALUE));
-            //lbl.setPreferredSize(new Dimension(ancho, lbl.getPreferredSize().height));
             lista.add(lbl);
         }
 
@@ -512,22 +509,6 @@ public class AyudaPanel extends JPanel {
                 if (i != 0) getColumnModel().getColumn(i).setCellRenderer(renderer);
             }
         }
-    }
-
-    private static class BordeCuaderno extends AbstractBorder {
-
-        @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setColor(COLOR_LINEA);
-            g2.setStroke(new BasicStroke(1.5f));
-            g2.drawRoundRect(x, y, width - 1, height - 1, 6, 6);
-            g2.dispose();
-        }
-
-        @Override
-        public Insets getBorderInsets(Component c) { return new Insets(2, 2, 2, 2); }
     }
 
     private static class BloqueDestacado extends JPanel {

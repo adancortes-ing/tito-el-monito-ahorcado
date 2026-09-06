@@ -104,9 +104,9 @@ public class InicioPanel extends JPanel {
 
     public void actualizarDatos() {
         Jugador j = SesionManager.getInstance().getJugadorActual();
-        lblValorRacha.setText(String.valueOf(j.getRacha_actual()));
-        lblValorTopMonedas.setText(String.valueOf(j.getMonedas_maximas()));
-        lblValUltimaPalabra.setText(JugadorDAO.obtenerUltimaPalabra(j.getId_jugador()));
+        lblValorRacha.setText(String.valueOf(j.getRachaActual()));
+        lblValorTopMonedas.setText(String.valueOf(j.getMonedasMaximas()));
+        lblValUltimaPalabra.setText(JugadorDAO.obtenerUltimaPalabra(j.getIdJugador()));
     }
 
     public void addIniciarListener(ActionListener l) {
@@ -116,7 +116,8 @@ public class InicioPanel extends JPanel {
     private static JButton crearBtnIniciarJuego() {
 
         Dimension medidaBoton = new Dimension(250, 70);
-        JButton btnIniciarJuego = new JButton(Constantes.PREGAME);
+        JButton btnIniciarJuego = new JButton(Constantes.TXT_INICIAR_JUEGO);
+        btnIniciarJuego.setActionCommand(Constantes.PREGAME);
         btnIniciarJuego.setFont(Recursos.Fuentes.fuenteComic(Font.BOLD, 22));
         btnIniciarJuego.setMaximumSize(medidaBoton);
         btnIniciarJuego.setPreferredSize(medidaBoton);

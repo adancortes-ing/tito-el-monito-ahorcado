@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class PreGamePanel extends JPanel {
 
-    private JPanel pnlDificultades, pnlCategorias;
+    private JPanel pnlCategorias;
     private JSlider sliderDificultad;
     private final List<JButton> listaBotones = new ArrayList<>();
 
@@ -38,7 +38,7 @@ public class PreGamePanel extends JPanel {
         contenedorCentro.setOpaque(false);
 
         // sub-panel horizontal para dificultades ----------------------------------------------------------------------
-        pnlDificultades = new JPanel();
+        JPanel pnlDificultades = new JPanel();
         pnlDificultades.setOpaque(false);
         pnlDificultades.setLayout(new BoxLayout(pnlDificultades, BoxLayout.X_AXIS));
         pnlDificultades.setPreferredSize(new Dimension(860, 100));
@@ -86,19 +86,6 @@ public class PreGamePanel extends JPanel {
         add(contenedorCentro, BorderLayout.CENTER);
     }
 
-    private JButton crearBoton(String etiqueta) {
-
-        JButton boton = new JButton(etiqueta);
-        boton.setFont(Recursos.Fuentes.fuenteComic(14));
-        boton.setPreferredSize(new Dimension(160, 45));
-        boton.setMaximumSize(boton.getPreferredSize());
-
-        pnlDificultades.add(boton);
-        pnlDificultades.add(Box.createHorizontalStrut(15));
-
-        return boton;
-    }
-
     public int getValorDificultad () {
         return sliderDificultad.getValue();
     }
@@ -124,11 +111,11 @@ public class PreGamePanel extends JPanel {
 
         for (Categorias cat : Categorias.getListaCategorias()) {
 
-            JButton botonCat = new JButton(cat.getNombre_categoria());
-            botonCat.setName(cat.getNombre_categoria());
-            botonCat.putClientProperty("id_categoria", cat.getId_categoria());
+            JButton botonCat = new JButton(cat.getNombreCategoria());
+            botonCat.setName(cat.getNombreCategoria());
+            botonCat.putClientProperty("id_categoria", cat.getIdCategoria());
             botonCat.setFont(Recursos.Fuentes.fuenteComic(12));
-            botonCat.setIcon(Recursos.cargarImagen(cat.getUrl_icono()));
+            botonCat.setIcon(Recursos.cargarImagen(cat.getUrlIcono()));
             botonCat.setMargin(new Insets(0, 3, 0, 3));
             botonCat.setHorizontalTextPosition(SwingConstants.RIGHT);
             botonCat.setHorizontalAlignment(SwingConstants.LEFT);

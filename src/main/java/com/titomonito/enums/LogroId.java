@@ -4,7 +4,7 @@ public enum LogroId {
 
     // === TIEMPO REAL (RT_*) — con restricciones y repetición ===
     RT_PERFECTA("Boceto Perfecto (x3)", "Gana 3 partidas sin perder ninguna vida (dif. Normal o superior).", "logro_rt_perfecta.png", 80),
-    RT_CASI_PERFECTA("Lápiz Firme (x3)", "Gana 3 partidas con 5 o más vidas restantes (dif. Normal o superior).", "logro_rt_casi_perfecta.png", 40),
+    RT_CASI_PERFECTA("Lápiz Firme (x3)", "Gana 3 partidas con 5 vidas restantes (dif. Normal o superior).", "logro_rt_casi_perfecta.png", 40),
     RT_MILAGRO("Punta Floja (x3)", "Gana 3 partidas con apenas 1 vida restante (dif. Normal o superior).", "logro_rt_milagro.png", 60),
     RT_SIN_UTILES("Puro Lápiz (x5)", "Gana 5 partidas sin comprar ningún power-up (dif. Normal o superior).", "logro_rt_sin_utiles.png", 60),
     RT_SACAPUNTAS("Tiempo Prestado (x3)", "Usa el Sacapuntas y gana la partida 3 veces (dif. Normal o superior).", "logro_rt_sacapuntas.png", 30),

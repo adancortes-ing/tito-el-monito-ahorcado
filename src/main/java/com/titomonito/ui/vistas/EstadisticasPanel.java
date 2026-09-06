@@ -163,9 +163,11 @@ public class EstadisticasPanel extends JPanel {
 
         modeloCategorias = new CategoriasTableModel();
         tablaCategorias = new JTable(modeloCategorias) {
+            private final TableCellRenderer rendererProgreso = new ProgressBarRenderer();
+
             @Override
             public TableCellRenderer getCellRenderer(int row, int column) {
-                if (column == 3) return new ProgressBarRenderer();
+                if (column == 3) return rendererProgreso;
                 return super.getCellRenderer(row, column);
             }
         };
@@ -193,19 +195,19 @@ public class EstadisticasPanel extends JPanel {
         if (j == null) return;
 
         int totalPalabras = JugadorDAO.contarPalabrasTotales();
-        int descubiertas = JugadorDAO.contarDescubrimientosJugador(j.getId_jugador());
+        int descubiertas = JugadorDAO.contarDescubrimientosJugador(j.getIdJugador());
 
         double porcentaje = totalPalabras == 0 ? 0.0 : (descubiertas * 100.0 / totalPalabras);
         barraProgresoGlobal.setValue((int) Math.round(porcentaje));
         lblPorcentajeGlobal.setText(String.format("%.1f%%", porcentaje));
         lblPalabrasDescubiertas.setText("Palabras descubiertas: " + descubiertas + " / " + totalPalabras);
 
-        lblRachaActual.setText("Racha Actual: " + j.getRacha_actual());
-        lblRachaMaxima.setText("Racha Máxima: " + j.getRacha_maxima());
-        lblMonedasActuales.setText("Monedas Actuales: $" + j.getMonedas_actuales());
-        lblMonedasMaximas.setText("Monedas Máximas: $" + j.getMonedas_maximas());
+        lblRachaActual.setText("Racha Actual: " + j.getRachaActual());
+        lblRachaMaxima.setText("Racha Máxima: " + j.getRachaMaxima());
+        lblMonedasActuales.setText("Monedas Actuales: $" + j.getMonedasActuales());
+        lblMonedasMaximas.setText("Monedas Máximas: $" + j.getMonedasMaximas());
 
-        modeloCategorias.setDatos(JugadorDAO.obtenerProgresoPorCategorias(j.getId_jugador()));
+        modeloCategorias.setDatos(JugadorDAO.obtenerProgresoPorCategorias(j.getIdJugador()));
         cargarRanking();
     }
 
@@ -222,17 +224,17 @@ public class EstadisticasPanel extends JPanel {
         switch (idx) {
             case 0:
                 datos = JugadorDAO.obtenerRankingPorPalabras();
-                posicionJugador = JugadorDAO.obtenerPosicionEnRankingPorPalabras(j.getId_jugador());
+                posicionJugador = JugadorDAO.obtenerPosicionEnRankingPorPalabras(j.getIdJugador());
                 valorLabel = "Palabras";
                 break;
             case 1:
                 datos = JugadorDAO.obtenerRankingPorMonedasMaximas();
-                posicionJugador = JugadorDAO.obtenerPosicionEnRankingPorMonedas(j.getId_jugador());
+                posicionJugador = JugadorDAO.obtenerPosicionEnRankingPorMonedas(j.getIdJugador());
                 valorLabel = "Monedas";
                 break;
             default:
                 datos = JugadorDAO.obtenerRankingPorRachaMaxima();
-                posicionJugador = JugadorDAO.obtenerPosicionEnRankingPorRacha(j.getId_jugador());
+                posicionJugador = JugadorDAO.obtenerPosicionEnRankingPorRacha(j.getIdJugador());
                 valorLabel = "Racha";
                 break;
         }

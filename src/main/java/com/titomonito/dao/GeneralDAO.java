@@ -10,9 +10,9 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class generalDAO {
+public class GeneralDAO {
 
-    private static final Logger LOGGER = Logger.getLogger(generalDAO.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(GeneralDAO.class.getName());
 
     public static void obtenerCategorias(){
 
