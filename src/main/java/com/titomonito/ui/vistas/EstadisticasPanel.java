@@ -34,8 +34,8 @@ public class EstadisticasPanel extends JPanel {
 
     public EstadisticasPanel() {
 
-        setLayout(new BorderLayout(10, 10));
-        setBorder(BorderFactory.createEmptyBorder(5, 65, 5, 30));
+        setLayout(new BorderLayout(10, 7));
+        setBorder(BorderFactory.createEmptyBorder(20, 50, 15, 30));
 
         initUI();
     }
@@ -77,7 +77,7 @@ public class EstadisticasPanel extends JPanel {
         panel.add(lblPorcentajeGlobal);
         panel.add(Box.createVerticalStrut(5));
         panel.add(lblPalabrasDescubiertas);
-        panel.add(Box.createVerticalStrut(15));
+        panel.add(Box.createVerticalStrut(10));
 
         JSeparator sep = new JSeparator();
         sep.setMaximumSize(new Dimension(230, 5));
@@ -159,13 +159,15 @@ public class EstadisticasPanel extends JPanel {
         javax.swing.border.TitledBorder borderCat = BorderFactory.createTitledBorder("Progreso por Categoría");
         borderCat.setTitleFont(borderCat.getTitleFont().deriveFont(16.0f));
         panel.setBorder(borderCat);
-        panel.setPreferredSize(new Dimension(0, 280));
+        panel.setPreferredSize(new Dimension(0, 265));
 
         modeloCategorias = new CategoriasTableModel();
         tablaCategorias = new JTable(modeloCategorias) {
+            private final TableCellRenderer rendererProgreso = new ProgressBarRenderer();
+
             @Override
             public TableCellRenderer getCellRenderer(int row, int column) {
-                if (column == 3) return new ProgressBarRenderer();
+                if (column == 3) return rendererProgreso;
                 return super.getCellRenderer(row, column);
             }
         };
@@ -193,19 +195,19 @@ public class EstadisticasPanel extends JPanel {
         if (j == null) return;
 
         int totalPalabras = JugadorDAO.contarPalabrasTotales();
-        int descubiertas = JugadorDAO.contarDescubrimientosJugador(j.getId_jugador());
+        int descubiertas = JugadorDAO.contarDescubrimientosJugador(j.getIdJugador());
 
         double porcentaje = totalPalabras == 0 ? 0.0 : (descubiertas * 100.0 / totalPalabras);
         barraProgresoGlobal.setValue((int) Math.round(porcentaje));
         lblPorcentajeGlobal.setText(String.format("%.1f%%", porcentaje));
         lblPalabrasDescubiertas.setText("Palabras descubiertas: " + descubiertas + " / " + totalPalabras);
 
-        lblRachaActual.setText("Racha Actual: " + j.getRacha_actual());
-        lblRachaMaxima.setText("Racha Máxima: " + j.getRacha_maxima());
-        lblMonedasActuales.setText("Monedas Actuales: $" + j.getMonedas_actuales());
-        lblMonedasMaximas.setText("Monedas Máximas: $" + j.getMonedas_maximas());
+        lblRachaActual.setText("Racha Actual: " + j.getRachaActual());
+        lblRachaMaxima.setText("Racha Máxima: " + j.getRachaMaxima());
+        lblMonedasActuales.setText("Monedas Actuales: $" + j.getMonedasActuales());
+        lblMonedasMaximas.setText("Monedas Máximas: $" + j.getMonedasMaximas());
 
-        modeloCategorias.setDatos(JugadorDAO.obtenerProgresoPorCategorias(j.getId_jugador()));
+        modeloCategorias.setDatos(JugadorDAO.obtenerProgresoPorCategorias(j.getIdJugador()));
         cargarRanking();
     }
 
@@ -222,17 +224,17 @@ public class EstadisticasPanel extends JPanel {
         switch (idx) {
             case 0:
                 datos = JugadorDAO.obtenerRankingPorPalabras();
-                posicionJugador = JugadorDAO.obtenerPosicionEnRankingPorPalabras(j.getId_jugador());
+                posicionJugador = JugadorDAO.obtenerPosicionEnRankingPorPalabras(j.getIdJugador());
                 valorLabel = "Palabras";
                 break;
             case 1:
                 datos = JugadorDAO.obtenerRankingPorMonedasMaximas();
-                posicionJugador = JugadorDAO.obtenerPosicionEnRankingPorMonedas(j.getId_jugador());
+                posicionJugador = JugadorDAO.obtenerPosicionEnRankingPorMonedas(j.getIdJugador());
                 valorLabel = "Monedas";
                 break;
             default:
                 datos = JugadorDAO.obtenerRankingPorRachaMaxima();
-                posicionJugador = JugadorDAO.obtenerPosicionEnRankingPorRacha(j.getId_jugador());
+                posicionJugador = JugadorDAO.obtenerPosicionEnRankingPorRacha(j.getIdJugador());
                 valorLabel = "Racha";
                 break;
         }
@@ -253,7 +255,7 @@ public class EstadisticasPanel extends JPanel {
 
         super.paintComponent(g);
 
-        Image fondo = Objects.requireNonNull(Recursos.cargarImagen("bg_contenedor.png")).getImage();
+        Image fondo = Objects.requireNonNull(Recursos.cargarImagen("bg_hojaBlanca.png")).getImage();
 
         g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
     }

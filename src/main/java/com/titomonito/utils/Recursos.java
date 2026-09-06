@@ -3,10 +3,21 @@ package com.titomonito.utils;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Recursos {
+
+    private static final Logger LOGGER = Logger.getLogger(Recursos.class.getName());
+    private static final Map<String, String> cacheURLImagen = new HashMap<>();
 
     public static class Fuentes {
 
@@ -25,11 +36,39 @@ public class Recursos {
         URL imagenURL = Recursos.class.getResource("/ui/" + archivo);
 
         if (imagenURL == null) {
-            System.err.println("Advertencia: No se pudo encontrar la imagen en /ui/" + archivo);
+            LOGGER.warning("No se pudo encontrar la imagen en /ui/" + archivo);
             return crearImagenPorDefecto();
         }
 
         return new ImageIcon(imagenURL);
+    }
+
+    /**
+     * Devuelve una URL file:// válida de un recurso de imagen, extrayéndolo a un
+     * archivo temporal para que pueda usarse en el HTML ligero de Swing (que no
+     * soporta recursos dentro del JAR).
+     */
+    public static String imagenURL(String archivo) {
+        String url = cacheURLImagen.get(archivo);
+        if (url != null) return url;
+
+        try {
+            File tmp = File.createTempFile("tito_", ".png");
+            tmp.deleteOnExit();
+            try (InputStream is = Recursos.class.getResourceAsStream("/ui/" + archivo)) {
+                if (is == null) {
+                    LOGGER.warning("No se pudo encontrar la imagen en /ui/" + archivo);
+                    return "";
+                }
+                Files.copy(is, tmp.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
+            url = tmp.toURI().toURL().toExternalForm();
+            cacheURLImagen.put(archivo, url);
+            return url;
+        } catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "No se pudo extraer la imagen: " + archivo, ex);
+            return "";
+        }
     }
 
     private static ImageIcon crearImagenPorDefecto() {
@@ -51,13 +90,15 @@ public class Recursos {
 
     public static Font cargarFuente(String font, float size) {
 
-        try {
-            InputStream is = Recursos.class.getResourceAsStream("/fonts/" + font);
-            assert is != null;
+        try (InputStream is = Recursos.class.getResourceAsStream("/fonts/" + font)) {
+            if (is == null) {
+                LOGGER.warning("No se encontró la fuente: " + font);
+                return new Font("Comic Sans MS", Font.PLAIN, 20);
+            }
             Font fuente = Font.createFont(Font.TRUETYPE_FONT, is);
             return fuente.deriveFont(size);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, "No se pudo cargar la fuente: " + font, e);
             return new Font("Comic Sans MS", Font.PLAIN, 20);
         }
     }

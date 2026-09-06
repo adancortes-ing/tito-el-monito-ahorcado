@@ -43,7 +43,7 @@ public class LogrosPanel extends JPanel {
 
     public LogrosPanel() {
         setLayout(new BorderLayout(5, 5));
-        setBorder(BorderFactory.createEmptyBorder(0, 20, 5, 20));
+        setBorder(BorderFactory.createEmptyBorder(25, 20, 5, 20));
         initUI();
     }
 
@@ -51,6 +51,8 @@ public class LogrosPanel extends JPanel {
         pestanas = new JTabbedPane();
         pestanas.addTab("Medallas", crearPanelMedallas());
         pestanas.addTab("Hazañas", crearPanelHazanas());
+        pestanas.putClientProperty("FlatLaf.style",
+                "tabInsets: 1,15,1,15; selectedInsets: 0,0,0,0; tabHeight: 10");
         add(pestanas, BorderLayout.CENTER);
     }
 
@@ -97,11 +99,20 @@ public class LogrosPanel extends JPanel {
         return wrapper;
     }
 
+    private int obtenerRepeticionRequerida(String codigo) {
+        return switch (codigo) {
+            case "RT_PERFECTA", "RT_CASI_PERFECTA", "RT_MILAGRO",
+                 "RT_SACAPUNTAS", "RT_MARCATEXTOS" -> 3;
+            case "RT_SIN_UTILES" -> 5;
+            default -> 0;
+        };
+    }
+
     public void refrescar() {
         var jugador = SesionManager.getInstance().getJugadorActual();
         if (jugador == null) return;
 
-        int idJugador = jugador.getId_jugador();
+        int idJugador = jugador.getIdJugador();
 
         List<LogroId> nuevos = LogrosService.getInstance().evaluarLogrosHistoricos(idJugador);
 
@@ -114,7 +125,14 @@ public class LogrosPanel extends JPanel {
         Set<String> desbloqueados = com.titomonito.dao.LogrosDAO.obtenerCodigosDesbloqueados(idJugador);
         for (TarjetaHazana th : tarjetasHazana) {
             boolean estabaDesbloqueado = th.isDesbloqueado();
-            boolean ahoraDesbloqueado = desbloqueados.contains(th.getCodigo());
+            int repeticionRequerida = obtenerRepeticionRequerida(th.getCodigo());
+            boolean ahoraDesbloqueado;
+            if (repeticionRequerida > 0) {
+                int countActual = com.titomonito.dao.LogrosDAO.contarLogrosDesbloqueados(idJugador, th.getCodigo());
+                ahoraDesbloqueado = countActual >= repeticionRequerida;
+            } else {
+                ahoraDesbloqueado = desbloqueados.contains(th.getCodigo());
+            }
             boolean esNuevo = ahoraDesbloqueado && !estabaDesbloqueado && nuevos.contains(th.getLogroId());
             th.actualizar(ahoraDesbloqueado, esNuevo);
         }
@@ -137,13 +155,14 @@ public class LogrosPanel extends JPanel {
         int totalPremio = logros.stream().mapToInt(LogroId::getPremio).sum();
 
         StringBuilder sb = new StringBuilder("<html><div style='width:320px'>");
+        String estrella = Recursos.imagenURL("estrella.png");
         sb.append("<b>¡Nuevo").append(logros.size() > 1 ? "s" : "").append(" logro").append(logros.size() > 1 ? "s" : "").append(" desbloqueado").append(logros.size() > 1 ? "s" : "").append("!</b><br><br>");
         for (LogroId logro : logros) {
-            sb.append("&#9733; <b>").append(logro.getNombre()).append("</b>");
-            sb.append(" <span style='color:#FFD700'>+$").append(logro.getPremio()).append("</span><br>");
+            sb.append("<img src='").append(estrella).append("' width='12' height='12'/><b>").append(logro.getNombre()).append("</b>");
+            sb.append(" <span style='color:#FEC60F'>+$").append(logro.getPremio()).append("</span><br>");
             sb.append("&nbsp;&nbsp;&nbsp;").append(logro.getDescripcion()).append("<br><br>");
         }
-        sb.append("<span style='color:#FFD700'>+$").append(totalPremio).append("</span> monedas agregadas a tu cuenta.");
+        sb.append("<span style='color:#FEC60F'>+$").append(totalPremio).append("</span> monedas agregadas a tu cuenta.");
         sb.append("</div></html>");
 
         JOptionPane.showMessageDialog(
@@ -160,13 +179,14 @@ public class LogrosPanel extends JPanel {
         int totalPremio = logros.stream().mapToInt(LogroId::getPremio).sum();
 
         StringBuilder sb = new StringBuilder("<html><div style='width:320px'>");
-        sb.append("<b>&#9889; ¡Logro").append(logros.size() > 1 ? "s" : "").append(" en partida!</b><br><br>");
+        String estrella = Recursos.imagenURL("estrella.png");
+        sb.append("<img src='").append(estrella).append("' width='12' height='12'/> <b>¡Logro").append(logros.size() > 1 ? "s" : "").append(" en partida!</b><br><br>");
         for (LogroId logro : logros) {
-            sb.append("&#9733; <b>").append(logro.getNombre()).append("</b>");
-            sb.append(" <span style='color:#FFD700'>+$").append(logro.getPremio()).append("</span><br>");
+            sb.append("<img src='").append(estrella).append("' width='12' height='12'/> <b>").append(logro.getNombre()).append("</b>");
+            sb.append(" <span style='color:#FEC60F'>+$").append(logro.getPremio()).append("</span><br>");
             sb.append("&nbsp;&nbsp;&nbsp;").append(logro.getDescripcion()).append("<br><br>");
         }
-        sb.append("<span style='color:#FFD700'>+$").append(totalPremio).append("</span> monedas agregadas a tu cuenta.");
+        sb.append("<span style='color:#FEC60F'>+$").append(totalPremio).append("</span> monedas agregadas a tu cuenta.");
         sb.append("</div></html>");
 
         JOptionPane.showMessageDialog(
@@ -187,7 +207,7 @@ public class LogrosPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Image fondo = Objects.requireNonNull(Recursos.cargarImagen("bg_center.png")).getImage();
+        Image fondo = Objects.requireNonNull(Recursos.cargarImagen("bg_hojaBlanca2.png")).getImage();
         g.drawImage(fondo, 0, 0, getWidth(), getHeight(), this);
     }
 }

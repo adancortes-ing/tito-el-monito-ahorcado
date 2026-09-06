@@ -41,7 +41,7 @@ public class VentanaLogin extends JFrame {
     private void cargarJugadoresEnCombo() {
         List<Jugador> jugadores = SesionManager.getInstance().cargarJugadores();
         for (Jugador j : jugadores) {
-            mapaJugadores.put(j.getNombre(), j.getId_jugador());
+            mapaJugadores.put(j.getNombre(), j.getIdJugador());
             cmbJugadores.addItem(j.getNombre());
         }
     }
@@ -65,13 +65,7 @@ public class VentanaLogin extends JFrame {
         cmbJugadores.setPreferredSize(new Dimension(220, 50));
         cmbJugadores.setMaximumSize(cmbJugadores.getPreferredSize());
         cmbJugadores.setFont(cmbJugadores.getFont().deriveFont(18.0f));
-
-        final String placeholderCombo = "Selecciona jugador";
-        final Color colorPlaceholder = Color.GRAY;
-        final Color colorTextoCombo = cmbJugadores.getForeground();
         cmbJugadores.setEditable(false);
-        JTextField editorCombo = (JTextField) cmbJugadores.getEditor().getEditorComponent();
-        colocarPlaceHolder(placeholderCombo, colorPlaceholder, colorTextoCombo, editorCombo);
 
         Box subTitulo2 = Box.createHorizontalBox();
         subTitulo2.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -87,13 +81,12 @@ public class VentanaLogin extends JFrame {
         txtNombre.setMaximumSize(txtNombre.getPreferredSize());
         txtNombre.setFont(txtNombre.getFont().deriveFont(18.0f));
 
-        final String placeholderTexto = "Ingresa tu nombre";
         final Color colorTextoNombre = txtNombre.getForeground();
-        colocarPlaceHolder(placeholderTexto, colorPlaceholder, colorTextoNombre, txtNombre);
+        colocarPlaceHolder(PH_NOMBRE_JUGADOR, Color.GRAY, colorTextoNombre, txtNombre);
 
-        btnJugar = crearBoton("JUGAR", COLOR_VERDE);
-        btnCrear = crearBoton("CREAR y JUGAR", COLOR_AZUL);
-        btnSalir = crearBoton("SALIR", COLOR_SALMON);
+        btnJugar = crearBoton(TXT_JUGAR, COLOR_VERDE);
+        btnCrear = crearBoton(TXT_CREAR_JUGAR, COLOR_AZUL);
+        btnSalir = crearBoton(SALIR, COLOR_SALMON);
 
         fondo.add(subTitulo);
         fondo.add(Box.createVerticalStrut(5));

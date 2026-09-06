@@ -1,21 +1,23 @@
 package com.titomonito.services;
 
+import com.titomonito.config.Constantes;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class UtilsJuego {
 
-    private static final int PREMIO_BASE = 10;
+    public static final int PREMIO_BASE = 10;
 
     protected static final Map<Integer, Double> MULTIPLICADORES = new HashMap<>();
     private static final Map<Integer, Integer> TIEMPOS = new HashMap<>();
 
     static {
-        MULTIPLICADORES.put(1, 1.0); // FÁCIL
-        MULTIPLICADORES.put(2, 1.2); // NORMAL
-        MULTIPLICADORES.put(3, 1.5); // DIFÍCIL
-        MULTIPLICADORES.put(4, 1.8); // EXTREMO
-        MULTIPLICADORES.put(5, 2.0); // IMPOSIBLE
+        MULTIPLICADORES.put(1, 0.8); // FÁCIL
+        MULTIPLICADORES.put(2, 1.0); // NORMAL
+        MULTIPLICADORES.put(3, 1.6); // DIFÍCIL
+        MULTIPLICADORES.put(4, 2.2); // EXTREMO
+        MULTIPLICADORES.put(5, 3.0); // IMPOSIBLE
     }
 
     static {
@@ -49,14 +51,14 @@ public class UtilsJuego {
 
     public static String obtenerDibujo(int vidas) {
 
-        return dibujos[vidas];
+        return dibujos[Math.min(Math.max(vidas, 0), dibujos.length - 1)];
     }
 
     public static int calcularPremioPotencial(int premioVidas, int letras, int dificultad) {
         double multiplicador = MULTIPLICADORES.getOrDefault(dificultad, 1.0);
 
         int premioBaseAjustado = (int) (PREMIO_BASE * multiplicador);
-        int premioLetras = 2 * letras;
+        int premioLetras = Constantes.MONEDAS_POR_LETRA * letras;
 
         return premioBaseAjustado + premioLetras + premioVidas;
     }

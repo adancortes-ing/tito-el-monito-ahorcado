@@ -6,7 +6,7 @@
 
     <groupId>com.tito</groupId>
     <artifactId>Tito_El_Monito_Ahorcado</artifactId>
-    <version>0.1.0</version>
+    <version>0.9.0-SNAPSHOT</version>
     <name>Tito El Monito Ahorcado</name>
 
     <properties>
@@ -32,4 +32,29 @@
             <version>3.7.2</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.5.0</version>
+                <configuration>
+                    <mainClass>com.titomonito.Main</mainClass>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.titomonito.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

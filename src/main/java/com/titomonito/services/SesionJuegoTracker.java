@@ -1,5 +1,7 @@
 package com.titomonito.services;
 
+import com.titomonito.config.Constantes;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,9 +30,9 @@ public class SesionJuegoTracker {
 
     public void registrarVictoria(int dificultad, int idCategoria) {
         rachaGlobalSesion++;
-        if (dificultad == 4) {
+        if (dificultad == Constantes.DIFICULTAD_EXTREMO) {
             rachaExtremoSesion++;
-        } else if (dificultad == 5) {
+        } else if (dificultad == Constantes.DIFICULTAD_IMPOSIBLE) {
             rachaImposibleSesion++;
         }
         categoriasGanadasEnSesion.add(idCategoria);
@@ -52,10 +54,6 @@ public class SesionJuegoTracker {
 
     public int getRachaImposibleSesion() {
         return rachaImposibleSesion;
-    }
-
-    public Set<Integer> getCategoriasGanadasEnSesion() {
-        return new HashSet<>(categoriasGanadasEnSesion);
     }
 
     public int getCategoriasDistintasGanadas() {

@@ -53,14 +53,14 @@ public class Navegacion {
                         principal.cambiarVista(Constantes.PREGAME);
                         Jugador jugadorActual = SesionManager.getInstance().getJugadorActual();
                         if (jugadorActual != null) {
-                            principal.getPreGame().actualizarEstadoCategorias(jugadorActual.getId_jugador());
+                            principal.getPreGame().actualizarEstadoCategorias(jugadorActual.getIdJugador());
                         }
                     }
                 } else {
                     principal.cambiarVista(Constantes.PREGAME);
                     Jugador jugadorActual = SesionManager.getInstance().getJugadorActual();
                     if (jugadorActual != null) {
-                        principal.getPreGame().actualizarEstadoCategorias(jugadorActual.getId_jugador());
+                        principal.getPreGame().actualizarEstadoCategorias(jugadorActual.getIdJugador());
                     }
                 }
                 break;

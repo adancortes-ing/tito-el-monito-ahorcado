@@ -1,6 +1,7 @@
 package com.titomonito.controller;
 
 import com.titomonito.Main;
+import com.titomonito.config.Constantes;
 import com.titomonito.dao.JugadorDAO;
 import com.titomonito.models.Jugador;
 import com.titomonito.services.SesionManager;
@@ -36,13 +37,13 @@ public class ControlLogin {
         String texto = boton.getText();
 
         switch (texto) {
-            case "SALIR":
+            case Constantes.SALIR:
                 System.exit(0);
                 break;
-            case "JUGAR":
+            case Constantes.TXT_JUGAR:
                 manejarJugar();
                 break;
-            case "CREAR y JUGAR":
+            case Constantes.TXT_CREAR_JUGAR:
                 manejarCrearYJugar();
                 break;
         }
@@ -59,7 +60,7 @@ public class ControlLogin {
 
         String seleccion = seleccionObj.toString().trim();
 
-        if (seleccion.isEmpty() || seleccion.equals("Selecciona jugador")) {
+        if (seleccion.isEmpty() || seleccion.equals(Constantes.PH_SELECCIONAR_JUGADOR)) {
             mostrarAviso("Selecciona un jugador de la lista o crea uno nuevo.");
             return;
         }
@@ -85,7 +86,7 @@ public class ControlLogin {
     private void manejarCrearYJugar() {
         String nombre = ventana.getTxtNombre().getText().trim();
 
-        if (nombre.isEmpty() || nombre.equals("Ingresa tu nombre")) {
+        if (nombre.isEmpty() || nombre.equals(Constantes.PH_NOMBRE_JUGADOR)) {
             mostrarAviso("Escribe un nombre para crear el jugador.");
             return;
         }

@@ -33,7 +33,6 @@ public class JuegoDAO {
             if (rs.next()) {
                 return new Palabra(
                         rs.getInt("id_palabra"),
-                        idCategoria,
                         rs.getString("palabra"),
                         rs.getString("pista")
                 );
@@ -42,23 +41,5 @@ public class JuegoDAO {
             LOGGER.severe("Error al obtener palabra aleatoria: " + ex.getMessage());
         }
         return null;
-    }
-
-    public static int contarPalabrasDisponibles(int idCategoria, int idJugador) {
-        String sql = "SELECT COUNT(*) FROM palabras p " +
-                     "WHERE p.id_categoria = ? " +
-                     "AND p.id_palabra NOT IN (" +
-                     "    SELECT d.id_palabra FROM descubrimientos d WHERE d.id_jugador = ?" +
-                     ")";
-        try (Connection conn = ConfigDB.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, idCategoria);
-            ps.setInt(2, idJugador);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) return rs.getInt(1);
-        } catch (SQLException ex) {
-            LOGGER.severe("Error al contar palabras disponibles: " + ex.getMessage());
-        }
-        return 0;
     }
 }

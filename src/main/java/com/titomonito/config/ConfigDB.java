@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class ConfigDB {
 
-    private static final int CURRENT_DB_VERSION = 2; // Sube a 2 cuando agregues cambios
+    private static final int CURRENT_DB_VERSION = 3;
 
     private static final String DB_NAME = "tito_db.db";
     private static final String DB_NOMBRE_CARPETA = "Tito el Monito Ahorcado";
@@ -36,7 +36,11 @@ public class ConfigDB {
     public static Connection getConnection() throws SQLException {
         String url = "jdbc:sqlite:" + dbPath;
         try {
-            return DriverManager.getConnection(url);
+            Connection conn = DriverManager.getConnection(url);
+            try (Statement stmt = conn.createStatement()) {
+                stmt.execute("PRAGMA foreign_keys = ON;");
+            }
+            return conn;
         } catch (SQLException ex) {
             // 1. Registrar en el archivo de log
             LOGGER.log(Level.SEVERE, "Error crítico al conectar con la base de datos en: " + dbPath, ex);
@@ -53,12 +57,9 @@ public class ConfigDB {
         }
     }
 
-    public static void initDB() {
+    public static void initDB() throws IOException, SQLException {
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
-
-            // Habilitar las llaves foráneas en SQLite
-            stmt.execute("PRAGMA foreign_keys = ON;");
 
             // Obtener la versión actual de la base de datos
             int versionActual = 0;
@@ -75,14 +76,12 @@ public class ConfigDB {
                 ejecutarScriptSQL(stmt, "/sql/schema.sql");
                 ejecutarScriptSQL(stmt, "/sql/seeds.sql");
                 ejecutarScriptSQL(stmt, "/sql/update2.sql");
+                ejecutarScriptSQL(stmt, "/sql/update3.sql");
 
                 // Actualizar version en PRAGMA de la base de datos
                 stmt.execute("PRAGMA user_version = " + CURRENT_DB_VERSION + ";");
                 LOGGER.info("Base de datos inicializada y sembrada con éxito en la versión " + CURRENT_DB_VERSION);
             }
-
-        } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "Error al inicializar la base de datos.", ex);
         }
     }
 

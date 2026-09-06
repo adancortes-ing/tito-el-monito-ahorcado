@@ -33,10 +33,11 @@ FOREIGN KEY(id_jugador) REFERENCES jugadores(id_jugador) ON DELETE CASCADE,
 FOREIGN KEY(id_palabra) REFERENCES palabras(id_palabra) ON DELETE CASCADE
 );
 
--- Tabla ligera para eventos de una sola vez
+-- Tabla de logros (v3): permite repetición de logros con PK simple
 CREATE TABLE IF NOT EXISTS logros (
-id_jugador INTEGER ,
-id_logro TEXT,
-PRIMARY KEY(id_jugador, id_logro),
-FOREIGN KEY(id_jugador) REFERENCES jugadores(id_jugador)
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_jugador INTEGER NOT NULL,
+    id_logro TEXT NOT NULL,
+    FOREIGN KEY(id_jugador) REFERENCES jugadores(id_jugador) ON DELETE CASCADE
 );
+CREATE INDEX IF NOT EXISTS idx_logros_jugador_logro ON logros(id_jugador, id_logro);
