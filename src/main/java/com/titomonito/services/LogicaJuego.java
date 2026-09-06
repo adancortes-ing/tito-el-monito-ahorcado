@@ -60,6 +60,10 @@ public class LogicaJuego {
     private int montoGastadoEnUtiles = 0;
     private final Set<String> utilesUsadosSet = new HashSet<>();
 
+    private int utilesTierBasicoComprados = 0;
+    private int utilesTierMedioComprados = 0;
+    private int utilesTierCaroComprados = 0;
+
     public static LogicaJuego getInstance() {
         if (instance == null) {
             instance = new LogicaJuego();
@@ -84,6 +88,9 @@ public class LogicaJuego {
         this.letrasCorrectasEnPartida = 0;
         this.montoGastadoEnUtiles = 0;
         this.utilesUsadosSet.clear();
+        this.utilesTierBasicoComprados = 0;
+        this.utilesTierMedioComprados = 0;
+        this.utilesTierCaroComprados = 0;
 
         this.jugadorActual = SesionManager.getInstance().getJugadorActual();
         this.bancoInicial = jugadorActual.getMonedas_actuales();
@@ -335,24 +342,44 @@ public class LogicaJuego {
         if (j == null) return false;
         int saldo = j.getMonedas_actuales();
 
-        if (Constantes.UTIL_SACAPUNTAS.equals(util)) {
-            return saldo >= Constantes.PRECIO_SACAPUNTAS;
+        if (Constantes.UTIL_TIJERAS.equals(util) && (tijerasUsado || vidas >= 6)) return false;
+        if (Constantes.UTIL_GOMA.equals(util) && gomaUsado) return false;
+        if (Constantes.UTIL_PLUMA.equals(util) && plumaUsado) return false;
+        if (Constantes.UTIL_MARCATEXTOS.equals(util)
+                && (marcatextosUsado || dificultad == Constantes.DIFICULTAD_IMPOSIBLE)) return false;
+
+        int precio = Constantes.obtenerPrecio(util);
+        if (saldo < precio) return false;
+
+        if (montoGastadoEnUtiles + precio > Constantes.obtenerCapGastoPorDificultad(dificultad)) return false;
+
+        String tier = Constantes.obtenerTier(util);
+        if (tier == null) return false;
+        int usadosTier = switch (tier) {
+            case Constantes.TIER_BASICO -> utilesTierBasicoComprados;
+            case Constantes.TIER_MEDIO -> utilesTierMedioComprados;
+            case Constantes.TIER_CARO -> utilesTierCaroComprados;
+            default -> Integer.MAX_VALUE;
+        };
+        int maxPermitido = switch (tier) {
+            case Constantes.TIER_BASICO -> Constantes.obtenerCapTierPorDificultad(dificultad)[0];
+            case Constantes.TIER_MEDIO -> Constantes.obtenerCapTierPorDificultad(dificultad)[1];
+            case Constantes.TIER_CARO -> Constantes.obtenerCapTierPorDificultad(dificultad)[2];
+            default -> 0;
+        };
+        if (usadosTier >= maxPermitido) return false;
+
+        return true;
+    }
+
+    private void incrementarTier(String util) {
+        String tier = Constantes.obtenerTier(util);
+        if (tier == null) return;
+        switch (tier) {
+            case Constantes.TIER_BASICO -> utilesTierBasicoComprados++;
+            case Constantes.TIER_MEDIO -> utilesTierMedioComprados++;
+            case Constantes.TIER_CARO -> utilesTierCaroComprados++;
         }
-        if (Constantes.UTIL_TIJERAS.equals(util)) {
-            return !tijerasUsado && saldo >= Constantes.PRECIO_TIJERAS && vidas < 6;
-        }
-        if (Constantes.UTIL_GOMA.equals(util)) {
-            return !gomaUsado && saldo >= Constantes.PRECIO_GOMA;
-        }
-        if (Constantes.UTIL_PLUMA.equals(util)) {
-            return !plumaUsado && saldo >= Constantes.PRECIO_PLUMA;
-        }
-        if (Constantes.UTIL_MARCATEXTOS.equals(util)) {
-            return !marcatextosUsado
-                    && dificultad != Constantes.DIFICULTAD_IMPOSIBLE
-                    && saldo >= Constantes.PRECIO_MARCATEXTOS;
-        }
-        return false;
     }
 
     private void resetearUtilesUsados() {
@@ -460,6 +487,7 @@ public class LogicaJuego {
         sacapuntasUsado = true;
         utilesUsadosSet.add(Constantes.UTIL_SACAPUNTAS);
         montoGastadoEnUtiles += Constantes.PRECIO_SACAPUNTAS;
+        incrementarTier(Constantes.UTIL_SACAPUNTAS);
 
         if (controlJuego != null) controlJuego.refrescarDatosJugador();
         if (vistaJuego != null) {
@@ -487,6 +515,7 @@ public class LogicaJuego {
         tijerasUsado = true;
         utilesUsadosSet.add(Constantes.UTIL_TIJERAS);
         montoGastadoEnUtiles += Constantes.PRECIO_TIJERAS;
+        incrementarTier(Constantes.UTIL_TIJERAS);
         if (vistaJuego != null) {
             vistaJuego.setLblValVidas(UtilsJuego.calcularCorazones(vidas));
             vistaJuego.deshabilitarBoton(Constantes.UTIL_TIJERAS);
@@ -530,6 +559,7 @@ public class LogicaJuego {
         gomaUsado = true;
         utilesUsadosSet.add(Constantes.UTIL_GOMA);
         montoGastadoEnUtiles += Constantes.PRECIO_GOMA;
+        incrementarTier(Constantes.UTIL_GOMA);
 
         if (controlJuego != null) controlJuego.refrescarDatosJugador();
         notificarCambioEstado();
@@ -587,6 +617,7 @@ public class LogicaJuego {
         plumaUsado = true;
         utilesUsadosSet.add(Constantes.UTIL_PLUMA);
         montoGastadoEnUtiles += Constantes.PRECIO_PLUMA;
+        incrementarTier(Constantes.UTIL_PLUMA);
 
         if (controlJuego != null) controlJuego.refrescarDatosJugador();
         notificarCambioEstado();
@@ -616,6 +647,7 @@ public class LogicaJuego {
         marcatextosUsado = true;
         utilesUsadosSet.add(Constantes.UTIL_MARCATEXTOS);
         montoGastadoEnUtiles += Constantes.PRECIO_MARCATEXTOS;
+        incrementarTier(Constantes.UTIL_MARCATEXTOS);
 
         if (controlJuego != null) controlJuego.refrescarDatosJugador();
         notificarCambioEstado();

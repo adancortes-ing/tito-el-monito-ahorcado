@@ -29,11 +29,11 @@ public class AyudaPanel extends JPanel {
     private static final Font F_TABLA_HDR = Recursos.cargarFuente("IndieFlower-Regular.ttf", 16f);
 
     private static final String[][] DIFICULTADES = {
-        {"🟢 Fácil",     "20 segundos", "1.0x"},
-        {"🟡 Normal",    "15 segundos", "1.2x"},
-        {"🟠 Difícil",   "10 segundos", "1.5x"},
-        {"🔴 Extremo",   "7 segundos",  "1.8x"},
-        {"💀 Imposible", "4 segundos",  "2.0x"}
+        {"🟢 Fácil",     "20 segundos", "0.8x"},
+        {"🟡 Normal",    "15 segundos", "1.0x"},
+        {"🟠 Difícil",   "10 segundos", "1.6x"},
+        {"🔴 Extremo",   "7 segundos",  "2.2x"},
+        {"💀 Imposible", "4 segundos",  "3.0x"}
     };
 
     private static final String[] TIENDA_HEADERS = {
@@ -41,11 +41,11 @@ public class AyudaPanel extends JPanel {
     };
 
     private static final Object[][] TIENDA = {
-        { icono("item_sharpener.png"), "✏️ Sacapuntas",  "$15",    "Suma 10 segundos al cronómetro.",   "Ilimitado" },
-        { icono("item_cut.png"),       "✂️ Tijeras",      "$20",    "Corta la soga: +1 vida (máx. 6).",  "1 vez" },
-        { icono("item_erase.png"),     "🧽 Goma",        "$30",    "Borra 4 letras incorrectas.",       "1 vez" },
-        { icono("item_pen.png"),       "✒️ Pluma",        "$35",    "Escribe una letra correcta al azar.","1 vez" },
-        { icono("item_marker.png"),    "🖍️ Marcatextos", "$35-$45","Muestra la pista de la palabra.",   "1 vez" }
+        { icono("item_sharpener.png"), "✏️ Sacapuntas",  "$20", "Suma 10 segundos al cronómetro.",   "Ilimitado" },
+        { icono("item_cut.png"),       "✂️ Tijeras",      "$35", "Corta la soga: +1 vida (máx. 6).",  "1 vez" },
+        { icono("item_erase.png"),     "🧽 Goma",        "$30", "Borra 4 letras incorrectas.",       "1 vez" },
+        { icono("item_pen.png"),       "✒️ Pluma",        "$50", "Escribe una letra correcta al azar.","1 vez" },
+        { icono("item_marker.png"),    "🖍️ Marcatextos", "$65", "Muestra la pista de la palabra.",   "1 vez" }
     };
 
     public AyudaPanel() {
@@ -188,14 +188,27 @@ public class AyudaPanel extends JPanel {
 
         agregarSubSeccion(contenido, "Notas Importantes");
         agregarLista(contenido, new String[] {
-            "<b>Sacapuntas</b> es la única ayuda que puedes comprar varias veces. Perfecta para emergencias.",
+            "<b>Sacapuntas</b> es la única ayuda que puedes comprar varias veces "
+          + "(mientras no excedas el tope de gasto de la partida).",
             "<b>Tijeras</b> se deshabilita automáticamente si ya tienes 6 vidas llenas.",
             "<b>Goma</b> elige las letras al azar entre las que <b>no están</b> en la palabra y que aún "
           + "no hayas intentado.",
             "<b>Pluma</b> siempre revela la letra oculta con más apariciones en la palabra. Si la letra "
           + "aparece 3 veces, ¡las 3 se revelan de golpe!",
-            "<b>Marcatextos</b> cuesta $35 en Fácil y $45 en Normal/Extremo. <b>No está disponible en "
-          + "Imposible</b> (demasiado fácil si no)."
+            "<b>Marcatextos</b> cuesta <b>$65</b> en todas las dificultades. <b>No está disponible en "
+          + "Imposible</b> (demasiado fácil si no).",
+            "<b>Límite por partida:</b> Cada dificultad limita cuántos útiles puedes comprar y cuánto "
+          + "puedes gastar (ver tabla más abajo). Los botones se deshabilitan automáticamente al "
+          + "alcanzar el límite, aunque tengas saldo suficiente."
+        });
+
+        agregarSubSeccion(contenido, "Límite de Gasto por Dificultad");
+        agregarLista(contenido, new String[] {
+            "<b>Fácil:</b> Sin tope. Puedes comprar todos los útiles, incluso Pluma + Marcatextos juntos.",
+            "<b>Normal:</b> Tope de $120. Permite 1 caro + 1 medio + N Sacapuntas.",
+            "<b>Difícil:</b> Tope de $120. Exactamente 1 caro + 1 medio + 1 Sacapuntas.",
+            "<b>Extremo:</b> Tope de $105. Solo 1 caro (Pluma o Marcatextos) + N Sacapuntas. Los medios están bloqueados.",
+            "<b>Imposible:</b> Tope de $55. Solo 1 medio (Goma o Tijeras) + N Sacapuntas. Marcatextos y Pluma bloqueados."
         });
 
         agregarSeparador(contenido);
@@ -271,14 +284,16 @@ public class AyudaPanel extends JPanel {
             "<b>Empieza por las vocales.</b> Las palabras casi siempre tienen vocales, así que aciertas rápido.",
             "<b>Cuenta los espacios.</b> Si la palabra tiene 8 letras y la pista es &laquo;Fruta "
           + "tropical&raquo;, probablemente es &laquo;PIÑA&raquo; o &laquo;MANGO&raquo;.",
-            "<b>No desperdicies el Marcatextos.</b> En Fácil vale $35, en Normal vale $45. Úsalo cuando la "
-          + "pista sea reveladora.",
-            "<b>El Sacapuntas salva vidas.</b> Si ves que el reloj está en rojo, cómpralo. $15 por 10 "
+            "<b>No desperdicies el Marcatextos.</b> Cuesta $65 y solo está disponible en "
+          + "dificultades hasta Extremo. Úsalo cuando la pista sea reveladora.",
+            "<b>El Sacapuntas salva vidas.</b> Si ves que el reloj está en rojo, cómpralo. $20 por 10 "
           + "segundos extra es un trato justo.",
             "<b>Gana monedas en Fácil para practicar.</b> Las victorias en Fácil se acumulan rápido para "
           + "que tengas saldo en Normal.",
-            "<b>Las Tijeras son oro.</b> Si te quedan 2 vidas, cómpralas ($20) y te dan margen para una "
-          + "letra incorrecta más."
+            "<b>Las Tijeras son oro.</b> Si te quedan 2 vidas, cómpralas ($35) y te dan margen para una "
+          + "letra incorrecta más.",
+            "<b>Aprende a gestionar tu presupuesto.</b> En Extremo solo puedes gastar $105 máximo "
+          + "(1 caro + Sacapuntas). En Imposible $55 (1 medio + Sacapuntas). Elige bien cuál te conviene."
         });
 
         agregarSeparador(contenido);

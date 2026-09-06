@@ -11,11 +11,11 @@ public class UtilsJuego {
     private static final Map<Integer, Integer> TIEMPOS = new HashMap<>();
 
     static {
-        MULTIPLICADORES.put(1, 1.0); // FÁCIL
-        MULTIPLICADORES.put(2, 1.2); // NORMAL
-        MULTIPLICADORES.put(3, 1.5); // DIFÍCIL
-        MULTIPLICADORES.put(4, 1.8); // EXTREMO
-        MULTIPLICADORES.put(5, 2.0); // IMPOSIBLE
+        MULTIPLICADORES.put(1, 0.8); // FÁCIL
+        MULTIPLICADORES.put(2, 1.0); // NORMAL
+        MULTIPLICADORES.put(3, 1.6); // DIFÍCIL
+        MULTIPLICADORES.put(4, 2.2); // EXTREMO
+        MULTIPLICADORES.put(5, 3.0); // IMPOSIBLE
     }
 
     static {
@@ -71,5 +71,9 @@ public class UtilsJuego {
 
     public static int getTiempoBase(int dificultad) {
         return TIEMPOS.getOrDefault(dificultad, 15);
+    }
+
+    public static double getMultiplicador(int dificultad) {
+        return MULTIPLICADORES.getOrDefault(dificultad, 1.0);
     }
 }
