@@ -10,6 +10,9 @@
 ## Build & Run Commands
 - Compile: `mvn clean compile`
 - Package: `mvn package`
+- **Fat JAR ejecutable** (dependencias incluidas, doble clic): `mvn clean package` -> `target/Tito_El_Monito_Ahorcado-<version>.jar` (shade-plugin, Main-Class en manifest).
+- **Distribución completa** (app-image portable + ZIP + instalador EXE): `powershell -File tools/build-installer.ps1` (requiere JDK 21 con jpackage y WiX Toolset 3.14 en `C:\Users\adanc\AppData\Local\WiX3` o en PATH).
+- **Icono del instalador/ejecutable:** se genera automáticamente `icono.ico` desde `ui/icono.png` vía `tools/PngToIco.java` (JDK puro).
 - Run: `mvn exec:java -Dexec.mainClass="com.titomonito.Main"`
 
 ## Architecture & Project Structure
@@ -82,7 +85,7 @@
 
 ## Product Vision & Roadmap
 - **Concept:** "Tito el Monito v2.0" - Hangman reimagined as interactive GUI with paper-sketch visual identity and "Lapiz" (pencil) economy.
-- **Version:** v0.9.0-BETA.
+- **Version:** v1.0.0-beta.
 - **Completed phases:**
   1. GUI + navigation + main menu (v0.1.0)
   2. Game engine core (categories, words, letters, lives)
@@ -92,6 +95,7 @@
   6. Statistics + rankings
   7. Power-ups + time management
   8. Achievements + medals
-  9. Review & final adjustments (current)
+  9. Review & final adjustments
+  10. Release v1.0.0-beta: fat jar (shade), app-image portable + instalador EXE (jpackage/WiX), README y GitHub Release.
 - **Pending (placeholders):** `OpcionesPanel`.
-- **Future:** time-attack modes, remote leaderboards, MVP v1.0.
+- **Future:** time-attack modes, remote leaderboards, MVP v1.0 estable tras fase de pruebas de campo.
